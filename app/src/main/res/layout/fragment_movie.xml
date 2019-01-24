@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mian.fragment.MovieFragment">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_186"
+        android:background="@mipmap/beijing2"
+        >
+        <Button
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:background="@mipmap/com_icon_loc_white_default"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginLeft="@dimen/dp_24"
+            android:id="@+id/movie_location_but"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="北京"
+            android:layout_toRightOf="@id/movie_location_but"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginTop="@dimen/dp_30"
+            android:layout_marginLeft="@dimen/dp_6"
+            android:textColor="#ffff"
+            android:id="@+id/movie_location_text"
+
+            />
+        <RelativeLayout
+            android:layout_width="@dimen/dp_200"
+            android:layout_height="@dimen/dp_24"
+            android:background="@drawable/movie_search_bg"
+            android:layout_toRightOf="@+id/movie_location_text"
+               ></RelativeLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>
