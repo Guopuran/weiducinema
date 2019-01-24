@@ -4,15 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".guidance.GuidanceActivity">
+    tools:context=".guidance.activity.GuidanceActivity">
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/guide_pager" />
     <RadioGroup
-        android:id="@+id/group"
+        android:id="@+id/guide_group"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dp_400"
+        android:layout_marginTop="@dimen/dp_472"
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">

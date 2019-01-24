@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/rectangle26"
-    tools:context=".guidance.StartActivity">
+    tools:context=".guidance.activity.StartActivity">
     <TextView
         android:id="@+id/text2"
         android:layout_centerHorizontal="true"
