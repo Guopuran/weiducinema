@@ -47,8 +47,13 @@ public class LoginActivity extends BaseActivity {
     //登录按钮的点击事件
     @OnClick(R.id.login_but)
     public void loginOnClick(){
+<<<<<<< HEAD
         phone = edit_phone.getText().toString();
         pwd = edit_pawd.getText().toString();
+=======
+        phone = edit_pawd.getText().toString();
+        pwd = edit_phone.getText().toString();
+>>>>>>> origin/master
         //密码加密
         encrypt = EncryptUtil.encrypt(pwd);
         Map<String,String> prams = new HashMap<>();
@@ -64,9 +69,12 @@ public class LoginActivity extends BaseActivity {
             LoginBean loginBean = (LoginBean) object;
             if (loginBean.getStatus().equals("0000")){
                 ToastUtil.showToast(this,loginBean.getMessage());
+<<<<<<< HEAD
                 Intent intent = new Intent(this,MainActivity.class);
                 startActivity(intent);
                 finish();
+=======
+>>>>>>> origin/master
             }
         }
     }
