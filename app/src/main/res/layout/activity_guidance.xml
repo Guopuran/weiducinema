@@ -12,8 +12,9 @@
     <RadioGroup
         android:id="@+id/guide_group"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/dp_472"
+        android:layout_marginTop="@dimen/dp_500"
         android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/dp_20"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <RadioButton
