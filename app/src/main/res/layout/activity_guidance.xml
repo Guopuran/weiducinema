@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         android:id="@+id/guide_pager" />
     <RadioGroup
+
         android:id="@+id/guide_group"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/dp_500"

@@ -7,7 +7,8 @@
     android:background="@mipmap/bitmap"
     android:paddingLeft="@dimen/dp_40"
     android:paddingRight="@dimen/dp_40"
-    tools:context=".login.activity.LoginActivity">
+
+    tools:context=".login.LoginActivity">
     <ImageView
         android:id="@+id/login_image_phone"
         android:layout_width="@dimen/dp_24"
@@ -103,7 +104,7 @@
         android:textColor="#fff"
         />
     <TextView
-        android:id="@+id/login_text_reg"
+        android:id="@+id/login_text_sign"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#fff"
