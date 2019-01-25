@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/bitmap"
-    tools:context=".login.RegisterActivity">
+    tools:context=".login.activity.RegisterActivity">
     <EditText
         android:id="@+id/reg_name"
         android:layout_width="@dimen/dp_280"

@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.RadioGroup;
 
@@ -15,7 +14,7 @@ import com.bw.movie.guidance.fragment.GuidanceFirstFragment;
 import com.bw.movie.guidance.fragment.GuidanceFourthFragment;
 import com.bw.movie.guidance.fragment.GuidanceSencondFragment;
 import com.bw.movie.guidance.fragment.GuidanceThirdFragment;
-import com.bw.movie.login.LoginActivity;
+import com.bw.movie.login.activity.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,6 +126,7 @@ public class GuidanceActivity extends BaseActivity {
         if (falg>0){
             Intent intent = new Intent(GuidanceActivity.this,LoginActivity.class);
             startActivity(intent);
+            finish();
         }
     }
 
