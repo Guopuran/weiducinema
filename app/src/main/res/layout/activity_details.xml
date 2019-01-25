@@ -7,14 +7,24 @@
     app:layout_constraintTop_toTopOf="parent"
     tools:context=".details.DetailsActivity">
     <ImageView
-        android:id="@+id/details_iamge_back"
+        android:id="@+id/details_iamge_back_bottom"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="100dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/details_image_back_bottom"
+        />
+    <ImageView
+        android:id="@+id/details_iamge_back_top"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/details_iamge_back_bottom"
         />
+
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -45,5 +55,114 @@
             android:textSize="@dimen/sp_14"
             android:textColor="#ffffff"
             />
+        <Button
+            android:id="@+id/details_movie_button_attention"
+            android:layout_width="@dimen/dp_24"
+            android:layout_height="@dimen/dp_24"
+            android:background="@drawable/default_attention"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            />
+        <TextView
+            android:id="@+id/details_movie_text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/dp_70"
+            android:textSize="@dimen/sp_20"
+            android:textColor="#ffffff"
+            android:text="铁血战士"
+            android:gravity="center"
+            />
+        <ImageView
+            android:id="@+id/details_movie_image_big"
+            android:layout_width="@dimen/dp_259"
+            android:layout_height="@dimen/dp_360"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/details_movie_text_name"
+            android:layout_marginTop="@dimen/dp_30"
+            />
+        <LinearLayout
+            android:id="@+id/details_lin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/details_movie_image_big"
+            android:layout_marginTop="@dimen/dp_40"
+            >
+
+            <TextView
+                android:id="@+id/details_lin_movie_text_details"
+                android:layout_width="@dimen/dp_58"
+                android:layout_height="@dimen/dp_32"
+                android:background="@drawable/details_button_radius"
+                android:text="详情"
+                android:textSize="@dimen/sp_14"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                />
+            <TextView
+                android:id="@+id/details_lin_movie_text_notice"
+                android:layout_width="@dimen/dp_58"
+                android:layout_height="@dimen/dp_32"
+                android:background="@drawable/details_button_radius"
+                android:text="预告"
+                android:textSize="@dimen/sp_14"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/dp_26"
+                />
+            <TextView
+                android:id="@+id/details_lin_movie_text_photo"
+                android:layout_width="@dimen/dp_58"
+                android:layout_height="@dimen/dp_32"
+                android:text="剧照"
+                android:background="@drawable/details_button_radius"
+                android:textSize="@dimen/sp_14"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/dp_26"
+                />
+            <TextView
+                android:id="@+id/details_lin_movie_text_review"
+                android:layout_width="@dimen/dp_58"
+                android:layout_height="@dimen/dp_32"
+                android:text="影评"
+                android:background="@drawable/details_button_radius"
+                android:textSize="@dimen/sp_14"
+                android:textColor="#ffffff"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/dp_26"
+                />
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/details_movie_button_back"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_60"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@mipmap/icon_my_default"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            />
+        <Button
+            android:id="@+id/details_movie_button_buy"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_60"
+            android:text="购票"
+            android:textSize="@dimen/sp_18"
+            android:textColor="#ffffff"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/default_movie_buy_radius"
+            android:layout_marginBottom="@dimen/dp_20"
+            android:elevation="@dimen/dp_2"
+            />
+
     </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>
