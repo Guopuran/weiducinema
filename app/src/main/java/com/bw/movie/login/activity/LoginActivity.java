@@ -1,6 +1,9 @@
 package com.bw.movie.login.activity;
 
 
+
+import android.content.Intent;
+
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -10,6 +13,9 @@ import android.widget.TextView;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login.bean.LoginBean;
+
+import com.bw.movie.main.activity.MainActivity;
+
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.EncryptUtil;
 import com.bw.movie.util.ToastUtil;
@@ -45,8 +51,13 @@ public class LoginActivity extends BaseActivity {
     //登录按钮的点击事件
     @OnClick(R.id.login_but)
     public void loginOnClick(){
-        phone = edit_pawd.getText().toString();
-        pwd = edit_phone.getText().toString();
+
+        phone = edit_phone.getText().toString();
+        pwd = edit_pawd.getText().toString();
+
+        phone = edit_phone.getText().toString();
+        pwd = edit_pawd.getText().toString();
+
         //密码加密
         encrypt = EncryptUtil.encrypt(pwd);
         Map<String,String> prams = new HashMap<>();
@@ -62,6 +73,11 @@ public class LoginActivity extends BaseActivity {
             LoginBean loginBean = (LoginBean) object;
             if (loginBean.getStatus().equals("0000")){
                 ToastUtil.showToast(this,loginBean.getMessage());
+
+                Intent intent = new Intent(this,MainActivity.class);
+                startActivity(intent);
+                finish();
+
             }
         }
     }

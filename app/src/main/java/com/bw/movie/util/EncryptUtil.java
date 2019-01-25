@@ -1,10 +1,11 @@
 package com.bw.movie.util;
 
-import java.security.Key;
+
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
 
 /**
  * Created by xyj on 2017/6/29.
