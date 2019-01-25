@@ -8,6 +8,6 @@ package com.bw.movie.util;
  *
  */
 public class Apis {
-   public static String LOGIN_URL="";
+   public static String LOGIN_URL="user/v1/login";
 
 }
