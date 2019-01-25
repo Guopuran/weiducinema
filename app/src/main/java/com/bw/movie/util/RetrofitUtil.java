@@ -40,7 +40,7 @@ public class RetrofitUtil {
 
     private static RetrofitUtil instance;
     private ObservedApis mObservedApis;
-    private final String BaseUrl="";
+    private final String BaseUrl="http:mobile.bwstudent.com/movieApi/";
     public static synchronized RetrofitUtil getInstance(){
         if (instance==null){
             instance=new RetrofitUtil();
@@ -67,15 +67,16 @@ public class RetrofitUtil {
                         Request original=chain.request();
                         //取出保存的userID，sessionID
                         SharedPreferences mSharedPreferences=MyApplication.getContext().getSharedPreferences("User",Context.MODE_PRIVATE);
-                        String userId = mSharedPreferences.getString("userId","");
-                        String sessionId = mSharedPreferences.getString("sessionId", "");
+                      /*  String userId = mSharedPreferences.getString("userId","");
+                        String sessionId = mSharedPreferences.getString("sessionId", "");*/
                         Request.Builder builder1 = original.newBuilder();
                         builder1.method(original.method(),original.body());
-
-                        if(!TextUtils.isEmpty(userId)&&!TextUtils.isEmpty(sessionId)){
+                        builder1.addHeader("ak","0110010010000");
+                        builder1.addHeader("Content-Type","application/x-www-form-urlencoded");
+                       /* if(!TextUtils.isEmpty(userId)&&!TextUtils.isEmpty(sessionId)){
                             builder1.addHeader("userId",userId);
                             builder1.addHeader("sessionId",sessionId);
-                        }
+                        }*/
 
                         Request request = builder1.build();
 
