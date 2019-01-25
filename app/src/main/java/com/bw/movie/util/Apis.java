@@ -15,7 +15,6 @@ public class Apis {
 
    //注册
    public static String REGISTER_URL="user/v1/registerUser";
-   //电影详情的接口
-   public static String SELECT_MOVIE_DETAILS="movie/v1/findMoviesDetail";
+  
 
 }
