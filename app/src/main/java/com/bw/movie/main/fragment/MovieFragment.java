@@ -8,21 +8,34 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bw.movie.R;
+import com.bw.movie.base.BaseFragment;
 
 
-public class MovieFragment extends Fragment {
-
-
-    public MovieFragment() {
-
-    }
+public class MovieFragment extends BaseFragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected void initData() {
 
-        return inflater.inflate(R.layout.fragment_movie, container, false);
     }
 
+    @Override
+    protected void success(Object object) {
+
+    }
+
+    @Override
+    protected void failed(String error) {
+
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.fragment_movie;
+    }
 }
