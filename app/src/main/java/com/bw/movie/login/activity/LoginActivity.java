@@ -51,13 +51,8 @@ public class LoginActivity extends BaseActivity {
     //登录按钮的点击事件
     @OnClick(R.id.login_but)
     public void loginOnClick(){
-
         phone = edit_phone.getText().toString();
         pwd = edit_pawd.getText().toString();
-
-        phone = edit_phone.getText().toString();
-        pwd = edit_pawd.getText().toString();
-
         //密码加密
         encrypt = EncryptUtil.encrypt(pwd);
         Map<String,String> prams = new HashMap<>();
@@ -73,7 +68,6 @@ public class LoginActivity extends BaseActivity {
             LoginBean loginBean = (LoginBean) object;
             if (loginBean.getStatus().equals("0000")){
                 ToastUtil.showToast(this,loginBean.getMessage());
-
                 Intent intent = new Intent(this,MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -91,7 +85,6 @@ public class LoginActivity extends BaseActivity {
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
     }
-
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_login;
