@@ -25,7 +25,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IView {
     }
 
 
-
+    //撒旦画比瘦的
     protected abstract void initData();
 
     protected abstract void success(Object object);
