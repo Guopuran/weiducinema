@@ -1,15 +1,41 @@
 package com.bw.movie.main.activity;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.bw.movie.R;
+import com.bw.movie.base.BaseActivity;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.List;
+
+import butterknife.ButterKnife;
+
+public class MainActivity extends BaseActivity {
+    private List<Fragment> mList;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    protected void initData() {
+
+    }
+
+    @Override
+    protected void success(Object object) {
+
+    }
+
+    @Override
+    protected void failed(String error) {
+
+    }
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    protected int getLayoutResId() {
+        return R.layout.activity_main;
     }
 }

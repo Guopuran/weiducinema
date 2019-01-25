@@ -12,15 +12,15 @@
         android:id="@+id/login_image_phone"
         android:layout_width="@dimen/dp_24"
         android:layout_height="@dimen/dp_30"
-        android:layout_marginTop="@dimen/dp_170"
-        android:background="@mipmap/log_icon_phone_default"
+        android:layout_marginTop="@dimen/dp_180"
+        android:src="@mipmap/log_icon_phone_default"
         />
     <com.xw.repo.XEditText
         android:id="@+id/login_text_phone"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_30"
         android:layout_marginLeft="@dimen/dp_20"
-        android:layout_marginTop="@dimen/dp_170"
+        android:layout_marginTop="@dimen/dp_180"
         android:textSize="@dimen/sp_18"
         android:maxLength="11"
         android:hint="手机号"
@@ -41,35 +41,34 @@
         android:background="#10ffffff"/>
     <ImageView
         android:id="@+id/login_image_lock"
-        android:layout_width="@dimen/dp_24"
+        android:layout_width="@dimen/dp_20"
         android:layout_height="@dimen/dp_30"
-        android:background="@mipmap/log_icon_lock_default"
+        android:src="@mipmap/log_icon_lock_default"
         android:layout_below="@id/login_view_phone"
         />
-    <EditText
+
+    <com.xw.repo.XEditText
         android:id="@+id/login_text_pwd"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_30"
+        android:layout_below="@id/login_view_phone"
         android:layout_marginLeft="@dimen/dp_20"
-        android:layout_toLeftOf="@id/login_image_eye"
+        android:layout_toRightOf="@+id/login_image_lock"
+        android:background="@null"
         android:hint="登录密码"
         android:maxLength="20"
-        android:textSize="@dimen/sp_18"
+        android:password="true"
         android:textColor="#eeeeee"
         android:textColorHint="#eeeeee"
-        android:background="@null"
-        android:layout_below="@id/login_view_phone"
-        android:layout_toRightOf="@+id/login_image_lock"
-        android:password="true"
-        />
+        android:textSize="@dimen/sp_18" />
     <ImageView
         android:id="@+id/login_image_eye"
-        android:layout_width="@dimen/dp_30"
+        android:layout_width="@dimen/dp_24"
         android:layout_height="@dimen/dp_20"
         android:layout_marginTop="@dimen/dp_5"
         android:layout_alignTop="@id/login_text_pwd"
         android:layout_alignParentRight="true"
-        android:background="@mipmap/log_icon_eye_default"
+        android:src="@mipmap/log_icon_eye_default"
         />
     <View
         android:alpha="0.9"

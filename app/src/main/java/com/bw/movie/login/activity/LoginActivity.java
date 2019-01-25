@@ -2,14 +2,20 @@ package com.bw.movie.login.activity;
 
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bw.movie.R;
@@ -43,6 +49,8 @@ public class LoginActivity extends BaseActivity {
      Button but_login;
      @BindView(R.id.login_text_reg)
      TextView text_reg;
+     @BindView(R.id.login_image_eye)
+     ImageView image_eye;
      private String phone;
      private String pwd;
      private String encrypt;
@@ -59,6 +67,8 @@ public class LoginActivity extends BaseActivity {
        /* getCheckAuto();*/
         //自动登录的点击事件
         checkremOnClick();
+        //小眼睛的显示隐藏
+        eyesOnClick();
     }
     //记住密码
     public void getCheckRem(){
@@ -153,7 +163,21 @@ public class LoginActivity extends BaseActivity {
     public void regOnClick(){
         Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
         startActivity(intent);
-        finish();
+    }
+    //小眼睛的显示隐藏
+    @SuppressLint("ClickableViewAccessibility")
+    public void eyesOnClick(){
+        image_eye.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction()==MotionEvent.ACTION_DOWN){
+                    edit_pawd.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }else if(event.getAction()==MotionEvent.ACTION_UP){
+                    edit_pawd.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+                return true;
+            }
+        });
     }
     //请求网络成功
     @Override

@@ -8,6 +8,8 @@ package com.bw.movie.util;
  *
  */
 public class Apis {
+   //登录
    public static String LOGIN_URL="user/v1/login";
-
+   //注册
+   public static String REGISTER_URL="user/v1/registerUser";
 }

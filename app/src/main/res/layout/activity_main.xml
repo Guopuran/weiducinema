@@ -4,22 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
     tools:context=".main.activity.MainActivity">
-
-    <android.support.v4.view.ViewPager
+    <com.bw.movie.custom.CustomViewPager
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/activity_mian_viewpager"
-
         />
     <RadioGroup
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/activity_mian_group"
         android:orientation="horizontal"
-        android:layout_marginTop="@dimen/dp_472"
+        android:layout_marginBottom="@dimen/dp_15"
+        android:layout_alignParentBottom="true"
         >
         <RadioButton
             android:layout_width="@dimen/dp_60"
@@ -30,8 +27,8 @@
             android:layout_marginLeft="@dimen/dp_30"
             />
         <RadioButton
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_60"
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="@dimen/dp_70"
             android:button="@null"
             android:background="@drawable/group_select_cinema"
             android:id="@+id/activity_main_but_cineam"
