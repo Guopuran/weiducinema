@@ -104,7 +104,7 @@
         android:textColor="#fff"
         />
     <TextView
-        android:id="@+id/login_text_sign"
+        android:id="@+id/login_text_reg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="#fff"

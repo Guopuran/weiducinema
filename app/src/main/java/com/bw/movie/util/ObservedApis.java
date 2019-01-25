@@ -32,7 +32,7 @@ public interface ObservedApis {
     Observable<ResponseBody> get(@Url String url);
     @FormUrlEncoded
     @POST
-    Observable<ResponseBody> postRequest(@Url String url, @FieldMap Map<String,String> map);
+    Observable<ResponseBody> post(@Url String url, @FieldMap Map<String,String> map);
     @DELETE
     Observable<ResponseBody> delete(@Url String url);
     @PUT
