@@ -10,7 +10,6 @@
         android:name=".MyApplication"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".MyApplication"
         android:theme="@style/AppTheme.ImmersiveThemewitletext">
         <activity android:name=".main.activity.MainActivity">
 
