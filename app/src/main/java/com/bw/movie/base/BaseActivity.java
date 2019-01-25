@@ -24,15 +24,17 @@ public abstract class BaseActivity extends AppCompatActivity implements IView {
         initData();
     }
 
-    protected abstract int getLayoutResId();
 
-    protected abstract void initView(Bundle savedInstanceState);
 
     protected abstract void initData();
 
     protected abstract void success(Object object);
 
     protected abstract void failed(String error);
+
+    protected abstract int getLayoutResId();
+
+    protected abstract void initView(Bundle savedInstanceState);
 
     @Override
     public void successData(Object object) {
