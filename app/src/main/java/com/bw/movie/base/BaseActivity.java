@@ -32,9 +32,9 @@ public abstract class BaseActivity extends AppCompatActivity implements IView {
 
     protected abstract void failed(String error);
 
-    protected abstract int getLayoutResId();
-
     protected abstract void initView(Bundle savedInstanceState);
+
+    protected abstract int getLayoutResId();
 
     @Override
     public void successData(Object object) {
