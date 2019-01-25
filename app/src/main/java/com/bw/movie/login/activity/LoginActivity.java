@@ -4,9 +4,11 @@ package com.bw.movie.login.activity;
 
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -18,6 +20,7 @@ import com.bw.movie.main.activity.MainActivity;
 
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.EncryptUtil;
+import com.bw.movie.util.RegularUtil;
 import com.bw.movie.util.ToastUtil;
 
 import java.util.HashMap;
@@ -43,23 +46,114 @@ public class LoginActivity extends BaseActivity {
      private String phone;
      private String pwd;
      private String encrypt;
+     private SharedPreferences sharedPreferences;
+     private SharedPreferences.Editor editor;
     //逻辑代码
     @Override
     protected void initData() {
-
+          sharedPreferences = getSharedPreferences("User",MODE_PRIVATE);
+          editor = sharedPreferences.edit();
+          //记住密码
+        getCheckRem();
+        //自动登录?????????????????????????????????????????????
+       /* getCheckAuto();*/
+        //自动登录的点击事件
+        checkremOnClick();
     }
+    //记住密码
+    public void getCheckRem(){
+        boolean check_rem1 = sharedPreferences.getBoolean("check_rem1", false);
+        if (check_rem1){
+            String phonenum = sharedPreferences.getString("phone", null);
+            String pass = sharedPreferences.getString("pass", null);
+            edit_phone.setText(phonenum);
+            edit_pawd.setText(pass);
+            check_rem.setChecked(true);
+        }
+    }
+    //自动登录
+    public void getCheckAuto(){
+        boolean check_auto1 = sharedPreferences.getBoolean("check_auto1", false);
+        if (check_auto1){
+            check_auto.setChecked(true);
+            check_rem.setChecked(true);
+            Intent intent = new Intent(this,MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+    //自动登录的点击事件
+    public void checkremOnClick(){
+        check_auto.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    check_rem.setChecked(true);
+                }
+                else {
+                    editor.clear();
+                    editor.commit();
+                }
+
+            }
+        });
+    }
+
+
     //登录按钮的点击事件
     @OnClick(R.id.login_but)
     public void loginOnClick(){
         phone = edit_phone.getText().toString();
         pwd = edit_pawd.getText().toString();
+        //请求数据
+         if (RegularUtil.isNull(phone)){
+             ToastUtil.showToast(this,"手机号不可以为空");
+             return;
+         }
+        if (!(RegularUtil.isPhone(phone))) {
+            ToastUtil.showToast(this,"请输入正确的手机格式");
+            return;
+        }
+         if (RegularUtil.isPass(pwd)){
+             ToastUtil.showToast(this,"密码必须大于6位");
+             return;
+         }
+         //记住密码判断
+          if (check_rem.isChecked()){
+             editor.putString("phone",phone);
+             editor.putString("pass",pwd);
+             editor.putBoolean("check_rem1",true);
+             editor.commit();
+          }
+          else {
+             //清除所有的数据
+             editor.clear();
+             editor.commit();
+          }
+        //自动登录判断
+          if (check_auto.isChecked()){
+             editor.putBoolean("check_auto1",true);
+             editor.commit();
+          }
+
+        //登录请求数据
+        getLoginData();
+    }
+    //登录请求数据
+    public void getLoginData(){
         //密码加密
         encrypt = EncryptUtil.encrypt(pwd);
         Map<String,String> prams = new HashMap<>();
         prams.put("phone",phone);
         prams.put("pwd",encrypt);
-        //请求数据
         postRequest(Apis.LOGIN_URL,prams,LoginBean.class);
+    }
+    //注册按钮的点击事件
+    @OnClick(R.id.login_text_reg)
+    public void regOnClick(){
+        Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
+        startActivity(intent);
+        finish();
     }
     //请求网络成功
     @Override
@@ -67,11 +161,12 @@ public class LoginActivity extends BaseActivity {
         if (object instanceof LoginBean){
             LoginBean loginBean = (LoginBean) object;
             if (loginBean.getStatus().equals("0000")){
+                editor.putString("userId",loginBean.getResult().getUserId()+"");
+                editor.putString("sessionId",loginBean.getResult().getSessionId()+"");
                 ToastUtil.showToast(this,loginBean.getMessage());
                 Intent intent = new Intent(this,MainActivity.class);
                 startActivity(intent);
                 finish();
-
             }
         }
     }
