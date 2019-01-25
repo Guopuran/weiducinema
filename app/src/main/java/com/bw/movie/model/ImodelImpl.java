@@ -17,7 +17,7 @@ public class ImodelImpl implements Imodel{
     @Override
     public void getRequestModel(String url, final Class clazz, final ModelCallBack callBack) {
         if (!isNetWork()){
-            callBack.failData("网络状态不可用");
+            callBack.failedData("网络状态不可用");
             return;
         }
         RetrofitUtil.getInstance().get(url, new RetrofitUtil.ICallBack() {
@@ -29,7 +29,7 @@ public class ImodelImpl implements Imodel{
 
             @Override
             public void failureData(String error) {
-                callBack.failData("无法连接");
+                callBack.failedData("无法连接");
             }
 
         });
@@ -39,7 +39,7 @@ public class ImodelImpl implements Imodel{
     @Override
     public void postRequestModel(String url, Map<String, String> params, final Class clazz, final ModelCallBack callBack) {
         if (!isNetWork()){
-            callBack.failData("网络状态不可用");
+            callBack.failedData("网络状态不可用");
             return;
         }
         RetrofitUtil.getInstance().post(url, params, new RetrofitUtil.ICallBack() {
@@ -51,7 +51,7 @@ public class ImodelImpl implements Imodel{
 
             @Override
             public void failureData(String error) {
-                callBack.failData("无法连接");
+                callBack.failedData("无法连接");
             }
 
 
@@ -61,7 +61,7 @@ public class ImodelImpl implements Imodel{
     @Override
     public void deleteRequestModel(String url, final Class clazz, final ModelCallBack callBack) {
         if (!isNetWork()){
-            callBack.failData("网络状态不可用");
+            callBack.failedData("网络状态不可用");
             return;
         }
         RetrofitUtil.getInstance().delete(url, new RetrofitUtil.ICallBack() {
@@ -73,7 +73,7 @@ public class ImodelImpl implements Imodel{
 
             @Override
             public void failureData(String error) {
-                callBack.failData("无法连接");
+                callBack.failedData("无法连接");
             }
 
         });
@@ -83,7 +83,7 @@ public class ImodelImpl implements Imodel{
     @Override
     public void putRequestModel(String url, Map<String, String> params, final Class clazz, final ModelCallBack callBack) {
         if (!isNetWork()){
-            callBack.failData("网络状态不可用");
+            callBack.failedData("网络状态不可用");
             return;
         }
         RetrofitUtil.getInstance().put(url, params, new RetrofitUtil.ICallBack() {
@@ -95,7 +95,7 @@ public class ImodelImpl implements Imodel{
 
             @Override
             public void failureData(String error) {
-                callBack.failData("无法连接");
+                callBack.failedData("无法连接");
             }
 
         });
@@ -105,7 +105,7 @@ public class ImodelImpl implements Imodel{
     @Override
     public void postImageRequestModel(String url, File file, final Class clazz, final ModelCallBack callBack) {
         if (!isNetWork()){
-            callBack.failData("网络状态不可用");
+            callBack.failedData("网络状态不可用");
             return;
         }
         RetrofitUtil.getInstance().postImage(url, file, new RetrofitUtil.ICallBack() {
@@ -117,7 +117,7 @@ public class ImodelImpl implements Imodel{
 
             @Override
             public void failureData(String error) {
-                callBack.failData("无法连接");
+                callBack.failedData("无法连接");
             }
 
         });
