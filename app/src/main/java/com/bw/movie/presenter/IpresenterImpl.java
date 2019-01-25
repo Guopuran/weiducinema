@@ -49,7 +49,7 @@ public class IpresenterImpl implements Ipresenter{
             }
 
             @Override
-            public void failData(String error) {
+            public void failedData(String error) {
                 mIView.failedData(error);
             }
         });
@@ -66,7 +66,7 @@ public class IpresenterImpl implements Ipresenter{
             }
 
             @Override
-            public void failData(String error) {
+            public void failedData(String error) {
                 mIView.failedData(error);
             }
         });
@@ -82,7 +82,7 @@ public class IpresenterImpl implements Ipresenter{
             }
 
             @Override
-            public void failData(String error) {
+            public void failedData(String error) {
                 mIView.failedData(error);
             }
 
@@ -99,7 +99,7 @@ public class IpresenterImpl implements Ipresenter{
             }
 
             @Override
-            public void failData(String error) {
+            public void failedData(String error) {
                 mIView.failedData(error);
             }
         });
@@ -114,7 +114,7 @@ public class IpresenterImpl implements Ipresenter{
             }
 
             @Override
-            public void failData(String error) {
+            public void failedData(String error) {
                 mIView.failedData(error);
             }
         });
