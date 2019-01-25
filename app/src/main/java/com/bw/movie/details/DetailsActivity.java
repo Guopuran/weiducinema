@@ -26,6 +26,14 @@ public class DetailsActivity extends BaseActivity {
     ImageView image_big;
     @BindView(R.id.details_movie_text_name)
     TextView text_name;
+    @BindView(R.id.details_lin_movie_text_details)
+    TextView text_details;
+    @BindView(R.id.details_lin_movie_text_notice)
+    TextView text_notice;
+    @BindView(R.id.details_lin_movie_text_photo)
+    TextView text_photo;
+    @BindView(R.id.details_lin_movie_text_review)
+    TextView text_review;
     @Override
     protected void initData() {
 
