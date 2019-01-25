@@ -20,7 +20,7 @@ public class RegularUtil {
     {
         return Pattern.matches(REG_MOBILE,mphone);
     }
-
+//
     //判断是否为空
     public static boolean isNull(String mnull){
         return mnull.equals("");
