@@ -28,15 +28,17 @@ public abstract class BaseFragment extends Fragment implements IView {
         initData();
     }
 
-    protected abstract int getLayoutResId();
 
-    protected abstract void initView();
 
     protected abstract void initData();
 
     protected abstract void success(Object object);
 
     protected abstract void failed(String error);
+
+    protected abstract void initView();
+
+    protected abstract int getLayoutResId();
 
     @Override
     public void successData(Object object) {

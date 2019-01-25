@@ -133,7 +133,7 @@ public class ImodelImpl implements Imodel{
 
     //判断网络状态
     public static boolean isNetWork(){
-        ConnectivityManager cm = (ConnectivityManager) MyApplication.instance.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) MyApplication.getContext().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = cm.getActiveNetworkInfo();
         return activeNetworkInfo!=null && activeNetworkInfo.isAvailable();
     }
