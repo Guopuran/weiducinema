@@ -24,6 +24,7 @@ public abstract class BaseFragment extends Fragment implements IView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mIpresenterImpl=new IpresenterImpl(this);
         initView();
         initData();
     }
