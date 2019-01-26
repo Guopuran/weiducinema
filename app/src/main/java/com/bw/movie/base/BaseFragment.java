@@ -24,7 +24,7 @@ public abstract class BaseFragment extends Fragment implements IView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initView();
+        initView(view);
         initData();
     }
 
@@ -36,7 +36,7 @@ public abstract class BaseFragment extends Fragment implements IView {
 
     protected abstract void failed(String error);
 
-    protected abstract void initView();
+    protected abstract void initView(View view);
 
     protected abstract int getLayoutResId();
 
