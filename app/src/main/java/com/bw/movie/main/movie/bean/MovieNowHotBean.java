@@ -2,10 +2,10 @@ package com.bw.movie.main.movie.bean;
 
 import java.util.List;
 
-public class MovieHotBean {
+public class MovieNowHotBean {
     private String message;
     private String status;
-    private List<MovieHotBean.ResultBean> result;
+    private List<MovieNowHotBean.ResultBean> result;
 
     public String getMessage() {
         return message;

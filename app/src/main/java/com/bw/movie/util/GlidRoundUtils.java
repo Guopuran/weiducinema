@@ -1,6 +1,6 @@
-package com.bw.movie.login_success.home_fragment.banner__round;
+package com.bw.movie.util;
 
-import android.content.Context;
+
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapShader;
@@ -19,8 +19,8 @@ public class GlidRoundUtils extends BitmapTransformation {
     private static float radius = 0f;
 
 
-    public GlidRoundUtils(int dp) {
-        this.radius = Resources.getSystem().getDisplayMetrics().density * dp;
+    public  GlidRoundUtils(int dp) {
+        radius = Resources.getSystem().getDisplayMetrics().density * dp;
     }
 
     @Override
@@ -29,7 +29,9 @@ public class GlidRoundUtils extends BitmapTransformation {
     }
 
     private static Bitmap roundCrop(BitmapPool pool, Bitmap source) {
-        if (source == null) return null;
+        if (source == null) {
+            return null;
+        }
 
         Bitmap result = pool.get(source.getWidth(), source.getHeight(), Bitmap.Config.ARGB_8888);
         if (result == null) {

@@ -11,8 +11,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
-import com.bw.movie.main.movie.bean.MovieBannerBean;
 import com.bw.movie.main.movie.bean.MovieHotBean;
+import com.bw.movie.main.movie.bean.MovieNowHotBean;
 import com.bw.movie.util.GlidRoundUtils;
 
 import java.util.ArrayList;
@@ -21,16 +21,15 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MovieHotAdpter extends RecyclerView.Adapter<MovieHotAdpter.ViewHodler> {
-    private List<MovieHotBean.ResultBean> mList;
+public class MovieNowHotAdpter extends RecyclerView.Adapter<MovieNowHotAdpter.ViewHodler> {
+    private List<MovieNowHotBean.ResultBean> mList;
     private Context mContext;
-
-    public MovieHotAdpter(Context mContext) {
+    public MovieNowHotAdpter(Context mContext) {
         this.mContext = mContext;
         mList = new ArrayList<>();
     }
 
-    public void setmList(List<MovieHotBean.ResultBean> mList) {
+    public void setmList(List<MovieNowHotBean.ResultBean> mList) {
         this.mList = mList;
         notifyDataSetChanged();
     }
@@ -38,7 +37,7 @@ public class MovieHotAdpter extends RecyclerView.Adapter<MovieHotAdpter.ViewHodl
     @NonNull
     @Override
     public ViewHodler onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = View.inflate(mContext, R.layout.frag_movie_hot_item,null);
+        View view = View.inflate(mContext, R.layout.frag_movie_nowhot_item,null);
         return new ViewHodler(view);
     }
 
@@ -47,8 +46,9 @@ public class MovieHotAdpter extends RecyclerView.Adapter<MovieHotAdpter.ViewHodl
         Glide.with(mContext)
                 .load(mList.get(i%mList.size()).getImageUrl())
                 .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(10)))
-                .into(viewHodler.hot_image);
-        viewHodler.hot_title.setText(mList.get(i).getName());
+                .into(viewHodler.nowhot_image);
+        viewHodler.nowhot_image.setScaleType(ImageView.ScaleType.FIT_XY);
+        viewHodler.nowhot_title.setText(mList.get(i).getName());
     }
 
     @Override
@@ -59,10 +59,10 @@ public class MovieHotAdpter extends RecyclerView.Adapter<MovieHotAdpter.ViewHodl
 
 
     public class ViewHodler extends RecyclerView.ViewHolder {
-        @BindView(R.id.frag_hot_item_imaeg)
-        ImageView hot_image;
-        @BindView(R.id.frag_hot_item_title)
-        TextView hot_title;
+        @BindView(R.id.frag_nowhot_item_imaeg)
+        ImageView nowhot_image;
+        @BindView(R.id.frag_nowhot_item_title)
+        TextView nowhot_title;
         public ViewHodler(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

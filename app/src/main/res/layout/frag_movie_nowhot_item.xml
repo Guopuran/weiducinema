@@ -8,7 +8,7 @@
         android:layout_marginRight="20dp"
         >
         <ImageView
-            android:id="@+id/frag_hot_item_imaeg"
+            android:id="@+id/frag_nowhot_item_imaeg"
             android:layout_width="@dimen/dp_158"
             android:layout_height="@dimen/dp_223" />
         <RelativeLayout
@@ -18,7 +18,7 @@
             android:layout_alignParentBottom="true"
             >
             <TextView
-                android:id="@+id/frag_hot_item_title"
+                android:id="@+id/frag_nowhot_item_title"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/dp_10"
                 android:layout_width="wrap_content"
@@ -29,7 +29,6 @@
                 android:textSize="@dimen/sp_14"
                 android:ellipsize="end"
                 />
-
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>

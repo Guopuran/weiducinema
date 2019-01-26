@@ -49,7 +49,7 @@ public class GuidanceActivity extends BaseActivity {
            mList.add(new GuidanceSencondFragment());
            mList.add(new GuidanceThirdFragment());
            mList.add(new GuidanceFourthFragment());
-           sharedPreferences = getSharedPreferences("User",MODE_PRIVATE);
+           sharedPreferences = getSharedPreferences("User1",MODE_PRIVATE);
            editor = sharedPreferences.edit();
            viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
                @Override

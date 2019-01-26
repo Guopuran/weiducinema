@@ -2,9 +2,10 @@ package com.bw.movie.main.movie.fragment;
 
 import android.view.View;
 
+import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 
-public class HotMoreFragment extends BaseFragment {
+public class WillMoreFragment extends BaseFragment {
     @Override
     protected void initData() {
 
@@ -27,6 +28,6 @@ public class HotMoreFragment extends BaseFragment {
 
     @Override
     protected int getLayoutResId() {
-        return 0;
+        return R.layout.fragment_will_more;
     }
 }
