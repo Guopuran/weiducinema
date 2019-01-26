@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00ffffff"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/frag_radius"
+        android:layout_marginTop="25dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        >
+        <ImageView
+            android:id="@+id/dialog_back"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:layout_marginRight="-15dp"
+            android:background="@mipmap/com_icon_down_default"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
+</android.support.constraint.ConstraintLayout>

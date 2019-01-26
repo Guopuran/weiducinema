@@ -17,4 +17,8 @@ public class Apis {
    //电影轮播请求数据
     public static String MOVIEBAANNER_URL="movie/v1/findComingSoonMovieList?page=%d&count=%d";
 
+
+
+  //根据电影ID查询电影信息
+  public static String SELECT_ID_MOVIE_DETAILS="movie/v1/findMoviesById?movieId=%s";
 }

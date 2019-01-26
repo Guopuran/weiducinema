@@ -23,7 +23,7 @@
     <ImageView
         android:id="@+id/details_iamge_back_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_above="@id/details_iamge_back_bottom"
         />
 
@@ -58,6 +58,7 @@
             android:id="@+id/details_movie_button_attention"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:layout_alignParentRight="true"
             android:background="@drawable/default_attention" />
         <TextView
             android:id="@+id/details_movie_text_name"
@@ -160,4 +161,8 @@
             />
 
     </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></FrameLayout>
 </RelativeLayout>
