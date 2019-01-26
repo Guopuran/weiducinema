@@ -15,6 +15,6 @@ public class Apis {
    //电影详情的接口
    public static String SELECT_MOVIE_DETAILS="movie/v1/findMoviesDetail?movieId=%s";
 
-  
-
+  //根据电影ID查询电影信息
+  public static String SELECT_ID_MOVIE_DETAILS="movie/v1/findMoviesById?movieId=%s";
 }

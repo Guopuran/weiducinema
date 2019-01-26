@@ -2,7 +2,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:background="#00ffffff"
-    android:layout_marginTop="@dimen/dp_120"
     android:layout_height="match_parent"
 
 
@@ -189,5 +188,44 @@
             android:textColor="#ffffff"
             android:gravity="center"
             />
+        <View
+            android:id="@+id/yi"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            android:layout_centerHorizontal="true"
+            />
+        <TextView
+            android:id="@+id/shiyanrenwu"
+            android:layout_width="75dp"
+            android:layout_height="32dp"
+            android:layout_below="@id/xian2"
+            android:background="@drawable/name"
+            android:layout_marginTop="10dp"
+            android:text="饰演人物"
+            android:textSize="12sp"
+            android:layout_toRightOf="@id/yi"
+           android:layout_marginLeft="53dp"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/details_dialog_recy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/renyuanmingzi"
+            android:layout_marginTop="12dp"
+            ></android.support.v7.widget.RecyclerView>
+        <TextView
+            android:id="@+id/xiahua"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下滑查看更多"
+            android:layout_below="@id/details_dialog_recy"
+            android:layout_marginTop="20dp"
+            android:textSize="12sp"
+            android:layout_centerHorizontal="true"
+            android:textColor="#333333"
+            />
     </RelativeLayout>
+
 </RelativeLayout>

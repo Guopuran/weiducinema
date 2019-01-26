@@ -15,7 +15,7 @@ public class DetailsFragment extends BaseFullBottomSheetFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setTopOffset(getResources().getDimensionPixelOffset(R.dimen.dp_120));
-        return inflater.inflate(R.layout.frag_details, container, false);
+        return inflater.inflate(R.layout.dialog_details, container, false);
 
     }
 
