@@ -154,7 +154,8 @@ public class MovieFragment extends BaseFragment {
         getRequest(String.format(Apis.MOVIEWWILL_URL,1,10),MovieWillBean.class);
     }
     //正在热映请求数据
-     public void getNowHotData(){
+     public void getNowHotData()
+     {
          getRequest(String.format(Apis.MOVIEBAANNER_URL,1,10),MovieNowHotBean.class);
      }
     //热门电影请求数据
