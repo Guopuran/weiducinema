@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.bw.movie"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -59,6 +59,5 @@ dependencies {
     implementation 'com.contrarywind:Android-PickerView:3.2.6'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     implementation 'com.android.support:design:28.3.1'
-    implementation 'com.jcodecraeer:xrecyclerview:1.5.9'
 
 }

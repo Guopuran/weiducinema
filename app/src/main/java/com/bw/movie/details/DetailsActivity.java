@@ -1,12 +1,21 @@
 package com.bw.movie.details;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.ItemDecoration;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -16,9 +25,16 @@ import com.bumptech.glide.Glide;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.custom.CustomDialog;
-import com.bw.movie.details.adapter.DetailsAdapter;
+import com.bw.movie.custom.DividerDecoration;
+import com.bw.movie.custom.SelectDialog;
+import com.bw.movie.details.adapter.DetailsDialogAdapter;
+import com.bw.movie.details.adapter.NoticeDialogAdapter;
+import com.bw.movie.details.adapter.PhotoDialogAdapter;
 import com.bw.movie.details.bean.DetailsMovieBean;
 import com.bw.movie.util.Apis;
+import com.bw.movie.util.ToastUtil;
+import com.xiao.nicevideoplayer.NiceVideoPlayer;
+import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,12 +79,17 @@ public class DetailsActivity extends BaseActivity {
     private TextView dialog_text_timelong;
     private TextView dialog_text_place;
     private TextView dialog_text_content;
-    private DetailsMovieBean.ResultBean resultMovie;
     private RecyclerView dialog_text_recy;
+    private DetailsMovieBean.ResultBean resultMovie;
+    private final int ITEMCOUNT=2;
 
     @Override
     protected void initData() {
+
+        resultMovie = new DetailsMovieBean.ResultBean();
+        //改变图片的透明度
         back_image.setAlpha(0.2f);
+        //计算整个屏幕的高度
         WindowManager wm = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics dm = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(dm);
@@ -77,38 +98,45 @@ public class DetailsActivity extends BaseActivity {
         dialog_height = height - getResources().getDimensionPixelOffset(R.dimen.dp_110);
 
 
+
+
         //请求详情
         initDetailUrl();
+
+
+
     }
 
 
     private void initDetailUrl() {
-        getRequest(String.format(Apis.SELECT_MOVIE_DETAILS, 12), DetailsMovieBean.class);
+        getRequest(String.format(Apis.SELECT_MOVIE_DETAILS, 10), DetailsMovieBean.class);
     }
 
     @Override
     protected void success(Object object) {
         if (object instanceof DetailsMovieBean) {
             DetailsMovieBean detailsMovieBean = (DetailsMovieBean) object;
-            resultMovie = detailsMovieBean.getResult();
-            Glide.with(this).load(resultMovie.getImageUrl()).into(image_big);
-            Glide.with(this).load(resultMovie.getImageUrl()).into(back_image);
+            DetailsMovieBean.ResultBean resultBean = detailsMovieBean.getResult();
+            resultMovie=resultBean;
+            Glide.with(this).load(resultBean.getImageUrl()).into(image_big);
+            Glide.with(this).load(resultBean.getImageUrl()).into(back_image);
             back_image.setScaleType(ImageView.ScaleType.FIT_XY);
             //设置电影mingc
-            text_name.setText(resultMovie.getName());
+            text_name.setText(resultBean.getName());
             //设置是否被关注
-            if (resultMovie.getFollowMovie() == 1) {
+            if (resultBean.getFollowMovie() == 1) {
                 button_attention.setSelected(true);
             } else {
                 button_attention.setSelected(false);
             }
+
 
         }
     }
 
     @Override
     protected void failed(String error) {
-
+        ToastUtil.showToast(this,error);
     }
 
     @Override
@@ -135,9 +163,12 @@ public class DetailsActivity extends BaseActivity {
             //影片预告
             case R.id.details_lin_movie_text_notice:
                 View view_notice = initDiaLog(R.layout.dialog_notice);
+                getNoticeView(view_notice);
                 break;
             //影片剧照
             case R.id.details_lin_movie_text_photo:
+                View view_photo = initDiaLog(R.layout.dialog_photo);
+                getPhotoView(view_photo);
                 break;
             //影片影评
             case R.id.details_lin_movie_text_review:
@@ -152,6 +183,64 @@ public class DetailsActivity extends BaseActivity {
                 break;
         }
     }
+
+    private void getNoticeView(View view_notice) {
+        RecyclerView notice_dialog_recy = view_notice.findViewById(R.id.notice_dialog_recy);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
+        notice_dialog_recy.setLayoutManager(linearLayoutManager);
+        NoticeDialogAdapter noticeDialogAdapter=new NoticeDialogAdapter(this);
+        notice_dialog_recy.setAdapter(noticeDialogAdapter);
+        noticeDialogAdapter.setList(resultMovie.getShortFilmList());
+        notice_dialog_recy.setRecyclerListener(new RecyclerView.RecyclerListener() {
+            @Override
+            public void onViewRecycled(RecyclerView.ViewHolder holder) {
+                NiceVideoPlayer niceVideoPlayer = (NiceVideoPlayer) ((NoticeDialogAdapter.ViewHolder) holder).itemView;
+                if (niceVideoPlayer == NiceVideoPlayerManager.instance().getCurrentNiceVideoPlayer()) {
+                    NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
+                }
+            }
+        });
+
+    }
+    private void getPhotoView(View view_photo) {
+        RecyclerView daialog_photo_recy=view_photo.findViewById(R.id.photo_dialog_recy);
+        StaggeredGridLayoutManager staggeredGridLayoutManager=new StaggeredGridLayoutManager(2,OrientationHelper.VERTICAL);
+        daialog_photo_recy.setLayoutManager(staggeredGridLayoutManager);
+        PhotoDialogAdapter photoDialogAdapter=new PhotoDialogAdapter(this);
+        daialog_photo_recy.setAdapter(photoDialogAdapter);
+        photoDialogAdapter.setList(resultMovie.getPosterList());
+        //自定义分割线
+//        DividerDecoration dividerDecoration=new DividerDecoration(this);
+//        daialog_photo_recy.addItemDecoration(dividerDecoration);
+        photoDialogAdapter.setImageOnClick(new PhotoDialogAdapter.imageOnClick() {
+            @Override
+            public void onClick(String imageUrl) {
+                selectImageeUrl(imageUrl);
+            }
+        });
+
+
+    }
+
+    private void selectImageeUrl(String imageUrl) {
+        //填充对话框的布局
+        View inflate = LayoutInflater.from(this).inflate(R.layout.image_dialog, null);
+        //初始化控件
+        ImageView imageView = inflate.findViewById(R.id.dialog_image);
+        final SelectDialog selectDialog = new SelectDialog(this, inflate);
+        Glide.with(this).load(imageUrl).into(imageView);
+        selectDialog.show();
+        inflate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectDialog.dismiss();
+            }
+        });
+    }
+
+
+
     //详情
     private void getDetailsView(View view_details) {
 
@@ -172,7 +261,7 @@ public class DetailsActivity extends BaseActivity {
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
         dialog_text_recy.setLayoutManager(linearLayoutManager);
-        DetailsAdapter detailsAdapter=new DetailsAdapter(this);
+        DetailsDialogAdapter detailsAdapter=new DetailsDialogAdapter(this);
         String[] split = resultMovie.getStarring().split(",");
         dialog_text_recy.setAdapter(detailsAdapter);
         List<String> list_name=new ArrayList<>();
@@ -183,20 +272,32 @@ public class DetailsActivity extends BaseActivity {
     }
 
     public View initDiaLog(int getLayoutId) {
-        View details_view = View.inflate(this, getLayoutId, null);
-        final CustomDialog dialog = new CustomDialog(this, details_view, false, true, dialog_height);
-        dialog.show();
-        ImageView image_back = details_view.findViewById(R.id.dialog_back);
-        ;
-        image_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        return details_view;
+            View details_view = View.inflate(this, getLayoutId, null);
+            final CustomDialog dialog = new CustomDialog(this, details_view, false, true, dialog_height);
+            dialog.show();
+            ImageView image_back = details_view.findViewById(R.id.dialog_back);
+            ;
+            image_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            return details_view;
     }
-
+    @Override
+    protected void onStop() {
+        super.onStop();
+        // 在onStop时释放掉播放器
+        NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
+    }
+    @Override
+    public void onBackPressed() {
+        // 在全屏或者小窗口时按返回键要先退出全屏或小窗口，
+        // 所以在Activity中onBackPress要交给NiceVideoPlayer先处理。
+        if (NiceVideoPlayerManager.instance().onBackPressd()) return;
+        super.onBackPressed();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
