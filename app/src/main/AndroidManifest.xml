@@ -15,18 +15,27 @@
         android:theme="@style/AppTheme.NoTitle_FullScreen">
         <activity
             android:name=".main.activity.MainActivity"
-            android:theme="@style/AppTheme.NoTitle_FullScreen" />
+            android:theme="@style/AppTheme.NoTitle_FullScreen"
+             /> <!-- or android:screenOrientation="landscape"-->
+
+            />
         <activity android:name=".guidance.activity.GuidanceActivity"></activity>
         <activity android:name=".guidance.activity.StartActivity">
+
+        </activity>
+        <activity android:name=".login.activity.LoginActivity" />
+        <activity android:name=".login.activity.RegisterActivity" />
+        <activity android:name=".details.DetailsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".login.activity.LoginActivity" />
-        <activity android:name=".login.activity.RegisterActivity" />
-        <activity android:name=".details.DetailsActivity"></activity>
 
         <!-- 如果您项目中的所有页面都只需要以高或宽中的一个作为基准进行适配的话, 那就只需要填写高或宽中的一个设计图尺寸即可 -->
         <meta-data
@@ -37,6 +46,7 @@
             android:value="667" />
 
         <activity android:name=".main.movie.activity.MovieMroeActivity"></activity>
+
     </application>
 
 </manifest>

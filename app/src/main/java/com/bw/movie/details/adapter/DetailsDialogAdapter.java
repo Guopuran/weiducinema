@@ -13,11 +13,11 @@ import com.bw.movie.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.ViewHolder> {
+public class DetailsDialogAdapter extends RecyclerView.Adapter<DetailsDialogAdapter.ViewHolder> {
     private List<String> list;
     private Context context;
 
-    public DetailsAdapter(Context context) {
+    public DetailsDialogAdapter(Context context) {
         this.context = context;
         list=new ArrayList<>();
     }
