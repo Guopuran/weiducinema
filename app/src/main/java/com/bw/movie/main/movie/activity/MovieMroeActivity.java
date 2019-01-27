@@ -1,12 +1,15 @@
 package com.bw.movie.main.movie.activity;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
@@ -19,12 +22,17 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MovieMroeActivity extends BaseActivity {
      @BindView(R.id.movie_more_viewpager)
      ViewPager viewPager;
      @BindView(R.id.movie_more_group)
      RadioGroup group;
+     @BindView(R.id.movie_more_search_relative)
+    RelativeLayout movie_more_relative;
+     @BindView(R.id.movie_more_back_image)
+    ImageView image_back;
      private List<Fragment> mList;
     private int flag;
 
@@ -33,7 +41,7 @@ public class MovieMroeActivity extends BaseActivity {
         ButterKnife.bind(this);
         Intent intent = getIntent();
         flag = intent.getIntExtra("flag", 4);
-          mList = new ArrayList<>();
+        mList = new ArrayList<>();
         mList.add(new HotMoreFragment());
         mList.add(new NowHotMoreFragment());
         mList.add(new WillMoreFragment());
@@ -109,6 +117,25 @@ public class MovieMroeActivity extends BaseActivity {
             viewPager.setCurrentItem(2);
             group.check(R.id.activity_movie_more_will_but);
         }
+    }
+    @OnClick(R.id.movie_more_back_image)
+    public void backOnClick(){
+        finish();
+    }
+    //弹出的动画
+    @OnClick(R.id.movie_search_image)
+    public void outAnimation(){
+        ObjectAnimator animator = ObjectAnimator.ofFloat(movie_more_relative, "translationX",  -400f);
+        animator.setDuration(1000);
+        animator.start();
+    }
+    //收回的动画
+    @OnClick(R.id.movie_search_text)
+    public void inAnimation()
+    {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(movie_more_relative, "translationX",  10f);
+        animator.setDuration(500);
+        animator.start();
     }
     @Override
     protected void success(Object object) {

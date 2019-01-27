@@ -20,10 +20,10 @@ public class Apis {
    public static  String MOVIEHOT_URL="movie/v1/findHotMovieList?page=%d&count=%d";
    //即将上映的接口
    public static String MOVIEWWILL_URL="movie/v1/findComingSoonMovieList?page=%d&count=%d";
-
-
-
-
-  //根据电影ID查询电影信息
-  public static String SELECT_ID_MOVIE_DETAILS="movie/v1/findMoviesById?movieId=%s";
+   //根据电影ID查询电影信息
+    public static String SELECT_ID_MOVIE_DETAILS="movie/v1/findMoviesById?movieId=%s";
+  //推荐影院的接口
+    public static  String  CONEMARECOMMEND_URL="cinema/v1/findRecommendCinemas?page=%d&count=%d";
+  //附近影院的接口
+    public static String CONEMARENEAR_URL="cinema/v1/findNearbyCinemas?page=%d&count=%d";
 }

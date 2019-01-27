@@ -60,6 +60,7 @@ public class MovieFragment extends BaseFragment {
     ImageView nowhot_more;
     @BindView(R.id.movie_will_movie_image)
     ImageView will_more;
+
      MovieBannerAdpter movieBannerAdpter;
      MovieHotAdpter movieHotAdpter;
      MovieNowHotAdpter movieNowHotAdpter;
@@ -79,10 +80,10 @@ public class MovieFragment extends BaseFragment {
         initWillLayout();
     }
     @OnClick(R.id.movie_hot_movie_image)
-    public void hotMoreOnClick(){
+    public void hotMoreOnClick()
+    {
         Intent intent = new Intent(getContext(),MovieMroeActivity.class);
         intent.putExtra("flag",0);
-        startActivity(intent);
     }
     @OnClick(R.id.movie_nowhot_movie_image)
     public void nowHotMoreOnClick(){
@@ -99,7 +100,7 @@ public class MovieFragment extends BaseFragment {
     //弹出的动画
     @OnClick(R.id.movie_search_image)
     public void outAnimation(){
-        ObjectAnimator animator = ObjectAnimator.ofFloat(search_relative, "translationX",  -500f);
+        ObjectAnimator animator = ObjectAnimator.ofFloat(search_relative, "translationX",  -400f);
         animator.setDuration(1000);
         animator.start();
     }

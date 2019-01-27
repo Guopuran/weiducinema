@@ -1,18 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="321dp"
-    android:layout_height="140dp">
+    android:layout_height="140dp"
 
-    <RelativeLayout
-        android:layout_width="321dp"
-        android:layout_height="123dp"
-        android:layout_marginTop="15dp"
-        >
+    >
 
-    </RelativeLayout>
-    <ImageView
-        android:layout_width="103dp"
-        android:layout_height="129dp"
-        android:id="@+id/more_item_image"
-        />
+     <RelativeLayout
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="10dp"
+         >
+         <RelativeLayout
+             android:layout_width="321dp"
+             android:layout_height="123dp"
+             android:layout_marginTop="15dp"
+             android:background="@mipmap/beijing1"
+             >
+             <RelativeLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+
+                 >
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:id="@+id/more_item_title"
+                     android:textSize="14sp"
+                     android:textColor="#ffff"
+                     android:text="铁血战士"
+                     android:layout_marginLeft="123dp"
+                     android:layout_marginTop="10dp"
+                     />
+
+                 <ImageView
+                     android:layout_width="20dp"
+                     android:layout_height="20dp"
+                     android:layout_alignParentRight="true"
+                     android:layout_marginRight="20dp"
+                     android:layout_marginTop="10dp"
+                     android:src="@mipmap/com_icon_collection_default"
+                     android:id="@+id/more_item_follow"
+                     />
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_marginLeft="123dp"
+                     android:layout_below="@id/more_item_title"
+                     android:maxLines="5"
+                     android:ellipsize="end"
+                     android:id="@+id/more_item_context"
+                     android:textSize="12sp"
+                     android:textColor="#ffff"
+                     android:layout_marginTop="10dp"
+                     />
+             </RelativeLayout>
+         </RelativeLayout>
+         <ImageView
+             android:layout_width="103dp"
+             android:layout_height="129dp"
+             android:id="@+id/more_item_image"
+             android:layout_marginLeft="10dp"
+             />
+     </RelativeLayout>
 </RelativeLayout>

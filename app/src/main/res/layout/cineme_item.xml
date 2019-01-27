@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+       <RelativeLayout
+           android:layout_width="312dp"
+           android:layout_height="90dp"
+           android:background="@drawable/cinema_item_bg"
+           android:layout_marginTop="10dp"
+           >
+         <ImageView
+             android:layout_width="70dp"
+             android:layout_height="70dp"
+             android:id="@+id/cinema_item_image"
+             android:layout_marginTop="10dp"
+             android:layout_marginLeft="10dp"
+             android:layout_marginBottom="10dp"
+             android:layout_marginRight="20dp"
+
+             />
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/cinema_item_name"
+                  android:textSize="14sp"
+                  android:textColor="#333333"
+                  android:layout_alignTop="@id/cinema_item_image"
+                  android:layout_toRightOf="@id/cinema_item_image"
+                  android:text="大地影院"
+
+                  />
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                   android:layout_below="@id/cinema_item_name"
+                  android:layout_toRightOf="@id/cinema_item_image"
+                  android:layout_marginTop="10dp"
+                  android:id="@+id/cinema_item_addreess"
+                  android:textSize="12sp"
+                  android:textColor="#333333"
+                  />
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/cinema_item_distance"
+                  android:layout_toRightOf="@id/cinema_item_image"
+                  android:layout_alignBottom="@id/cinema_item_image"
+                  android:textSize="12sp"
+                  android:textColor="#333333"
+                  />
+              <ImageView
+                  android:layout_width="16dp"
+                  android:layout_height="16dp"
+                  android:id="@+id/cinema_item_follow"
+                  android:layout_toRightOf="@id/cinema_item_distance"
+                  android:layout_alignBottom="@id/cinema_item_image"
+                  android:src="@mipmap/com_icon_collection_default"
+                 android:layout_marginLeft="170dp"
+                  />
+       </RelativeLayout>
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package com.bw.movie.main.movie.adpter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
+import com.bw.movie.details.DetailsActivity;
 import com.bw.movie.main.movie.bean.MovieBannerBean;
 import com.bw.movie.main.movie.bean.MovieHotBean;
 import com.bw.movie.util.GlidRoundUtils;
@@ -43,13 +45,21 @@ public class MovieHotAdpter extends RecyclerView.Adapter<MovieHotAdpter.ViewHodl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHodler viewHodler, int i) {
+    public void onBindViewHolder(@NonNull ViewHodler viewHodler, final int i) {
         Glide.with(mContext)
                 .load(mList.get(i%mList.size()).getImageUrl())
                 .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(10)))
                 .into(viewHodler.hot_image);
         viewHodler.hot_image.setScaleType(ImageView.ScaleType.FIT_XY);
-        viewHodler.hot_title.setText(mList.get(i).getName());
+        viewHodler.hot_title.setText("简介:"+mList.get(i).getName());
+        viewHodler.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext,DetailsActivity.class);
+                intent.putExtra("id",mList.get(i).getId()+"");
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override

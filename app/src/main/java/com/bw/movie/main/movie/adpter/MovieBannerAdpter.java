@@ -1,6 +1,7 @@
 package com.bw.movie.main.movie.adpter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
+import com.bw.movie.details.DetailsActivity;
 import com.bw.movie.main.movie.bean.MovieBannerBean;
 import com.bw.movie.util.GlidRoundUtils;
 
@@ -42,7 +44,7 @@ public class MovieBannerAdpter extends RecyclerView.Adapter<MovieBannerAdpter.Vi
         return new ViewHolder(view);
     }
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         Glide.with(mContext)
                 .load(mList.get(i%mList.size()).getImageUrl())
                 .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(10)))
@@ -50,6 +52,14 @@ public class MovieBannerAdpter extends RecyclerView.Adapter<MovieBannerAdpter.Vi
         viewHolder.image_banner.setScaleType(ImageView.ScaleType.FIT_XY);
         viewHolder.title_banner.setText(mList.get(i).getName());
         viewHolder.time_banner.setText(mList.get(i).getReleaseTimeShow());
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext,DetailsActivity.class);
+                intent.putExtra("id",mList.get(i).getId()+"");
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override

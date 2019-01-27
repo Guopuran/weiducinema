@@ -2,7 +2,11 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#cccc"
     >
-
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/more_hot_reycle"
+        >
+    </com.jcodecraeer.xrecyclerview.XRecyclerView>
 </RelativeLayout>

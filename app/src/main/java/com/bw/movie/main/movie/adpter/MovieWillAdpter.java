@@ -1,6 +1,7 @@
 package com.bw.movie.main.movie.adpter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
+import com.bw.movie.details.DetailsActivity;
 import com.bw.movie.main.movie.bean.MovieNowHotBean;
 import com.bw.movie.main.movie.bean.MovieWillBean;
 import com.bw.movie.util.GlidRoundUtils;
@@ -42,13 +44,21 @@ public class MovieWillAdpter extends RecyclerView.Adapter<MovieWillAdpter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHodler viewHodler, int i) {
+    public void onBindViewHolder(@NonNull ViewHodler viewHodler, final int i) {
         Glide.with(mContext)
                 .load(mList.get(i%mList.size()).getImageUrl())
                 .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(10)))
                 .into(viewHodler.will_image);
         viewHodler.will_image.setScaleType(ImageView.ScaleType.FIT_XY);
         viewHodler.will_title.setText(mList.get(i).getName());
+        viewHodler.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext,DetailsActivity.class);
+                intent.putExtra("id",mList.get(i).getId()+"");
+                mContext.startActivity(intent);
+            }
+        });
     }
 
     @Override
