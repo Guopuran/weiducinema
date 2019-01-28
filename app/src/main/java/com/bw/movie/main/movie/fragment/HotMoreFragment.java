@@ -2,7 +2,6 @@ package com.bw.movie.main.movie.fragment;
 
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.bw.movie.R;
@@ -22,7 +21,7 @@ import butterknife.ButterKnife;
 public class HotMoreFragment extends BaseFragment {
      @BindView(R.id.more_hot_reycle)
      XRecyclerView hotmore_xrecrcle;
-     private  int page=1;
+     private  int page;
      private MoreMovieAdpter moreMovieAdpter;
      private int REQUEST=100;
     @Override
@@ -35,7 +34,7 @@ public class HotMoreFragment extends BaseFragment {
             @Override
             public void onClickItem(int id) {
                 Intent intent = new Intent(getContext(),DetailsActivity.class);
-                intent.putExtra("flag",id);;
+                intent.putExtra("flag",id+"");;
                 startActivityForResult(intent,REQUEST);
             }
         });
@@ -69,19 +68,19 @@ public class HotMoreFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 page=1;
-                getHotMoreData();
+                getHotMoreData(page);
                 hotmore_xrecrcle.refreshComplete();
                 moreMovieAdpter.notifyDataSetChanged();
             }
 
             @Override
             public void onLoadMore() {
-                getHotMoreData();
+                getHotMoreData(page);
                 hotmore_xrecrcle.loadMoreComplete();
                 moreMovieAdpter.notifyDataSetChanged();
             }
         });
-        getHotMoreData();
+        getHotMoreData(page);
     }
     //关注请求数据
     public void getIsFollowData(int id){
@@ -93,8 +92,8 @@ public class HotMoreFragment extends BaseFragment {
     }
 
      //请求数据
-    public void getHotMoreData(){
-        getRequest(String.format(Apis.MOVIEHOT_URL,page,10),MoreMovieBean.class);
+    public void getHotMoreData(int page){
+        getRequest(String.format(Apis.MOVIEHOT_URL, page,10),MoreMovieBean.class);
     }
     @Override
     protected void success(Object object) {
@@ -135,5 +134,15 @@ public class HotMoreFragment extends BaseFragment {
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_hot_more;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==REQUEST &&resultCode==getActivity().RESULT_OK){
+            page=1;
+            getHotMoreData(page);
+            moreMovieAdpter.notifyDataSetChanged();
+        }
     }
 }

@@ -96,7 +96,7 @@ public class MovieFragment extends BaseFragment {
             @Override
             public void onHotClickItem(int id) {
                 Intent intent = new Intent(getContext(),DetailsActivity.class);
-                intent.putExtra("flag",id);;
+                intent.putExtra("flag",id+"");;
                 startActivityForResult(intent,REQUEST);
             }
         });
@@ -107,7 +107,7 @@ public class MovieFragment extends BaseFragment {
            @Override
            public void onNewHotClickItem(int id) {
                Intent intent = new Intent(getContext(),DetailsActivity.class);
-               intent.putExtra("flag",id);;
+               intent.putExtra("flag",id+"");;
                startActivityForResult(intent,REQUEST);
            }
        });
@@ -118,7 +118,7 @@ public class MovieFragment extends BaseFragment {
             @Override
             public void bannerItemOnClickLisenter(int id) {
                 Intent intent = new Intent(getContext(),DetailsActivity.class);
-                intent.putExtra("flag",id);;
+                intent.putExtra("flag",id+"");;
                 startActivityForResult(intent,REQUEST);
             }
         });
@@ -129,7 +129,7 @@ public class MovieFragment extends BaseFragment {
             @Override
             public void onWillClickItem(int id) {
                 Intent intent = new Intent(getContext(),DetailsActivity.class);
-                intent.putExtra("flag",id);;
+                intent.putExtra("flag",id+"");;
                 startActivityForResult(intent,REQUEST);
             }
         });
