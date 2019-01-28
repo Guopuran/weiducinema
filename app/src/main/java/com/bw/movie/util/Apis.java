@@ -30,4 +30,13 @@ public class Apis {
     public static  String MOVIEISFOLLOW_URL="movie/v1/verify/followMovie?movieId=%d";
     //关注的接口
     public static  String MOVIENOFOLLOW_URL="movie/v1/verify/cancelFollowMovie?movieId=%d";
+    //查询影片评论的接口
+    public static String SELECT_REVIEW="movie/v1/findAllMovieComment?movieId=%s&page=%d&count=%d";
+    //查询影片评论回复的接口
+    public static String SELECT_COMMENT="movie/v1/findCommentReply?commentId=%d&page=%d&count=%d";
+    //电影评论点赞的接口
+    public static String NEXT_COMMENT="movie/v1/verify/movieCommentGreat?";
+
+
+
 }

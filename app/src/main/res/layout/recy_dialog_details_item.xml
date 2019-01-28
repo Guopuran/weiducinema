@@ -30,7 +30,7 @@
         android:layout_marginLeft="50dp"
         />
     <View
-        android:id="@+id/xina"
+        android:id="@+id/xian"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_below="@id/item_details_dialog_name"

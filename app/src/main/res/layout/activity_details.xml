@@ -54,12 +54,12 @@
             android:textColor="#ffffff"
             />
 
-        <Button
-            android:id="@+id/details_movie_button_attention"
+        <ImageView
+            android:id="@+id/details_movie_image_attention"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/default_attention" />
+             />
         <TextView
             android:id="@+id/details_movie_text_name"
             android:layout_width="wrap_content"

@@ -1,21 +1,14 @@
 package com.bw.movie.details;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ItemDecoration;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,14 +23,21 @@ import com.bw.movie.custom.SelectDialog;
 import com.bw.movie.details.adapter.DetailsDialogAdapter;
 import com.bw.movie.details.adapter.NoticeDialogAdapter;
 import com.bw.movie.details.adapter.PhotoDialogAdapter;
+import com.bw.movie.details.adapter.ReviewAdapter;
 import com.bw.movie.details.bean.DetailsMovieBean;
+import com.bw.movie.details.bean.NextPraiseBean;
+import com.bw.movie.details.bean.SelectCommentBean;
+import com.bw.movie.details.bean.SelectReviewBean;
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.ToastUtil;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.xiao.nicevideoplayer.NiceVideoPlayer;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,8 +50,8 @@ import butterknife.OnClick;
 public class DetailsActivity extends BaseActivity {
     @BindView(R.id.details_iamge_back_top)
     ImageView back_image;
-    @BindView(R.id.details_movie_button_attention)
-    Button button_attention;
+    @BindView(R.id.details_movie_image_attention)
+    ImageView image_attention;
     @BindView(R.id.details_movie_image_big)
     ImageView image_big;
     @BindView(R.id.details_movie_text_name)
@@ -82,7 +82,12 @@ public class DetailsActivity extends BaseActivity {
     private RecyclerView dialog_text_recy;
     private DetailsMovieBean.ResultBean resultMovie;
     private final int ITEMCOUNT=2;
-
+    private int page;
+    private final int COUNT=5;
+    private ReviewAdapter reviewAdapter;
+    private XRecyclerView review_dialog_xrecy;
+    private int comment_flag;
+    private int index;
     @Override
     protected void initData() {
 
@@ -125,12 +130,34 @@ public class DetailsActivity extends BaseActivity {
             text_name.setText(resultBean.getName());
             //设置是否被关注
             if (resultBean.getFollowMovie() == 1) {
-                button_attention.setSelected(true);
+                Glide.with(this).load(R.mipmap.com_icon_collection_selected).into(image_attention);
             } else {
-                button_attention.setSelected(false);
+                Glide.with(this).load(R.mipmap.com_icon_collection_default).into(image_attention);
             }
-
-
+        }
+        if (object instanceof SelectReviewBean){
+            SelectReviewBean selectReviewBean= (SelectReviewBean) object;
+            if (page==1){
+                reviewAdapter.setList(selectReviewBean.getResult());
+            }else{
+                reviewAdapter.addList(selectReviewBean.getResult());
+            }
+            review_dialog_xrecy.refreshComplete();
+            review_dialog_xrecy.loadMoreComplete();
+            if (selectReviewBean.getResult().size()<5){
+                review_dialog_xrecy.loadMoreComplete();
+            }
+        }
+        if (object instanceof SelectCommentBean){
+            SelectCommentBean selectCommentBean= (SelectCommentBean) object;
+                reviewAdapter.setComment_list(selectCommentBean.getResult());
+        }
+        if (object instanceof NextPraiseBean){
+            NextPraiseBean nextPraiseBean= (NextPraiseBean) object;
+            if (nextPraiseBean.getStatus().equals("0000")){
+                ToastUtil.showToast(this,nextPraiseBean.getMessage());
+                reviewAdapter.getlike(index);
+            }
         }
     }
 
@@ -149,11 +176,16 @@ public class DetailsActivity extends BaseActivity {
         return R.layout.activity_details;
     }
 
-    @OnClick({R.id.details_movie_button_attention, R.id.details_lin_movie_text_details, R.id.details_lin_movie_text_notice, R.id.details_lin_movie_text_photo, R.id.details_lin_movie_text_review, R.id.details_movie_button_back, R.id.details_movie_button_buy})
+    @OnClick({R.id.details_movie_image_attention, R.id.details_lin_movie_text_details, R.id.details_lin_movie_text_notice, R.id.details_lin_movie_text_photo, R.id.details_lin_movie_text_review, R.id.details_movie_button_back, R.id.details_movie_button_buy})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             //是否关注
-            case R.id.details_movie_button_attention:
+            case R.id.details_movie_image_attention:
+                if (resultMovie.getFollowMovie()==1){//取消关注
+                    cancelUrl();
+                }else{//点击关注
+                    NextUrl();
+                }
                 break;
             //影片详情
             case R.id.details_lin_movie_text_details:
@@ -172,6 +204,10 @@ public class DetailsActivity extends BaseActivity {
                 break;
             //影片影评
             case R.id.details_lin_movie_text_review:
+                page=1;
+                selectReviceUrl(page);
+                View view_review = initDiaLog(R.layout.dialog_review);
+                getReviewView(view_review);
                 break;
             //返回按钮
             case R.id.details_movie_button_back:
@@ -182,6 +218,69 @@ public class DetailsActivity extends BaseActivity {
             default:
                 break;
         }
+    }
+
+    //取消关注
+    private void cancelUrl() {
+
+    }
+
+    //点击关注
+    private void NextUrl() {
+
+    }
+
+    private void selectReviceUrl(int page) {
+        getRequest(String.format(Apis.SELECT_REVIEW,1+"",page,COUNT),SelectReviewBean.class);
+    }
+
+    private void getReviewView(View view_review) {
+        review_dialog_xrecy = view_review.findViewById(R.id.revice_dialog_xrecy);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
+        review_dialog_xrecy.setLayoutManager(linearLayoutManager);
+        //支持刷新加载
+        review_dialog_xrecy.setPullRefreshEnabled(true);
+        review_dialog_xrecy.setLoadingMoreEnabled(true);
+        //设置适配器
+        reviewAdapter = new ReviewAdapter(this);
+        review_dialog_xrecy.setAdapter(reviewAdapter);
+        review_dialog_xrecy.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                page=1;
+                selectReviceUrl(page);
+            }
+
+            @Override
+            public void onLoadMore() {
+                page++;
+                selectReviceUrl(page);
+            }
+        });
+        reviewAdapter.getSend(new ReviewAdapter.setSend() {
+            @Override
+            public void send(int comment_page, int commentId) {
+                comment_flag=comment_page;
+                getRequest(String.format(Apis.SELECT_COMMENT,commentId,comment_flag,COUNT),SelectCommentBean.class);
+            }
+        });
+
+        //点赞
+        reviewAdapter.getPraise(new ReviewAdapter.setPraise() {
+            @Override
+            public void changePraise(int id, int great, int position) {
+                NextCommentUrl(id);
+               index=position;
+            }
+        });
+
+    }
+    //进行点赞
+    private void NextCommentUrl(int id) {
+        Map<String,String> params=new HashMap<>();
+        params.put("commentId",id+"");
+        postRequest(Apis.NEXT_COMMENT,params,NextPraiseBean.class);
     }
 
     private void getNoticeView(View view_notice) {
@@ -206,13 +305,14 @@ public class DetailsActivity extends BaseActivity {
     private void getPhotoView(View view_photo) {
         RecyclerView daialog_photo_recy=view_photo.findViewById(R.id.photo_dialog_recy);
         StaggeredGridLayoutManager staggeredGridLayoutManager=new StaggeredGridLayoutManager(2,OrientationHelper.VERTICAL);
+        staggeredGridLayoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         daialog_photo_recy.setLayoutManager(staggeredGridLayoutManager);
         PhotoDialogAdapter photoDialogAdapter=new PhotoDialogAdapter(this);
         daialog_photo_recy.setAdapter(photoDialogAdapter);
         photoDialogAdapter.setList(resultMovie.getPosterList());
         //自定义分割线
-//        DividerDecoration dividerDecoration=new DividerDecoration(this);
-//        daialog_photo_recy.addItemDecoration(dividerDecoration);
+        DividerDecoration dividerDecoration=new DividerDecoration(6);
+        daialog_photo_recy.addItemDecoration(dividerDecoration);
         photoDialogAdapter.setImageOnClick(new PhotoDialogAdapter.imageOnClick() {
             @Override
             public void onClick(String imageUrl) {
@@ -270,6 +370,8 @@ public class DetailsActivity extends BaseActivity {
         }
         detailsAdapter.setList(list_name);
     }
+
+
 
     public View initDiaLog(int getLayoutId) {
             View details_view = View.inflate(this, getLayoutId, null);

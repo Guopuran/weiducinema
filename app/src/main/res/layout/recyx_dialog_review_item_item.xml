@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    >
+    <ImageView
+        android:id="@+id/item_item_review_image_header"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+    <TextView
+        android:id="@+id/item_item_review_text_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textColor="#333333"
+        android:text="asdsa"
+        android:gravity="center"
+        android:layout_toRightOf="@id/item_item_review_image_header"
+        android:layout_alignTop="@id/item_item_review_image_header"
+        android:layout_alignBottom="@id/item_item_review_image_header"
+        android:layout_marginLeft="10dp"
+        />
+    <TextView
+        android:id="@+id/item_item_review_text_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="#333333"
+        android:layout_below="@id/item_item_review_image_header"
+        android:layout_marginTop="12dp"
+        android:maxLines="4"
+        android:text="sadsadsadsa"
+        android:ellipsize="end"
+        />
+    <TextView
+        android:id="@+id/item_item_review_text_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="#999999"
+        android:text="asds"
+        android:layout_below="@id/item_item_review_text_content"
+        android:layout_marginTop="10dp"
+        />
+    <TextView
+        android:id="@+id/item_item_review_text_praiseNum"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="#666666"
+        android:layout_alignBottom="@id/item_item_review_text_time"
+        android:layout_alignParentRight="true"
+        android:text="asd"
+        />
+    <ImageView
+           android:id="@+id/item_item_review_image_praise"
+           android:layout_width="16dp"
+           android:layout_height="16dp"
+           android:background="@mipmap/com_icon_praise_default"
+           android:layout_alignBottom="@id/item_item_review_text_time"
+        android:layout_toLeftOf="@id/item_item_review_text_praiseNum"
+        android:layout_marginRight="6dp"
+           />
+
+
+
+
+
+
+</RelativeLayout>
