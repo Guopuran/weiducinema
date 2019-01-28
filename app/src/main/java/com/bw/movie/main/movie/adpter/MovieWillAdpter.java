@@ -54,9 +54,9 @@ public class MovieWillAdpter extends RecyclerView.Adapter<MovieWillAdpter.ViewHo
         viewHodler.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,DetailsActivity.class);
-                intent.putExtra("id",mList.get(i).getId()+"");
-                mContext.startActivity(intent);
+              if (mWillClick!=null){
+                  mWillClick.onWillClickItem(mList.get(i).getId());
+              }
             }
         });
     }
@@ -77,5 +77,13 @@ public class MovieWillAdpter extends RecyclerView.Adapter<MovieWillAdpter.ViewHo
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
+    }
+    //跳转详情的接口回调
+    onWillClick mWillClick;
+    public void setOnWillItemClickLisenter(onWillClick onWillClick){
+        mWillClick  = onWillClick;
+    }
+    public interface  onWillClick{
+        void onWillClickItem(int id);
     }
 }

@@ -60,17 +60,48 @@ public class MoreMovieAdpter extends RecyclerView.Adapter<MoreMovieAdpter.ViewHo
                 .into(viewHolder.image);
         viewHolder.image.setScaleType(ImageView.ScaleType.FIT_XY);
         viewHolder.title.setText(mList.get(i).getName());
-        viewHolder.context.setText(mList.get(i).getSummary());
+        viewHolder.context.setText("简介:"+mList.get(i).getSummary());
           viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
-                  Intent intent = new Intent(mContext,DetailsActivity.class);
-                  intent.putExtra("id",mList.get(i).getId()+"");
-                  mContext.startActivity(intent);
+                 if (monClick!=null){
+                     monClick.onClickItem(mList.get(i).getId());
+                 }
+              }
+          });
+          if (mList.get(i).getFollowMovie()==1){
+              viewHolder.follow.setImageResource(R.mipmap.com_icon_collection_selected);
+          }
+          else {
+              viewHolder.follow.setImageResource(R.mipmap.com_icon_collection_default);
+          }
+          viewHolder.follow.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                    if (mfollowOnClikc!=null){
+                        mfollowOnClikc.follOnClickLisenter(mList.get(i).getId(),mList.get(i).getFollowMovie(),i);
+                    }
               }
           });
     }
-
+    //关注设置值
+    public void isFollow(int postion){
+       for (int i=0;i<mList.size();i++){
+           if (mList.get(i).getId()==postion){
+               mList.get(i).setFollowMovie(1);
+           }
+       }
+        notifyDataSetChanged();
+    }
+  //取消关注设置值
+    public void onfollow(int postion){
+        for (int i=0;i<mList.size();i++){
+            if (mList.get(i).getId()==postion){
+                mList.get(i).setFollowMovie(2);
+            }
+        }
+        notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
         return mList.size();
@@ -89,5 +120,22 @@ public class MoreMovieAdpter extends RecyclerView.Adapter<MoreMovieAdpter.ViewHo
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
+    }
+
+    //关注按钮的点击接口回调
+    followOnClikc mfollowOnClikc;
+    public void setFollowOnClick(followOnClikc followOnClikc){
+        mfollowOnClikc=followOnClikc;
+    }
+    public interface followOnClikc{
+        void follOnClickLisenter(int id,int follow,int i);
+    }
+    //跳转详情的接口回调
+    onClick monClick;
+    public void setOnItemClickLisenter(onClick onClick){
+        monClick=onClick;
+    }
+    public interface  onClick{
+        void onClickItem(int id);
     }
 }

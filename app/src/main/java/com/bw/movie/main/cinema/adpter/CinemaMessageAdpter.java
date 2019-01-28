@@ -42,14 +42,12 @@ public class CinemaMessageAdpter extends RecyclerView.Adapter<CinemaMessageAdpte
         }
         notifyDataSetChanged();
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = View.inflate(mContext,R.layout.cineme_item,null);
         return new ViewHolder(view);
     }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         Glide.with(mContext).load(mList.get(i).getLogo()).apply(RequestOptions.bitmapTransform(new GlidRoundUtils(5)))
@@ -58,12 +56,10 @@ public class CinemaMessageAdpter extends RecyclerView.Adapter<CinemaMessageAdpte
         viewHolder.cinema_distance.setText(mList.get(i).getDistance()+"");
         viewHolder.cinema_name.setText(mList.get(i).getName());
     }
-
     @Override
     public int getItemCount() {
         return mList.size();
     }
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.cinema_item_addreess)
         TextView  cinema_address;

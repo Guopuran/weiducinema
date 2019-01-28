@@ -150,7 +150,8 @@ public class LoginActivity extends BaseActivity {
         getLoginData();
     }
     //登录请求数据
-    public void getLoginData(){
+    public void getLoginData()
+    {
         //密码加密
         encrypt = EncryptUtil.encrypt(pwd);
         Map<String,String> prams = new HashMap<>();
@@ -181,12 +182,14 @@ public class LoginActivity extends BaseActivity {
     }
     //请求网络成功
     @Override
-    protected void success(Object object) {
+    protected void success(Object object)
+    {
         if (object instanceof LoginBean){
             LoginBean loginBean = (LoginBean) object;
             if (loginBean.getStatus().equals("0000")){
                 editor.putString("userId",loginBean.getResult().getUserId()+"");
                 editor.putString("sessionId",loginBean.getResult().getSessionId()+"");
+                editor.commit();
                 ToastUtil.showToast(this,loginBean.getMessage());
                 Intent intent = new Intent(this,MainActivity.class);
                 startActivity(intent);

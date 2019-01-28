@@ -17,7 +17,9 @@ import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
+import com.bw.movie.details.DetailsActivity;
 import com.bw.movie.main.movie.activity.MovieMroeActivity;
+import com.bw.movie.main.movie.adpter.MoreMovieAdpter;
 import com.bw.movie.main.movie.adpter.MovieBannerAdpter;
 import com.bw.movie.main.movie.adpter.MovieHotAdpter;
 import com.bw.movie.main.movie.adpter.MovieNowHotAdpter;
@@ -65,6 +67,7 @@ public class MovieFragment extends BaseFragment {
      MovieHotAdpter movieHotAdpter;
      MovieNowHotAdpter movieNowHotAdpter;
      MovieWillAdpter movieWillAdpter;
+     int REQUEST=101;
     @Override
     protected void initData()
     {
@@ -78,12 +81,65 @@ public class MovieFragment extends BaseFragment {
         initNowHotLayout();
         //即将上映的展示
         initWillLayout();
+        //热门的跳转
+        hotOnClick();
+        //正在热映的跳转
+        nowHotOnClick();
+        //即将热映的跳转
+        willOnClick();
+        //banner的跳转
+        bannerOnClick();
+    }
+    //热门的跳转
+    public void hotOnClick(){
+        movieHotAdpter.setOnHotItemClickLisenter(new MovieHotAdpter.onHotClick() {
+            @Override
+            public void onHotClickItem(int id) {
+                Intent intent = new Intent(getContext(),DetailsActivity.class);
+                intent.putExtra("flag",id);;
+                startActivityForResult(intent,REQUEST);
+            }
+        });
+    }
+    //正在热映的跳转
+    public void nowHotOnClick(){
+       movieNowHotAdpter.setOnNewHotItemClickLisenter(new MovieNowHotAdpter.onNewHotClick() {
+           @Override
+           public void onNewHotClickItem(int id) {
+               Intent intent = new Intent(getContext(),DetailsActivity.class);
+               intent.putExtra("flag",id);;
+               startActivityForResult(intent,REQUEST);
+           }
+       });
+    }
+    //banner的跳转
+    public void bannerOnClick(){
+        movieBannerAdpter.setOnItembannerOnClick(new MovieBannerAdpter.bannerOnClick() {
+            @Override
+            public void bannerItemOnClickLisenter(int id) {
+                Intent intent = new Intent(getContext(),DetailsActivity.class);
+                intent.putExtra("flag",id);;
+                startActivityForResult(intent,REQUEST);
+            }
+        });
+    }
+    //即将热映的跳转
+    public void  willOnClick(){
+        movieWillAdpter.setOnWillItemClickLisenter(new MovieWillAdpter.onWillClick() {
+            @Override
+            public void onWillClickItem(int id) {
+                Intent intent = new Intent(getContext(),DetailsActivity.class);
+                intent.putExtra("flag",id);;
+                startActivityForResult(intent,REQUEST);
+            }
+        });
     }
     @OnClick(R.id.movie_hot_movie_image)
     public void hotMoreOnClick()
     {
         Intent intent = new Intent(getContext(),MovieMroeActivity.class);
         intent.putExtra("flag",0);
+        startActivity(intent);
     }
     @OnClick(R.id.movie_nowhot_movie_image)
     public void nowHotMoreOnClick(){

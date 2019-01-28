@@ -55,9 +55,9 @@ public class MovieBannerAdpter extends RecyclerView.Adapter<MovieBannerAdpter.Vi
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,DetailsActivity.class);
-                intent.putExtra("id",mList.get(i).getId()+"");
-                mContext.startActivity(intent);
+               if (mbannerOnClick!=null){
+                   mbannerOnClick.bannerItemOnClickLisenter(mList.get(i).getId());
+               }
             }
         });
     }
@@ -78,5 +78,13 @@ public class MovieBannerAdpter extends RecyclerView.Adapter<MovieBannerAdpter.Vi
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
+    }
+     bannerOnClick mbannerOnClick;
+    public void setOnItembannerOnClick(bannerOnClick bannerOnClick){
+        mbannerOnClick=bannerOnClick;
+    }
+    //跳转到详情
+    public interface bannerOnClick{
+        void bannerItemOnClickLisenter(int id);
     }
 }

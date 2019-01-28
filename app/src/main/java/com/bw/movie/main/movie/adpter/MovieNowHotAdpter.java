@@ -54,9 +54,9 @@ public class MovieNowHotAdpter extends RecyclerView.Adapter<MovieNowHotAdpter.Vi
         viewHodler.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,DetailsActivity.class);
-                intent.putExtra("id",mList.get(i).getId()+"");
-                mContext.startActivity(intent);
+               if (mNewonHotClick!=null){
+                   mNewonHotClick.onNewHotClickItem(mList.get(i).getId());
+               }
             }
         });
     }
@@ -77,5 +77,13 @@ public class MovieNowHotAdpter extends RecyclerView.Adapter<MovieNowHotAdpter.Vi
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
+    }
+    //跳转详情的接口回调
+    onNewHotClick mNewonHotClick;
+    public void setOnNewHotItemClickLisenter(onNewHotClick onNewHotClick){
+        mNewonHotClick  = onNewHotClick;
+    }
+    public interface  onNewHotClick{
+        void onNewHotClickItem(int id);
     }
 }

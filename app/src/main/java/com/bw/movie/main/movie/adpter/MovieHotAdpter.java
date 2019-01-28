@@ -51,17 +51,16 @@ public class MovieHotAdpter extends RecyclerView.Adapter<MovieHotAdpter.ViewHodl
                 .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(10)))
                 .into(viewHodler.hot_image);
         viewHodler.hot_image.setScaleType(ImageView.ScaleType.FIT_XY);
-        viewHodler.hot_title.setText("简介:"+mList.get(i).getName());
+        viewHodler.hot_title.setText(mList.get(i).getName());
         viewHodler.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext,DetailsActivity.class);
-                intent.putExtra("id",mList.get(i).getId()+"");
-                mContext.startActivity(intent);
+                if (monHotClick!=null){
+                    monHotClick.onHotClickItem(mList.get(i).getId());
+                }
             }
         });
     }
-
     @Override
     public int getItemCount() {
         return mList.size();
@@ -69,7 +68,8 @@ public class MovieHotAdpter extends RecyclerView.Adapter<MovieHotAdpter.ViewHodl
 
 
 
-    public class ViewHodler extends RecyclerView.ViewHolder {
+    public class ViewHodler extends RecyclerView.ViewHolder
+    {
         @BindView(R.id.frag_hot_item_imaeg)
         ImageView hot_image;
         @BindView(R.id.frag_hot_item_title)
@@ -78,5 +78,13 @@ public class MovieHotAdpter extends RecyclerView.Adapter<MovieHotAdpter.ViewHodl
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
+    }
+    //跳转详情的接口回调
+    onHotClick monHotClick;
+    public void setOnHotItemClickLisenter(onHotClick onHotClick){
+        monHotClick  = onHotClick;
+    }
+    public interface  onHotClick{
+        void onHotClickItem(int id);
     }
 }

@@ -26,4 +26,8 @@ public class Apis {
     public static  String  CONEMARECOMMEND_URL="cinema/v1/findRecommendCinemas?page=%d&count=%d";
   //附近影院的接口
     public static String CONEMARENEAR_URL="cinema/v1/findNearbyCinemas?page=%d&count=%d";
+    //关注的接口
+    public static  String MOVIEISFOLLOW_URL="movie/v1/verify/followMovie?movieId=%d";
+    //关注的接口
+    public static  String MOVIENOFOLLOW_URL="movie/v1/verify/cancelFollowMovie?movieId=%d";
 }

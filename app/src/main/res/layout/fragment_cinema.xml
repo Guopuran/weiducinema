@@ -83,6 +83,7 @@
              android:textColor="@color/select_more_text_bg"
              android:layout_marginLeft="100dp"
              android:paddingLeft="10dp"
+             android:checked="true"
              />
          <RadioButton
              android:id="@+id/cinema_near_but"
