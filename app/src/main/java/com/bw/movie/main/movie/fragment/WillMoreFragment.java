@@ -34,7 +34,7 @@ public class WillMoreFragment extends BaseFragment {
             @Override
             public void onClickItem(int id) {
                 Intent intent = new Intent(getContext(),DetailsActivity.class);
-                intent.putExtra("flag",id);;
+                intent.putExtra("flag",id+"");;
                 startActivityForResult(intent,REQUEST);
             }
         });

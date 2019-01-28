@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#00ffffff"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#00ffffff">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -44,5 +44,56 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/xian2"
             ></com.jcodecraeer.xrecyclerview.XRecyclerView>
+        <ImageView
+            android:id="@+id/revice_dialog_image_write"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@mipmap/com_icon_publish_default"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="20dp"
+            />
     </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/layout_write"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:paddingLeft="14dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:backgroundTint="#888888"
+        android:fitsSystemWindows="true"
+        android:layout_marginBottom="20dp"
+
+        android:background="@drawable/dialog_write"
+        android:paddingTop="10dp"
+        >
+        <LinearLayout
+            android:layout_width="284dp"
+            android:layout_height="60dp"
+            android:fitsSystemWindows="true"
+            android:background="@drawable/dialog_write"
+            >
+            <EditText
+                android:id="@+id/revice_dialog_edit_write"
+                android:layout_width="284dp"
+                android:layout_height="match_parent"
+                android:hint="写评论"
+                android:gravity="top|left"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:background="@null"
+                />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/revice_dialog_text_send"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发送"
+            android:visibility="gone"
+            android:textSize="@dimen/sp_16"
+            android:textColor="#333333"
+            android:layout_marginLeft="@dimen/dp_10"
+            />
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

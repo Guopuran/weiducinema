@@ -1,6 +1,7 @@
 package com.bw.movie.details;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -28,6 +29,9 @@ import com.bw.movie.details.bean.DetailsMovieBean;
 import com.bw.movie.details.bean.NextPraiseBean;
 import com.bw.movie.details.bean.SelectCommentBean;
 import com.bw.movie.details.bean.SelectReviewBean;
+import com.bw.movie.main.movie.activity.MovieMroeActivity;
+import com.bw.movie.main.movie.bean.MovieIsFollowBean;
+import com.bw.movie.main.movie.bean.MovieNoFollowBean;
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.ToastUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -87,7 +91,9 @@ public class DetailsActivity extends BaseActivity {
     private ReviewAdapter reviewAdapter;
     private XRecyclerView review_dialog_xrecy;
     private int comment_flag;
-    private int index;
+    private String movieId;
+    private ImageView dialog_image_write;
+
     @Override
     protected void initData() {
 
@@ -102,7 +108,7 @@ public class DetailsActivity extends BaseActivity {
         int height = dm.heightPixels;       // 屏幕高度（像素）
         dialog_height = height - getResources().getDimensionPixelOffset(R.dimen.dp_110);
 
-
+        initIntent();
 
 
         //请求详情
@@ -112,9 +118,14 @@ public class DetailsActivity extends BaseActivity {
 
     }
 
+    private void initIntent() {
+        Intent intent=getIntent();
+        movieId = intent.getStringExtra("flag");
+    }
+
 
     private void initDetailUrl() {
-        getRequest(String.format(Apis.SELECT_MOVIE_DETAILS, 10), DetailsMovieBean.class);
+        getRequest(String.format(Apis.SELECT_MOVIE_DETAILS, movieId), DetailsMovieBean.class);
     }
 
     @Override
@@ -156,7 +167,22 @@ public class DetailsActivity extends BaseActivity {
             NextPraiseBean nextPraiseBean= (NextPraiseBean) object;
             if (nextPraiseBean.getStatus().equals("0000")){
                 ToastUtil.showToast(this,nextPraiseBean.getMessage());
-                reviewAdapter.getlike(index);
+            }
+        }
+        if (object instanceof MovieNoFollowBean){
+            MovieNoFollowBean movieNoFollowBean= (MovieNoFollowBean) object;
+            if (movieNoFollowBean.getStatus().equals("0000")){
+                ToastUtil.showToast(this,movieNoFollowBean.getMessage());
+               // Glide.with(this).load(R.mipmap.com_icon_collection_default).into(image_attention);
+                initDetailUrl();
+            }
+        }
+        if (object instanceof MovieIsFollowBean){
+            MovieIsFollowBean movieIsFollowBean= (MovieIsFollowBean) object;
+            if (movieIsFollowBean.getStatus().equals("0000")){
+                ToastUtil.showToast(this,movieIsFollowBean.getMessage());
+                //Glide.with(this).load(R.mipmap.com_icon_collection_selected).into(image_attention);
+                initDetailUrl();
             }
         }
     }
@@ -211,6 +237,11 @@ public class DetailsActivity extends BaseActivity {
                 break;
             //返回按钮
             case R.id.details_movie_button_back:
+                Intent intent=new Intent(this,MovieMroeActivity.class);
+                //设置返回数据
+                setResult(RESULT_OK, intent);
+                //关闭Activity
+                finish();
                 break;
             //购票按钮
             case R.id.details_movie_button_buy:
@@ -222,20 +253,23 @@ public class DetailsActivity extends BaseActivity {
 
     //取消关注
     private void cancelUrl() {
-
+        getRequest(String.format(Apis.MOVIENOFOLLOW_URL,resultMovie.getId()),MovieNoFollowBean.class);
     }
 
     //点击关注
     private void NextUrl() {
-
+        getRequest(String.format(Apis.MOVIEISFOLLOW_URL,resultMovie.getId()),MovieIsFollowBean.class);
     }
 
     private void selectReviceUrl(int page) {
-        getRequest(String.format(Apis.SELECT_REVIEW,1+"",page,COUNT),SelectReviewBean.class);
+        getRequest(String.format(Apis.SELECT_REVIEW,movieId,page,COUNT),SelectReviewBean.class);
     }
 
+    //影评
     private void getReviewView(View view_review) {
         review_dialog_xrecy = view_review.findViewById(R.id.revice_dialog_xrecy);
+        dialog_image_write = view_review.findViewById(R.id.revice_dialog_image_write);
+        initWrite();
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
         review_dialog_xrecy.setLayoutManager(linearLayoutManager);
@@ -271,11 +305,21 @@ public class DetailsActivity extends BaseActivity {
             @Override
             public void changePraise(int id, int great, int position) {
                 NextCommentUrl(id);
-               index=position;
+                if (great==0){
+                    reviewAdapter.getlike(position);
+                }
+
+
             }
         });
 
     }
+
+    //写评论
+    private void initWrite() {
+
+    }
+
     //进行点赞
     private void NextCommentUrl(int id) {
         Map<String,String> params=new HashMap<>();
