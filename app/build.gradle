@@ -26,7 +26,14 @@ android {
             }
         }
     }
-
+    signingConfigs {
+        debug {
+            storeFile file('movie.keystore')
+            keyAlias "bw_movie"
+            storePassword "123456"
+            keyPassword "123456"
+        }
+    }
 }
 
 dependencies {
@@ -64,6 +71,6 @@ dependencies {
     implementation 'cn.jzvd:jiaozivideoplayer:6.2.9'*/
     implementation 'com.github.xiaoyanger0825:NiceVieoPlayer:v2.2'
     implementation 'com.jcodecraeer:xrecyclerview:1.5.9'
-     //微信登录
+    //微信登录
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 }

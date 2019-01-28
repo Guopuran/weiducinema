@@ -49,15 +49,52 @@ public class CinemaMessageAdpter extends RecyclerView.Adapter<CinemaMessageAdpte
         return new ViewHolder(view);
     }
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         Glide.with(mContext).load(mList.get(i).getLogo()).apply(RequestOptions.bitmapTransform(new GlidRoundUtils(5)))
                 .into(viewHolder.cinema_image);
         viewHolder.cinema_address.setText(mList.get(i).getAddress());
         viewHolder.cinema_distance.setText(mList.get(i).getDistance()+"");
         viewHolder.cinema_name.setText(mList.get(i).getName());
+        if (mList.get(i).getFollowCinema()==1)
+        {
+            viewHolder.cinema_follow.setImageResource(R.mipmap.com_icon_collection_default);
+        }
+        else {
+            viewHolder.cinema_follow.setImageResource(R.mipmap.com_icon_collection_selected);
+        }
+        viewHolder.cinema_follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (monFollowOnClick!=null){
+                    monFollowOnClick.onFollowOnClick(mList.get(i).getId(),mList.get(i).getFollowCinema());
+                }
+            }
+        });
+    }
+    //关注设置值
+    public void isFollow(int postion){
+        for (int i=0;i<mList.size();i++){
+            if (mList.get(i).getId()==postion){
+                mList.get(i).setFollowCinema(1);
+            }
+        }
+        notifyDataSetChanged();
+    }
+    //取消关注设置值
+    public void onfollow(int postion)
+    {
+        for (int i=0;i<mList.size();i++)
+        {
+            if (mList.get(i).getId()==postion)
+            {
+                mList.get(i).setFollowCinema(2);
+            }
+        }
+        notifyDataSetChanged();
     }
     @Override
-    public int getItemCount() {
+    public int getItemCount()
+    {
         return mList.size();
     }
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -75,5 +112,15 @@ public class CinemaMessageAdpter extends RecyclerView.Adapter<CinemaMessageAdpte
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
+    }
+    //关注的接口回调
+    onFollowOnClick monFollowOnClick;
+    public void setOnFollowOnClick(onFollowOnClick onFollowOnClick)
+    {
+        monFollowOnClick = onFollowOnClick;
+    }
+    public interface onFollowOnClick
+    {
+        void onFollowOnClick(int id,int follow);
     }
 }

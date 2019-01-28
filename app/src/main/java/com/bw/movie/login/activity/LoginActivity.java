@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
@@ -28,6 +29,8 @@ import com.bw.movie.util.Apis;
 import com.bw.movie.util.EncryptUtil;
 import com.bw.movie.util.RegularUtil;
 import com.bw.movie.util.ToastUtil;
+import com.bw.movie.util.WeiXinUtil;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,6 +54,8 @@ public class LoginActivity extends BaseActivity {
      TextView text_reg;
      @BindView(R.id.login_image_eye)
      ImageView image_eye;
+     @BindView(R.id.login_weixin)
+     ImageView image_weixin;
      private String phone;
      private String pwd;
      private String encrypt;
@@ -109,7 +114,20 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
-
+    //微信的登陆的点击事件
+    @OnClick(R.id.login_weixin)
+    public void onWeiXinOnClick(){
+        if (!WeiXinUtil.success(this)) {
+           ToastUtil.showToast(this, "请先安装应用");
+        } else
+            {
+            //  验证
+            SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";
+            req.state = "wechat_sdk_demo_test";
+            WeiXinUtil.reg(LoginActivity.this).sendReq(req);
+        }
+    }
     //登录按钮的点击事件
     @OnClick(R.id.login_but)
     public void loginOnClick(){

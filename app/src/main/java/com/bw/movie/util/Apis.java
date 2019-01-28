@@ -36,7 +36,10 @@ public class Apis {
     public static String SELECT_COMMENT="movie/v1/findCommentReply?commentId=%d&page=%d&count=%d";
     //电影评论点赞的接口
     public static String NEXT_COMMENT="movie/v1/verify/movieCommentGreat?";
-
-
-
+    //微信登录的接口
+    public static String WEIXINLOGON_URL="user/v1/weChatBindingLogin";
+    //影院的关注接口
+    public static  String CINEMAISFOLLOW_URL="cinema/v1/verify/followCinema?cinemaId=%d";
+    //影院取消关注的接口
+    public static String CINEMANOFOLLOW_URL="cinema/v1/verify/cancelFollowCinema=%d";
 }
