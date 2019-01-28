@@ -26,4 +26,13 @@ public class Apis {
     public static  String  CONEMARECOMMEND_URL="cinema/v1/findRecommendCinemas?page=%d&count=%d";
   //附近影院的接口
     public static String CONEMARENEAR_URL="cinema/v1/findNearbyCinemas?page=%d&count=%d";
+    //查询影片评论的接口
+    public static String SELECT_REVIEW="movie/v1/findAllMovieComment?movieId=%s&page=%d&count=%d";
+    //查询影片评论回复的接口
+    public static String SELECT_COMMENT="movie/v1/findCommentReply?commentId=%d&page=%d&count=%d";
+    //电影评论点赞的接口
+    public static String NEXT_COMMENT="movie/v1/verify/movieCommentGreat?";
+
+
+
 }
