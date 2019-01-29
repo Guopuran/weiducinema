@@ -41,5 +41,9 @@ public class Apis {
     //影院的关注接口
     public static  String CINEMAISFOLLOW_URL="cinema/v1/verify/followCinema?cinemaId=%d";
     //影院取消关注的接口
-    public static String CINEMANOFOLLOW_URL="cinema/v1/verify/cancelFollowCinema=%d";
+    public static String CINEMANOFOLLOW_URL="cinema/v1/verify/cancelFollowCinema?cinemaId=%d";
+    //电影详情的banner图
+    public static String CINEMADETAILSBANNER_URL="movie/v1/findMovieListByCinemaId?cinemaId=%d";
+    //电影详情里的排期
+    public static String CINEMADDETAILSTIMELIST_URL="movie/v1/findMovieScheduleList?cinemasId=%d&movieId=%d";
 }

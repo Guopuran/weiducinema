@@ -8,12 +8,17 @@ import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.details.DetailsActivity;
 import com.bw.movie.main.movie.adpter.MoreMovieAdpter;
+import com.bw.movie.main.movie.bean.MessageBean;
 import com.bw.movie.main.movie.bean.MoreMovieBean;
 import com.bw.movie.main.movie.bean.MovieIsFollowBean;
 import com.bw.movie.main.movie.bean.MovieNoFollowBean;
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.ToastUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -47,20 +52,28 @@ public class NowHotMoreFragment extends BaseFragment {
                 if (follow==2){
                     getIsFollowData(id);
                     moreMovieAdpter.isFollow(id);
-//                    moreMovieAdpter.notifyDataSetChanged();
+
                 }
                 else {
                     getNoFollowData(id);
                     moreMovieAdpter.onfollow(id);
-//                    moreMovieAdpter.notifyDataSetChanged();
+
                 }
             }
         });
 
     }
-    //加载布局
+    //得到传值进行刷新
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refresh(MessageBean messageBean){
+        if (messageBean.getFlag().equals("refresh")){
+            page =1;
+            getNowHotMoreData(page);
+        }
+    }
+    //加载数据
     public void initNowHotMoreLayout(){
-        page=1;
+        this.page =1;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         moreMovieAdpter = new MoreMovieAdpter(getContext());
         nowhotmore_xrecrcle.setLayoutManager(linearLayoutManager);
@@ -68,18 +81,18 @@ public class NowHotMoreFragment extends BaseFragment {
         nowhotmore_xrecrcle.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                page=1;
-                getNowHotMoreData();
+                NowHotMoreFragment.this.page =1;
+                getNowHotMoreData(page);
                 nowhotmore_xrecrcle.refreshComplete();
             }
 
             @Override
             public void onLoadMore() {
-                getNowHotMoreData();
+                getNowHotMoreData(page);
                 nowhotmore_xrecrcle.loadMoreComplete();
             }
         });
-        getNowHotMoreData();
+        getNowHotMoreData(page);
     }
     //关注请求数据
     public void getIsFollowData(int id){
@@ -90,8 +103,8 @@ public class NowHotMoreFragment extends BaseFragment {
         getRequest(String.format(Apis.MOVIENOFOLLOW_URL,id),MovieNoFollowBean.class);
     }
     //请求数据
-    public void getNowHotMoreData(){
-        getRequest(String.format(Apis.MOVIEBAANNER_URL,page,10),MoreMovieBean.class);
+    public void getNowHotMoreData(int page){
+        getRequest(String.format(Apis.MOVIEBAANNER_URL, this.page,10),MoreMovieBean.class);
     }
     @Override
     protected void success(Object object) {
@@ -109,12 +122,14 @@ public class NowHotMoreFragment extends BaseFragment {
             MovieIsFollowBean movieIsFollowBean = (MovieIsFollowBean) object;
             if (movieIsFollowBean.getStatus().equals("0000")){
                 ToastUtil.showToast(getContext(),movieIsFollowBean.getMessage());
+                EventBus.getDefault().post(new MessageBean(page,"send"));
             }
         }
         if (object instanceof MovieNoFollowBean){
             MovieNoFollowBean movieNoFollowBean = (MovieNoFollowBean) object;
             if (movieNoFollowBean.getStatus().equals("0000")){
                 ToastUtil.showToast(getContext(),movieNoFollowBean.getMessage());
+                EventBus.getDefault().post(new MessageBean(page,"send"));
             }
         }
     }
@@ -125,12 +140,20 @@ public class NowHotMoreFragment extends BaseFragment {
     }
 
     @Override
-    protected void initView(View view) {
+    protected void initView(View view)
+    {
         ButterKnife.bind(this,view);
+        EventBus.getDefault().register(this);
     }
 
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_nowhot_more;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+       EventBus.getDefault().unregister(this);
     }
 }

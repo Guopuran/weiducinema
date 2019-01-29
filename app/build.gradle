@@ -73,4 +73,6 @@ dependencies {
     implementation 'com.jcodecraeer:xrecyclerview:1.5.9'
     //微信登录
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    //定位
+    implementation 'com.zaaach:citypicker:2.0.3'
 }

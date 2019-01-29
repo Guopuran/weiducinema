@@ -8,6 +8,7 @@ import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.details.DetailsActivity;
 import com.bw.movie.main.movie.adpter.MoreMovieAdpter;
+import com.bw.movie.main.movie.bean.MessageBean;
 import com.bw.movie.main.movie.bean.MoreMovieBean;
 import com.bw.movie.main.movie.bean.MovieIsFollowBean;
 import com.bw.movie.main.movie.bean.MovieNoFollowBean;
@@ -15,9 +16,12 @@ import com.bw.movie.util.Apis;
 import com.bw.movie.util.ToastUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
 public class HotMoreFragment extends BaseFragment {
      @BindView(R.id.more_hot_reycle)
      XRecyclerView hotmore_xrecrcle;
@@ -40,7 +44,8 @@ public class HotMoreFragment extends BaseFragment {
         });
     }
     //点赞和取消点赞
-    public void onFollowClick(){
+    public void onFollowClick()
+    {
         moreMovieAdpter.setFollowOnClick(new MoreMovieAdpter.followOnClikc() {
             @Override
             public void follOnClickLisenter(int id, int follow, int i) {
@@ -48,12 +53,12 @@ public class HotMoreFragment extends BaseFragment {
                         getIsFollowData(id);
                         moreMovieAdpter.isFollow(id);
                 }
-                else {
+                else
+                 {
                     getNoFollowData(id);
                     moreMovieAdpter.onfollow(id);
                 }
             }
-
         });
 
     }
@@ -74,7 +79,8 @@ public class HotMoreFragment extends BaseFragment {
             }
 
             @Override
-            public void onLoadMore() {
+            public void onLoadMore()
+            {
                 getHotMoreData(page);
                 hotmore_xrecrcle.loadMoreComplete();
                 moreMovieAdpter.notifyDataSetChanged();
@@ -95,6 +101,14 @@ public class HotMoreFragment extends BaseFragment {
     public void getHotMoreData(int page){
         getRequest(String.format(Apis.MOVIEHOT_URL, page,10),MoreMovieBean.class);
     }
+    //得到传值进行刷新
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refresh(MessageBean messageBean){
+        if (messageBean.getFlag().equals("send")){
+            page =1;
+            getHotMoreData(page);
+        }
+    }
     @Override
     protected void success(Object object) {
            if (object instanceof MoreMovieBean){
@@ -107,16 +121,19 @@ public class HotMoreFragment extends BaseFragment {
                }
                page++;
            }
-           if (object instanceof MovieIsFollowBean){
+           if (object instanceof MovieIsFollowBean)
+           {
                MovieIsFollowBean movieIsFollowBean = (MovieIsFollowBean) object;
                if (movieIsFollowBean.getStatus().equals("0000")){
                    ToastUtil.showToast(getContext(),movieIsFollowBean.getMessage());
+                   EventBus.getDefault().post(new MessageBean(page,"refresh"));
                }
            }
         if (object instanceof MovieNoFollowBean){
             MovieNoFollowBean movieNoFollowBean = (MovieNoFollowBean) object;
             if (movieNoFollowBean.getStatus().equals("0000")){
                 ToastUtil.showToast(getContext(),movieNoFollowBean.getMessage());
+                EventBus.getDefault().post(new MessageBean(page,"refresh"));
             }
         }
     }
@@ -129,6 +146,7 @@ public class HotMoreFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this,view);
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -144,5 +162,11 @@ public class HotMoreFragment extends BaseFragment {
             getHotMoreData(page);
             moreMovieAdpter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 }

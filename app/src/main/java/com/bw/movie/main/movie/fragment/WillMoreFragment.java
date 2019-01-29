@@ -8,12 +8,17 @@ import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.details.DetailsActivity;
 import com.bw.movie.main.movie.adpter.MoreMovieAdpter;
+import com.bw.movie.main.movie.bean.MessageBean;
 import com.bw.movie.main.movie.bean.MoreMovieBean;
 import com.bw.movie.main.movie.bean.MovieIsFollowBean;
 import com.bw.movie.main.movie.bean.MovieNoFollowBean;
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.ToastUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +43,14 @@ public class WillMoreFragment extends BaseFragment {
                 startActivityForResult(intent,REQUEST);
             }
         });
+    }
+    //得到传值进行刷新
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refresh(MessageBean messageBean){
+        if (messageBean.getFlag().equals("refresh")){
+            page = 1;
+            getHotMoreData(page);
+        }
     }
     //点赞和取消点赞
     public void onFollowClick(){
@@ -66,16 +79,16 @@ public class WillMoreFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 page=1;
-                getHotMoreData();
+                getHotMoreData(page);
                 willmore_xrecrcle.refreshComplete();
             }
             @Override
             public void onLoadMore() {
-                getHotMoreData();
+                getHotMoreData(page);
                 willmore_xrecrcle.loadMoreComplete();
             }
         });
-        getHotMoreData();
+        getHotMoreData(page);
     }
     //关注请求数据
     public void getIsFollowData(int id){
@@ -86,8 +99,8 @@ public class WillMoreFragment extends BaseFragment {
         getRequest(String.format(Apis.MOVIENOFOLLOW_URL,id),MovieNoFollowBean.class);
     }
     //请求数据
-    public void getHotMoreData(){
-        getRequest(String.format(Apis.MOVIEWWILL_URL,page,10),MoreMovieBean.class);
+    public void getHotMoreData(int page){
+        getRequest(String.format(Apis.MOVIEWWILL_URL, this.page,10),MoreMovieBean.class);
     }
     @Override
     protected void success(Object object) {
@@ -105,12 +118,14 @@ public class WillMoreFragment extends BaseFragment {
             MovieIsFollowBean movieIsFollowBean = (MovieIsFollowBean) object;
             if (movieIsFollowBean.getStatus().equals("0000")){
                 ToastUtil.showToast(getContext(),movieIsFollowBean.getMessage());
+                EventBus.getDefault().post(new MessageBean(page,"refresh"));
             }
         }
         if (object instanceof MovieNoFollowBean){
             MovieNoFollowBean movieNoFollowBean = (MovieNoFollowBean) object;
             if (movieNoFollowBean.getStatus().equals("0000")){
                 ToastUtil.showToast(getContext(),movieNoFollowBean.getMessage());
+                EventBus.getDefault().post(new MessageBean(page,"refresh"));
             }
         }
     }
@@ -123,11 +138,17 @@ public class WillMoreFragment extends BaseFragment {
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this,view);
+        EventBus.getDefault().register(this);
     }
 
 
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_will_more;
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
     }
 }

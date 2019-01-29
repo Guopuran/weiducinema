@@ -6,9 +6,14 @@ import android.view.View;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.main.cinema.adpter.CinemaMessageAdpter;
+import com.bw.movie.main.cinema.bean.CinemaIsFollowBean;
 import com.bw.movie.main.cinema.bean.CinemaMessageBean;
+import com.bw.movie.main.cinema.bean.CinemaNoFollowBean;
 import com.bw.movie.util.Apis;
+import com.bw.movie.util.ToastUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,6 +27,8 @@ public class RecommendFragment extends BaseFragment {
     protected void initData() {
      //加载布局
         initCinemaMessageLayout();
+        //关注的点击事件
+        onFollowOnClick();
     }
     //加载布局
     public void initCinemaMessageLayout(){
@@ -46,6 +53,30 @@ public class RecommendFragment extends BaseFragment {
         });
         getCinemaMessageData();
     }
+    //关注的点击事件
+    public void onFollowOnClick(){
+        cinemaMessageAdpter.setOnFollowOnClick(new CinemaMessageAdpter.onFollowOnClick() {
+            @Override
+            public void onFollowOnClick(int id, int follow) {
+                if (follow==2){
+                    getIsFollowData(id);
+                    cinemaMessageAdpter.isFollow(id);
+                }
+                else {
+                    getNoFollowData(id);
+                    cinemaMessageAdpter.onfollow(id);
+                }
+            }
+        });
+    }
+    //关注请求数据
+    public void getIsFollowData(int id){
+        getRequest(String.format(Apis.CINEMAISFOLLOW_URL,id),CinemaIsFollowBean.class);
+    }
+    //取消请求数据
+    public void getNoFollowData(int id){
+        getRequest(String.format(Apis.CINEMANOFOLLOW_URL,id),CinemaNoFollowBean.class);
+    }
     //请求数据
     public void  getCinemaMessageData(){
         getRequest(String.format(Apis.CONEMARECOMMEND_URL,page,10),CinemaMessageBean.class);
@@ -54,14 +85,29 @@ public class RecommendFragment extends BaseFragment {
     protected void success(Object object) {
          if (object instanceof CinemaMessageBean){
              CinemaMessageBean cinemaMessageBean = (CinemaMessageBean) object;
+             List<CinemaMessageBean.ResultBean> result = cinemaMessageBean.getResult();
+                 result.remove(result.size()-1);
              if (page==1){
-                 cinemaMessageAdpter.setmList(cinemaMessageBean.getResult());
+                 cinemaMessageAdpter.setmList(result);
              }
              else {
-                 cinemaMessageAdpter.addmList(cinemaMessageBean.getResult());
+                 cinemaMessageAdpter.addmList(result);
              }
              page++;
          }
+        if (object instanceof CinemaIsFollowBean)
+        {
+            CinemaIsFollowBean cinemaIsFollowBean  = (CinemaIsFollowBean) object;
+            if (cinemaIsFollowBean.getStatus().equals("0000")){
+                ToastUtil.showToast(getContext(),cinemaIsFollowBean.getMessage());
+            }
+        }
+        if (object instanceof CinemaNoFollowBean){
+            CinemaNoFollowBean cinemaNoFollowBean  = (CinemaNoFollowBean) object;
+            if (cinemaNoFollowBean.getStatus().equals("0000")){
+                ToastUtil.showToast(getContext(),cinemaNoFollowBean.getMessage());
+            }
+        }
     }
 
     @Override
