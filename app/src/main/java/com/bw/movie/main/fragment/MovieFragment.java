@@ -2,6 +2,7 @@ package com.bw.movie.main.fragment;
 
 
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,8 +19,8 @@ import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
-import com.bw.movie.details.DetailsActivity;
 import com.bw.movie.main.activity.LocationActivity;
+import com.bw.movie.details.activity.DetailsActivity;
 import com.bw.movie.main.movie.activity.MovieMroeActivity;
 import com.bw.movie.main.movie.adpter.MoreMovieAdpter;
 import com.bw.movie.main.movie.adpter.MovieBannerAdpter;

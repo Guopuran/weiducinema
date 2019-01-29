@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
-import com.bw.movie.details.DetailsActivity;
+import com.bw.movie.details.activity.DetailsActivity;
 import com.bw.movie.main.movie.adpter.MoreMovieAdpter;
 import com.bw.movie.main.movie.bean.MessageBean;
 import com.bw.movie.main.movie.bean.MoreMovieBean;
@@ -51,13 +51,13 @@ public class NowHotMoreFragment extends BaseFragment {
             public void follOnClickLisenter(int id, int follow, int i) {
                 if (follow==2){
                     getIsFollowData(id);
-                    moreMovieAdpter.isFollow(id);
-
+                    moreMovieAdpter.isFollow(id,i);
+//                    moreMovieAdpter.notifyDataSetChanged();
                 }
                 else {
                     getNoFollowData(id);
-                    moreMovieAdpter.onfollow(id);
-
+                    moreMovieAdpter.onfollow(id,i);
+//                    moreMovieAdpter.notifyDataSetChanged();
                 }
             }
         });
@@ -78,11 +78,13 @@ public class NowHotMoreFragment extends BaseFragment {
         moreMovieAdpter = new MoreMovieAdpter(getContext());
         nowhotmore_xrecrcle.setLayoutManager(linearLayoutManager);
         nowhotmore_xrecrcle.setAdapter(moreMovieAdpter);
+        moreMovieAdpter.setHeadCount(nowhotmore_xrecrcle.getHeaders_includingRefreshCount());
         nowhotmore_xrecrcle.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                NowHotMoreFragment.this.page =1;
+                page=1;
                 getNowHotMoreData(page);
+                NowHotMoreFragment.this.page =1;
                 nowhotmore_xrecrcle.refreshComplete();
             }
 
@@ -115,6 +117,9 @@ public class NowHotMoreFragment extends BaseFragment {
             }
             else {
                 moreMovieAdpter.addmList(moreMovieBean.getResult());
+            }
+            if (moreMovieBean.getResult().size()<10){
+                nowhotmore_xrecrcle.setLoadingMoreEnabled(false);
             }
             page++;
         }
@@ -155,5 +160,14 @@ public class NowHotMoreFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
        EventBus.getDefault().unregister(this);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==REQUEST &&resultCode==getActivity().RESULT_OK){
+            page=1;
+            getNowHotMoreData(page);
+            moreMovieAdpter.notifyDataSetChanged();
+        }
     }
 }

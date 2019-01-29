@@ -1,4 +1,4 @@
-package com.bw.movie.details;
+package com.bw.movie.details.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -26,6 +28,7 @@ import com.bw.movie.details.adapter.NoticeDialogAdapter;
 import com.bw.movie.details.adapter.PhotoDialogAdapter;
 import com.bw.movie.details.adapter.ReviewAdapter;
 import com.bw.movie.details.bean.DetailsMovieBean;
+import com.bw.movie.details.bean.InsertCommentBean;
 import com.bw.movie.details.bean.NextPraiseBean;
 import com.bw.movie.details.bean.SelectCommentBean;
 import com.bw.movie.details.bean.SelectReviewBean;
@@ -93,6 +96,9 @@ public class DetailsActivity extends BaseActivity {
     private int comment_flag;
     private String movieId;
     private ImageView dialog_image_write;
+    private LinearLayout revice_linear_write;
+    private EditText review_edit_write;
+    private TextView revice_text_send;
 
     @Override
     protected void initData() {
@@ -161,7 +167,7 @@ public class DetailsActivity extends BaseActivity {
         }
         if (object instanceof SelectCommentBean){
             SelectCommentBean selectCommentBean= (SelectCommentBean) object;
-                reviewAdapter.setComment_list(selectCommentBean.getResult());
+            reviewAdapter.setComment_list(selectCommentBean.getResult());
         }
         if (object instanceof NextPraiseBean){
             NextPraiseBean nextPraiseBean= (NextPraiseBean) object;
@@ -173,7 +179,7 @@ public class DetailsActivity extends BaseActivity {
             MovieNoFollowBean movieNoFollowBean= (MovieNoFollowBean) object;
             if (movieNoFollowBean.getStatus().equals("0000")){
                 ToastUtil.showToast(this,movieNoFollowBean.getMessage());
-               // Glide.with(this).load(R.mipmap.com_icon_collection_default).into(image_attention);
+                // Glide.with(this).load(R.mipmap.com_icon_collection_default).into(image_attention);
                 initDetailUrl();
             }
         }
@@ -183,6 +189,14 @@ public class DetailsActivity extends BaseActivity {
                 ToastUtil.showToast(this,movieIsFollowBean.getMessage());
                 //Glide.with(this).load(R.mipmap.com_icon_collection_selected).into(image_attention);
                 initDetailUrl();
+            }
+        }
+        if (object instanceof InsertCommentBean){
+            InsertCommentBean insertCommentBean= (InsertCommentBean) object;
+            if (insertCommentBean.getStatus().equals("0000")){
+                review_edit_write.setText("");
+                revice_linear_write.setVisibility(View.GONE);
+                ToastUtil.showToast(this,insertCommentBean.getMessage());
             }
         }
     }
@@ -245,6 +259,10 @@ public class DetailsActivity extends BaseActivity {
                 break;
             //购票按钮
             case R.id.details_movie_button_buy:
+                Intent buy_intent=new Intent(this,TheatreActivity.class);
+                buy_intent.putExtra("id",movieId);
+                buy_intent.putExtra("name",resultMovie.getName());
+                startActivity(buy_intent);
                 break;
             default:
                 break;
@@ -269,6 +287,9 @@ public class DetailsActivity extends BaseActivity {
     private void getReviewView(View view_review) {
         review_dialog_xrecy = view_review.findViewById(R.id.revice_dialog_xrecy);
         dialog_image_write = view_review.findViewById(R.id.revice_dialog_image_write);
+        revice_linear_write = view_review.findViewById(R.id.layout_write);
+        review_edit_write = view_review.findViewById(R.id.revice_dialog_edit_write);
+        revice_text_send = view_review.findViewById(R.id.revice_dialog_text_send);
         initWrite();
         LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
@@ -317,7 +338,40 @@ public class DetailsActivity extends BaseActivity {
 
     //写评论
     private void initWrite() {
+        dialog_image_write.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                revice_linear_write.setVisibility(View.VISIBLE);
 
+
+            }
+        });
+        //发送评论
+        revice_text_send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String edit_write = review_edit_write.getText().toString();
+
+                /**
+                 * 字符串转换unicode
+                 */
+                StringBuffer unicode = new StringBuffer();
+                for (int i = 0; i < edit_write.length(); i++) {
+                    // 取出每一个字符
+                    char c = edit_write.charAt(i);
+                    // 转换为unicode
+                    unicode.append("\\u" + Integer.toHexString(c));
+                }
+                String s = unicode.toString();
+
+
+                Map<String,String> params=new HashMap<>();
+                params.put("movieId",movieId);
+                params.put("commentContent",s);
+                postRequest(Apis.INSERT_COMMENT,params,InsertCommentBean.class);
+
+            }
+        });
     }
 
     //进行点赞
@@ -396,6 +450,7 @@ public class DetailsActivity extends BaseActivity {
         dialog_text_content = view_details.findViewById(R.id.detaols_dialog_text_content);
 
         Glide.with(this).load(resultMovie.getImageUrl()).into(dialog_image);
+        dialog_image.setScaleType(ImageView.ScaleType.FIT_XY);
         dialog_text_type.setText(resultMovie.getMovieTypes());
         dialog_text_director.setText(resultMovie.getDirector());
         dialog_text_timelong.setText(resultMovie.getDuration());
@@ -418,18 +473,18 @@ public class DetailsActivity extends BaseActivity {
 
 
     public View initDiaLog(int getLayoutId) {
-            View details_view = View.inflate(this, getLayoutId, null);
-            final CustomDialog dialog = new CustomDialog(this, details_view, false, true, dialog_height);
-            dialog.show();
-            ImageView image_back = details_view.findViewById(R.id.dialog_back);
-            ;
-            image_back.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-            return details_view;
+        View details_view = View.inflate(this, getLayoutId, null);
+        final CustomDialog dialog = new CustomDialog(this, details_view, false, true, dialog_height);
+        dialog.show();
+        ImageView image_back = details_view.findViewById(R.id.dialog_back);
+        ;
+        image_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        return details_view;
     }
     @Override
     protected void onStop() {

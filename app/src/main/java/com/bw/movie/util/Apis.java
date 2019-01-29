@@ -46,4 +46,11 @@ public class Apis {
     public static String CINEMADETAILSBANNER_URL="movie/v1/findMovieListByCinemaId?cinemaId=%d";
     //电影详情里的排期
     public static String CINEMADDETAILSTIMELIST_URL="movie/v1/findMovieScheduleList?cinemasId=%d&movieId=%d";
+
+    //添加用户对影片的评论
+    public static String INSERT_COMMENT="movie/v1/verify/movieComment";
+    //根据电影ID查询当前排片该电影的影院列表的接口
+    public static String SELECT_ID_THEATRE="movie/v1/findCinemasListByMovieId?movieId=%s";
+
+
 }

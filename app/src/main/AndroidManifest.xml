@@ -34,7 +34,7 @@
         <activity android:name=".login.activity.LoginActivity" />
         <activity android:name=".login.activity.RegisterActivity" />
         <activity
-            android:name=".details.DetailsActivity"
+            android:name=".details.activity.DetailsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
 
@@ -54,6 +54,7 @@
         <activity android:name=".main.activity.LocationActivity"
 
             ></activity>
+
     </application>
 
 </manifest>

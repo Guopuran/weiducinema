@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
-import com.bw.movie.details.DetailsActivity;
+import com.bw.movie.details.activity.DetailsActivity;
 import com.bw.movie.main.movie.adpter.MoreMovieAdpter;
 import com.bw.movie.main.movie.bean.MessageBean;
 import com.bw.movie.main.movie.bean.MoreMovieBean;
@@ -59,11 +59,11 @@ public class WillMoreFragment extends BaseFragment {
             public void follOnClickLisenter(int id, int follow, int i) {
                 if (follow==2){
                     getIsFollowData(id);
-                    moreMovieAdpter.isFollow(id);
+                    moreMovieAdpter.isFollow(id,i);
                 }
                 else {
                     getNoFollowData(id);
-                    moreMovieAdpter.onfollow(id);
+                    moreMovieAdpter.onfollow(id,i);
                 }
             }
         });
@@ -75,6 +75,7 @@ public class WillMoreFragment extends BaseFragment {
         moreMovieAdpter = new MoreMovieAdpter(getContext());
         willmore_xrecrcle.setLayoutManager(linearLayoutManager);
         willmore_xrecrcle.setAdapter(moreMovieAdpter);
+        moreMovieAdpter.setHeadCount(willmore_xrecrcle.getHeaders_includingRefreshCount());
         willmore_xrecrcle.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
@@ -111,6 +112,9 @@ public class WillMoreFragment extends BaseFragment {
             }
             else {
                 moreMovieAdpter.addmList(moreMovieBean.getResult());
+            }
+            if (moreMovieBean.getResult().size()<10){
+                willmore_xrecrcle.setLoadingMoreEnabled(false);
             }
             page++;
         }
@@ -150,5 +154,14 @@ public class WillMoreFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==REQUEST &&resultCode==getActivity().RESULT_OK){
+            page=1;
+            getHotMoreData(page);
+            moreMovieAdpter.notifyDataSetChanged();
+        }
     }
 }

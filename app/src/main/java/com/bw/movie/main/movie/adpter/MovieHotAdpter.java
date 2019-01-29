@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
-import com.bw.movie.details.DetailsActivity;
 import com.bw.movie.main.movie.bean.MovieBannerBean;
 import com.bw.movie.main.movie.bean.MovieHotBean;
 import com.bw.movie.util.GlidRoundUtils;

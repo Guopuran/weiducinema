@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
-import com.bw.movie.details.DetailsActivity;
+import com.bw.movie.details.activity.DetailsActivity;
 import com.bw.movie.main.movie.adpter.MoreMovieAdpter;
 import com.bw.movie.main.movie.bean.MessageBean;
 import com.bw.movie.main.movie.bean.MoreMovieBean;
@@ -51,12 +51,12 @@ public class HotMoreFragment extends BaseFragment {
             public void follOnClickLisenter(int id, int follow, int i) {
                 if (follow==2){
                         getIsFollowData(id);
-                        moreMovieAdpter.isFollow(id);
+                        moreMovieAdpter.isFollow(id,i);
                 }
                 else
                  {
                     getNoFollowData(id);
-                    moreMovieAdpter.onfollow(id);
+                    moreMovieAdpter.onfollow(id,i);
                 }
             }
         });
@@ -69,6 +69,7 @@ public class HotMoreFragment extends BaseFragment {
         moreMovieAdpter = new MoreMovieAdpter(getContext());
         hotmore_xrecrcle.setLayoutManager(linearLayoutManager);
         hotmore_xrecrcle.setAdapter(moreMovieAdpter);
+        moreMovieAdpter.setHeadCount(hotmore_xrecrcle.getHeaders_includingRefreshCount());
         hotmore_xrecrcle.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
@@ -118,6 +119,9 @@ public class HotMoreFragment extends BaseFragment {
                }
                else {
                    moreMovieAdpter.addmList(moreMovieBean.getResult());
+               }
+               if (moreMovieBean.getResult().size()<10){
+                   hotmore_xrecrcle.setLoadingMoreEnabled(false);
                }
                page++;
            }

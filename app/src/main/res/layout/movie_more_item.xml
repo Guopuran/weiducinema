@@ -60,6 +60,7 @@
              android:layout_height="129dp"
              android:id="@+id/more_item_image"
              android:layout_marginLeft="10dp"
+             android:scaleType="fitXY"
              />
      </RelativeLayout>
 </RelativeLayout>
