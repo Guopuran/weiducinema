@@ -63,17 +63,9 @@ public class NowHotMoreFragment extends BaseFragment {
         });
 
     }
-    //得到传值进行刷新
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void refresh(MessageBean messageBean){
-        if (messageBean.getFlag().equals("refresh")){
-            page =1;
-            getNowHotMoreData(page);
-        }
-    }
-    //加载数据
+    //加载布局
     public void initNowHotMoreLayout(){
-        this.page =1;
+        page=1;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         moreMovieAdpter = new MoreMovieAdpter(getContext());
         nowhotmore_xrecrcle.setLayoutManager(linearLayoutManager);
@@ -84,7 +76,6 @@ public class NowHotMoreFragment extends BaseFragment {
             public void onRefresh() {
                 page=1;
                 getNowHotMoreData(page);
-                NowHotMoreFragment.this.page =1;
                 nowhotmore_xrecrcle.refreshComplete();
             }
 

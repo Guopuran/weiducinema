@@ -44,14 +44,6 @@ public class WillMoreFragment extends BaseFragment {
             }
         });
     }
-    //得到传值进行刷新
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void refresh(MessageBean messageBean){
-        if (messageBean.getFlag().equals("refresh")){
-            page = 1;
-            getHotMoreData(page);
-        }
-    }
     //点赞和取消点赞
     public void onFollowClick(){
         moreMovieAdpter.setFollowOnClick(new MoreMovieAdpter.followOnClikc() {

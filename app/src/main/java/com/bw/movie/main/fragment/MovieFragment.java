@@ -32,11 +32,6 @@ import com.bw.movie.main.movie.bean.MovieHotBean;
 import com.bw.movie.main.movie.bean.MovieNowHotBean;
 import com.bw.movie.main.movie.bean.MovieWillBean;
 import com.bw.movie.util.Apis;
-import com.bw.movie.util.ToastUtil;
-import com.zaaach.citypicker.CityPicker;
-import com.zaaach.citypicker.adapter.OnPickListener;
-import com.zaaach.citypicker.model.City;
-import com.zaaach.citypicker.model.LocatedCity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -70,10 +65,7 @@ public class MovieFragment extends BaseFragment {
     ImageView nowhot_more;
     @BindView(R.id.movie_will_movie_image)
     ImageView will_more;
-     @BindView(R.id.movie_location_but)
-    Button but_location;
-     @BindView(R.id.movie_location_text)
-     TextView text_loction;
+
      MovieBannerAdpter movieBannerAdpter;
      MovieHotAdpter movieHotAdpter;
      MovieNowHotAdpter movieNowHotAdpter;
@@ -100,33 +92,6 @@ public class MovieFragment extends BaseFragment {
         willOnClick();
         //banner的跳转
         bannerOnClick();
-    }
-    //定位的点击按钮
-    @OnClick(R.id.movie_location_but)
-    public void locationOnClick(){
-        CityPicker.from(getActivity())
-                .setLocatedCity(new LocatedCity("杭州", "浙江", "101210101"))
-                .setOnPickListener(new OnPickListener() {
-                    @Override
-                    public void onPick(int position, City data) {
-                        ToastUtil.showToast(getActivity(),data.getName());
-                        text_loction.setText(data.getName());
-                    }
-
-                    @Override
-                    public void onLocate() {
-
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        ToastUtil.showToast(getActivity(),"取消选择");
-                    }
-
-
-                }).show();
-
-
     }
     //热门的跳转
     public void hotOnClick(){
@@ -211,7 +176,6 @@ public class MovieFragment extends BaseFragment {
     {
         movieBannerAdpter  = new MovieBannerAdpter(getActivity());
         recyclerCoverFlow.setAdapter(movieBannerAdpter);
-        recyclerCoverFlow.smoothScrollToPosition(4);
     }
     //热门的展示
     public void initHotLayout()
