@@ -34,6 +34,8 @@
                android:layout_toRightOf="@id/cinema_details_image"
                android:layout_marginLeft="10dp"
                android:textColor="#ffff"
+               android:maxLines="2"
+               android:ellipsize="end"
                />
 
      </RelativeLayout>

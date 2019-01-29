@@ -110,10 +110,10 @@
                      android:layout_width="83dp"
                      android:layout_height="26dp"
                      android:button="@null"
-                     android:text="正在热映"
+                     android:text="即将上映"
                      android:id="@+id/activity_movie_more_will_but"
                      android:textSize="14sp"
-                     android:paddingLeft="20dp"
+                     android:paddingLeft="15dp"
                      android:background="@drawable/select_more_but_bg"
                      android:textColor="@color/select_more_text_bg"
                      />

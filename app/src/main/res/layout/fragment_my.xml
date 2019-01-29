@@ -5,7 +5,23 @@
     android:layout_height="match_parent"
     tools:context=".main.activity.MainActivity">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+           android:id="@+id/bg"
+            >
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@mipmap/VCG41583844642"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/bg"
+            android:background="#ffff"
+            >
 
-
-
+        </RelativeLayout>
 </RelativeLayout>

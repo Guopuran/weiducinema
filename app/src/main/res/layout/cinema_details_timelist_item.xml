@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="328dp"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v7.widget.CardView
+        tools:targetApi="lollipop"
+        app:cardCornerRadius="@dimen/dp_3"
+        app:cardPreventCornerOverlap="false"
+        app:cardUseCompatPadding="true"
+        app:cardElevation="@dimen/dp_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
     <RelativeLayout
         android:layout_width="312dp"
-        android:layout_height="70dp"
+        android:layout_height="80dp"
         android:background="@drawable/cinema_item_bg"
         android:layout_marginTop="10dp"
         >
@@ -15,17 +28,18 @@
             android:layout_marginLeft="10dp"
             android:textSize="12sp"
             android:textColor="#666666"
+            android:layout_marginTop="10dp"
             />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/cinema_details_timelist_time_start"
             android:layout_below="@id/cinema_details_timelist_flmstudio"
-
             android:layout_marginLeft="10dp"
             android:text="14::40"
             android:textSize="24sp"
             android:textColor="#333333"
+            android:layout_marginTop="10dp"
             />
            <TextView
                android:layout_width="30dp"
@@ -33,7 +47,7 @@
                android:background="#333333"
                android:layout_below="@id/cinema_details_timelist_flmstudio"
                android:layout_toRightOf="@id/cinema_details_timelist_time_start"
-               android:layout_marginTop="18dp"
+               android:layout_marginTop="28dp"
                android:layout_marginLeft="3dp"
                android:id="@+id/lines"
                />
@@ -41,12 +55,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/cinema_details_timelist_flmstudio"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="18dp"
             android:layout_marginLeft="5dp"
             android:id="@+id/cinema_details_timelist_end"
             android:layout_toRightOf="@id/lines"
             android:textColor="#666666"
-            android:textSize="12sp"
+            android:textSize="16sp"
             android:text="16:16"
             />
            <TextView
@@ -57,7 +71,7 @@
                android:textColor="#666666"
                android:layout_toRightOf="@id/cinema_details_timelist_end"
                android:layout_below="@id/cinema_details_timelist_flmstudio"
-               android:layout_marginTop="10dp"
+               android:layout_marginTop="23dp"
                android:layout_marginLeft="5dp"
                android:id="@+id/end"
                />
@@ -66,19 +80,31 @@
              android:layout_height="wrap_content"
              android:text="￥"
              android:layout_toRightOf="@id/end"
-             android:layout_marginTop="20dp"
-             android:layout_marginLeft="@dimen/dp_100"
+             android:layout_marginTop="25dp"
+             android:layout_marginLeft="20dp"
              android:id="@+id/moeny"
+             android:textSize="18sp"
              />
          <TextView
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:id="@+id/cinema_details_timelist_moeny"
              android:layout_toRightOf="@id/moeny"
-             android:textSize="20sp"
+             android:textSize="36sp"
              android:text="50.5"
              android:layout_marginTop="@dimen/dp_10"
-             android:textColor="#440a33"
+             android:textColor="#b11450"
+
              />
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:id="@+id/cinema_details_go_buy"
+            android:src="@mipmap/com_icon_next_default"
+            android:layout_toRightOf="@id/cinema_details_timelist_moeny"
+            android:layout_marginTop="25dp"
+            android:layout_marginLeft="5dp"
+            />
     </RelativeLayout>
+    </android.support.v7.widget.CardView>
 </RelativeLayout>

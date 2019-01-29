@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+     <android.support.v7.widget.CardView
+        tools:targetApi="lollipop"
+        app:cardCornerRadius="@dimen/dp_3"
+        app:cardUseCompatPadding="true"
+        app:cardPreventCornerOverlap="false"
+        app:cardElevation="@dimen/dp_4"
+        android:layout_width="312dp"
+        android:layout_height="110dp"
+
+        >
        <RelativeLayout
            android:layout_width="312dp"
-           android:layout_height="90dp"
-           android:background="@drawable/cinema_item_bg"
+           android:layout_height="100dp"
            android:layout_marginTop="10dp"
            >
          <ImageView
@@ -33,10 +44,11 @@
                   android:layout_height="wrap_content"
                    android:layout_below="@id/cinema_item_name"
                   android:layout_toRightOf="@id/cinema_item_image"
-                  android:layout_marginTop="10dp"
+                  android:layout_marginTop="5dp"
                   android:id="@+id/cinema_item_addreess"
                   android:textSize="12sp"
                   android:textColor="#333333"
+                  android:paddingRight="10dp"
                   />
               <TextView
                   android:layout_width="wrap_content"
@@ -58,4 +70,5 @@
                  android:layout_marginLeft="170dp"
                   />
        </RelativeLayout>
+     </android.support.v7.widget.CardView>
 </RelativeLayout>

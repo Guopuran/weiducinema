@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
@@ -32,6 +33,11 @@ import com.bw.movie.main.movie.bean.MovieHotBean;
 import com.bw.movie.main.movie.bean.MovieNowHotBean;
 import com.bw.movie.main.movie.bean.MovieWillBean;
 import com.bw.movie.util.Apis;
+import com.bw.movie.util.ToastUtil;
+import com.zaaach.citypicker.CityPicker;
+import com.zaaach.citypicker.adapter.OnPickListener;
+import com.zaaach.citypicker.model.City;
+import com.zaaach.citypicker.model.LocatedCity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -65,7 +71,10 @@ public class MovieFragment extends BaseFragment {
     ImageView nowhot_more;
     @BindView(R.id.movie_will_movie_image)
     ImageView will_more;
-
+    @BindView(R.id.movie_location_but)
+    Button location_but;
+    @BindView(R.id.movie_location_text)
+    TextView location_text;
      MovieBannerAdpter movieBannerAdpter;
      MovieHotAdpter movieHotAdpter;
      MovieNowHotAdpter movieNowHotAdpter;
@@ -93,6 +102,29 @@ public class MovieFragment extends BaseFragment {
         //banner的跳转
         bannerOnClick();
     }
+    //定位的跳转
+     @OnClick(R.id.movie_location_but)
+     public void locationOnClick(){
+         CityPicker.from(getActivity()) //activity或者fragment
+                 .setLocatedCity(new LocatedCity("杭州", "浙江", "101210101"))
+                 .setOnPickListener(new OnPickListener() {
+                     @Override
+                     public void onPick(int position, City data) {
+                          location_text.setText(data.getName());
+                     }
+
+                     @Override
+                     public void onCancel(){
+                         ToastUtil.showToast(getActivity(),"取消选择");
+                     }
+
+                     @Override
+                     public void onLocate() {
+
+                     }
+                 })
+                 .show();
+     }
     //热门的跳转
     public void hotOnClick(){
         movieHotAdpter.setOnHotItemClickLisenter(new MovieHotAdpter.onHotClick() {
@@ -176,6 +208,8 @@ public class MovieFragment extends BaseFragment {
     {
         movieBannerAdpter  = new MovieBannerAdpter(getActivity());
         recyclerCoverFlow.setAdapter(movieBannerAdpter);
+        recyclerCoverFlow.smoothScrollToPosition(4);
+
     }
     //热门的展示
     public void initHotLayout()

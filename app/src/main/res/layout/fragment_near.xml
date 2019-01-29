@@ -8,4 +8,10 @@
         android:id="@+id/cinema_near_xrecycle"
         >
     </com.jcodecraeer.xrecyclerview.XRecyclerView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@drawable/bg_show"
+        android:layout_alignParentBottom="true"
+        />
 </RelativeLayout>
