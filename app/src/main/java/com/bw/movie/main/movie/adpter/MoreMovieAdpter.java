@@ -12,7 +12,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
-import com.bw.movie.details.DetailsActivity;
 import com.bw.movie.main.movie.bean.MoreMovieBean;
 import com.bw.movie.main.movie.fragment.HotMoreFragment;
 import com.bw.movie.util.GlidRoundUtils;
@@ -26,10 +25,16 @@ import butterknife.ButterKnife;
 public class MoreMovieAdpter extends RecyclerView.Adapter<MoreMovieAdpter.ViewHolder> {
     private List<MoreMovieBean.ResultBean> mList;
     private Context mContext;
+    private int mListHeadCount = 0;
 
     public MoreMovieAdpter(Context mContext) {
         this.mContext = mContext;
         mList = new ArrayList<>();
+    }
+
+    public void setHeadCount(int count ){
+        mListHeadCount = count;
+
     }
 
     public void setmList(List<MoreMovieBean.ResultBean> list) {
@@ -54,18 +59,23 @@ public class MoreMovieAdpter extends RecyclerView.Adapter<MoreMovieAdpter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
+        try{
+           final  MoreMovieBean.ResultBean resultBean = mList.get(i);
+
+
+
         Glide.with(mContext)
-                .load(mList.get(i%mList.size()).getImageUrl())
-                .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(10)))
+                .load(resultBean.getImageUrl())
+              /*.apply(RequestOptions.bitmapTransform(new GlidRoundUtils(10)))*/
                 .into(viewHolder.image);
-        viewHolder.image.setScaleType(ImageView.ScaleType.FIT_XY);
-        viewHolder.title.setText(mList.get(i).getName());
-        viewHolder.context.setText("简介:"+mList.get(i).getSummary());
+         viewHolder.image.setScaleType(ImageView.ScaleType.FIT_XY);
+        viewHolder.title.setText(resultBean.getName());
+        viewHolder.context.setText("简介:"+resultBean.getSummary());
           viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
               @Override
               public void onClick(View v) {
                  if (monClick!=null){
-                     monClick.onClickItem(mList.get(i).getId());
+                     monClick.onClickItem(resultBean.getId());
                  }
               }
           });
@@ -79,28 +89,34 @@ public class MoreMovieAdpter extends RecyclerView.Adapter<MoreMovieAdpter.ViewHo
               @Override
               public void onClick(View v) {
                     if (mfollowOnClikc!=null){
-                        mfollowOnClikc.follOnClickLisenter(mList.get(i).getId(),mList.get(i).getFollowMovie(),i);
+                        mfollowOnClikc.follOnClickLisenter(resultBean.getId(),resultBean.getFollowMovie(),i);
                     }
               }
           });
+        }catch (Exception e){
+            e.printStackTrace();
+            return;
+        }
     }
     //关注设置值
-    public void isFollow(int postion){
+    public void isFollow(int postion,int j){
        for (int i=0;i<mList.size();i++){
            if (mList.get(i).getId()==postion){
                mList.get(i).setFollowMovie(1);
+               notifyItemChanged(i+mListHeadCount, mList.get(i));
            }
        }
-        notifyDataSetChanged();
+
     }
   //取消关注设置值
-    public void onfollow(int postion){
+    public void onfollow(int postion,int j){
         for (int i=0;i<mList.size();i++){
             if (mList.get(i).getId()==postion){
                 mList.get(i).setFollowMovie(2);
+                notifyItemChanged(i+mListHeadCount, mList.get(i));
             }
         }
-        notifyDataSetChanged();
+
     }
     @Override
     public int getItemCount() {

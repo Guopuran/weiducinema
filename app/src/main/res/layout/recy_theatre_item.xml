@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginBottom="20dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.CardView
+        tools:targetApi="lollipop"
+        app:cardCornerRadius="3dp"
+        app:cardUseCompatPadding="true"
+        app:cardPreventCornerOverlap="false"
+        app:cardElevation="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:paddingRight="20dp"
+            >
+            <ImageView
+                android:id="@+id/item_theatre_image_logo"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                />
+            <TextView
+                android:id="@+id/item_theatre_text_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:text="cinema name"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_toRightOf="@id/item_theatre_image_logo"
+                android:layout_alignTop="@id/item_theatre_image_logo"
+                android:layout_marginLeft="20dp"
+                />
+            <TextView
+                android:id="@+id/item_theatre_text_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="#333333"
+                android:layout_alignLeft="@id/item_theatre_text_name"
+                android:layout_below="@id/item_theatre_text_name"
+                android:layout_marginTop="10dp"
+                android:text="address"
+                />
+            <TextView
+                android:id="@+id/item_theatre_text_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignLeft="@id/item_theatre_text_name"
+                android:textSize="12sp"
+                android:textColor="#333333"
+                android:text="distance"
+                android:layout_marginBottom="10dp"
+                />
+        </RelativeLayout>
+
+
+
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

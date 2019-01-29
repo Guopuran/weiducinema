@@ -117,6 +117,9 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
                     .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(180)))
                     .into(dialog_image_header);
             dialog_text_name.setText(item.getCommentUserName());
+
+
+
             dialog_text_content.setText(item.getMovieComment());
             ext_commentNum.setText(item.getReplyNum()+"");
             dialog_text_num.setText("共"+item.getReplyNum()+"条评论");

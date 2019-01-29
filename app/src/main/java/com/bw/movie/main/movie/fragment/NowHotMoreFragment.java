@@ -6,7 +6,7 @@ import android.view.View;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
-import com.bw.movie.details.DetailsActivity;
+import com.bw.movie.details.activity.DetailsActivity;
 import com.bw.movie.main.movie.adpter.MoreMovieAdpter;
 import com.bw.movie.main.movie.bean.MoreMovieBean;
 import com.bw.movie.main.movie.bean.MovieIsFollowBean;
@@ -46,12 +46,12 @@ public class NowHotMoreFragment extends BaseFragment {
             public void follOnClickLisenter(int id, int follow, int i) {
                 if (follow==2){
                     getIsFollowData(id);
-                    moreMovieAdpter.isFollow(id);
+                    moreMovieAdpter.isFollow(id,i);
 //                    moreMovieAdpter.notifyDataSetChanged();
                 }
                 else {
                     getNoFollowData(id);
-                    moreMovieAdpter.onfollow(id);
+                    moreMovieAdpter.onfollow(id,i);
 //                    moreMovieAdpter.notifyDataSetChanged();
                 }
             }
@@ -65,21 +65,22 @@ public class NowHotMoreFragment extends BaseFragment {
         moreMovieAdpter = new MoreMovieAdpter(getContext());
         nowhotmore_xrecrcle.setLayoutManager(linearLayoutManager);
         nowhotmore_xrecrcle.setAdapter(moreMovieAdpter);
+        moreMovieAdpter.setHeadCount(nowhotmore_xrecrcle.getHeaders_includingRefreshCount());
         nowhotmore_xrecrcle.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
                 page=1;
-                getNowHotMoreData();
+                getNowHotMoreData(page);
                 nowhotmore_xrecrcle.refreshComplete();
             }
 
             @Override
             public void onLoadMore() {
-                getNowHotMoreData();
+                getNowHotMoreData(page);
                 nowhotmore_xrecrcle.loadMoreComplete();
             }
         });
-        getNowHotMoreData();
+        getNowHotMoreData(page);
     }
     //关注请求数据
     public void getIsFollowData(int id){
@@ -90,7 +91,7 @@ public class NowHotMoreFragment extends BaseFragment {
         getRequest(String.format(Apis.MOVIENOFOLLOW_URL,id),MovieNoFollowBean.class);
     }
     //请求数据
-    public void getNowHotMoreData(){
+    public void getNowHotMoreData(int page){
         getRequest(String.format(Apis.MOVIEBAANNER_URL,page,10),MoreMovieBean.class);
     }
     @Override
@@ -102,6 +103,9 @@ public class NowHotMoreFragment extends BaseFragment {
             }
             else {
                 moreMovieAdpter.addmList(moreMovieBean.getResult());
+            }
+            if (moreMovieBean.getResult().size()<10){
+                nowhotmore_xrecrcle.setLoadingMoreEnabled(false);
             }
             page++;
         }
@@ -132,5 +136,14 @@ public class NowHotMoreFragment extends BaseFragment {
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_nowhot_more;
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==REQUEST &&resultCode==getActivity().RESULT_OK){
+            page=1;
+            getNowHotMoreData(page);
+            moreMovieAdpter.notifyDataSetChanged();
+        }
     }
 }
