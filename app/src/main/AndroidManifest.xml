@@ -19,7 +19,7 @@
         android:theme="@style/AppTheme.NoTitle_FullScreen">
         <activity
             android:name=".main.activity.MainActivity"
-            android:theme="@style/DefaultCityPickerTheme"
+            android:theme="@style/AppTheme.NoTitle_FullScreen"
             /> <!-- or android:screenOrientation="landscape" -->
 
         />
@@ -33,6 +33,7 @@
         </activity>
         <activity android:name=".login.activity.LoginActivity" />
         <activity android:name=".login.activity.RegisterActivity" />
+        <activity android:name=".details.activity.TheatreActivity"/>
         <activity
             android:name=".details.activity.DetailsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

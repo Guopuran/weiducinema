@@ -83,6 +83,15 @@ public class WillMoreFragment extends BaseFragment {
         });
         getHotMoreData(page);
     }
+
+    //得到传值进行刷新
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void refresh(MessageBean messageBean){
+        if (messageBean.getFlag().equals("send")){
+            page =1;
+            getHotMoreData(page);
+        }
+    }
     //关注请求数据
     public void getIsFollowData(int id){
         getRequest(String.format(Apis.MOVIEISFOLLOW_URL,id),MovieIsFollowBean.class);
