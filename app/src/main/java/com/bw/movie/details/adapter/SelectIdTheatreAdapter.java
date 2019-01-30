@@ -90,18 +90,25 @@ public class SelectIdTheatreAdapter extends RecyclerView.Adapter<SelectIdTheatre
             text_name.setText(item.getName());
             text_address.setText(item.getAddress());
             text_distance.setText(item.getDistance()+"km");
-
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mOnClick!=null){
+                        mOnClick.getdata(item);
+                    }
+                }
+            });
 
         }
     }
-   /* private OnImageClick mOnImageClick;
-    public void setOnImageClick(OnImageClick mOnImageClick){
-        this.mOnImageClick=mOnImageClick;
+    private OnClick mOnClick;
+    public void setOnClick(OnClick mOnClick){
+        this.mOnClick=mOnClick;
     }
 
 
-    public interface OnImageClick{
-        void getdata(int id,int great,int position);
-    }*/
+    public interface OnClick{
+        void getdata(SelectIdTheatreBean.ResultBean resultBean);
+    }
 
 }

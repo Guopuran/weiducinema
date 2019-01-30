@@ -1,12 +1,17 @@
 package com.bw.movie.base;
 
 import android.app.Dialog;
+import android.content.pm.ActivityInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.bw.movie.presenter.IpresenterImpl;
 import com.bw.movie.util.CircularLoading;
+import com.bw.movie.util.NetWorkUtil;
 import com.bw.movie.view.IView;
 
 import java.util.Map;
@@ -17,9 +22,22 @@ public abstract class BaseActivity extends AppCompatActivity implements IView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mIpresenterImpl=new IpresenterImpl(this);
+       /* if (getSupportActionBar()!=null) getSupportActionBar().hide();
+        if (getActionBar()!=null) getActionBar().hide();
+        //no status bar
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+*/
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         setContentView(getLayoutResId());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //透明导航栏
+            //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
+
+        mIpresenterImpl=new IpresenterImpl(this);
         initView(savedInstanceState);
         initData();
     }
@@ -52,8 +70,12 @@ public abstract class BaseActivity extends AppCompatActivity implements IView {
 
     }
 
-    //post请求
+    //get请求
     protected void getRequest(String url,Class clazz){
+        if (!(NetWorkUtil.isConn(this))){
+            NetWorkUtil.setNetworkMethod(this);
+            return ;
+        }
         //显示
         mCircularLoading = CircularLoading.showLoadDialog(this, "加载中...", true);
 
@@ -62,8 +84,12 @@ public abstract class BaseActivity extends AppCompatActivity implements IView {
 
     }
 
-    //get请求
+    //post请求
     protected void postRequest(String url, Map<String,String> params, Class clazz){
+        if (!(NetWorkUtil.isConn(this))){
+            NetWorkUtil.setNetworkMethod(this);
+            return ;
+        }
         //显示
         mCircularLoading = CircularLoading.showLoadDialog(this, "加载中...", true);
 

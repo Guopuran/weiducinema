@@ -66,7 +66,7 @@ public class MoreMovieAdpter extends RecyclerView.Adapter<MoreMovieAdpter.ViewHo
 
         Glide.with(mContext)
                 .load(resultBean.getImageUrl())
-              /*.apply(RequestOptions.bitmapTransform(new GlidRoundUtils(10)))*/
+              .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(10)))
                 .into(viewHolder.image);
          viewHolder.image.setScaleType(ImageView.ScaleType.FIT_XY);
         viewHolder.title.setText(resultBean.getName());

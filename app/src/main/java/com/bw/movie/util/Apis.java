@@ -51,6 +51,10 @@ public class Apis {
     public static String INSERT_COMMENT="movie/v1/verify/movieComment";
     //根据电影ID查询当前排片该电影的影院列表的接口
     public static String SELECT_ID_THEATRE="movie/v1/findCinemasListByMovieId?movieId=%s";
+    //根据电影ID和影院ID查询电影排期列表
+    public static String SELECT_CINEMA_MOVIE="movie/v1/findMovieScheduleList?cinemasId=%d&movieId=%d";
+    //查询电影信息明细
+    public static String SELECT_CINEMA_DEATILS="cinema/v1/findCinemaInfo?cinemasId=%d&movieId=%d";
 
 
 }
