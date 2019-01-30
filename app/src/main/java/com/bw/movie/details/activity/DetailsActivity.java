@@ -41,6 +41,7 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.xiao.nicevideoplayer.NiceVideoPlayer;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -260,8 +261,7 @@ public class DetailsActivity extends BaseActivity {
             //购票按钮
             case R.id.details_movie_button_buy:
                 Intent buy_intent=new Intent(this,TheatreActivity.class);
-                buy_intent.putExtra("id",movieId);
-                buy_intent.putExtra("name",resultMovie.getName());
+                buy_intent.putExtra("resultMovie", (Serializable) resultMovie);
                 startActivity(buy_intent);
                 break;
             default:
@@ -482,10 +482,12 @@ public class DetailsActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+
             }
         });
         return details_view;
     }
+
     @Override
     protected void onStop() {
         super.onStop();

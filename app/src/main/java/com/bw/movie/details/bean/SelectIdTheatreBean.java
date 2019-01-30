@@ -1,8 +1,9 @@
 package com.bw.movie.details.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class SelectIdTheatreBean {
+public class SelectIdTheatreBean implements Serializable {
 
     /**
      * message : 查询成功
@@ -38,7 +39,7 @@ public class SelectIdTheatreBean {
         this.result = result;
     }
 
-    public static class ResultBean {
+    public static class ResultBean implements Serializable {
         /**
          * address : 北京市崇文区崇文门外大街18号国瑞城首层、地下二层
          * commentTotal : 0

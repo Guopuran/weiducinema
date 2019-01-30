@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.details.adapter.SelectIdTheatreAdapter;
+import com.bw.movie.details.bean.DetailsIdBean;
+import com.bw.movie.details.bean.DetailsMovieBean;
 import com.bw.movie.details.bean.SelectIdTheatreBean;
 import com.bw.movie.util.Apis;
 
@@ -34,6 +36,7 @@ public class TheatreActivity extends BaseActivity {
     private String movieid;
     private SelectIdTheatreAdapter selectIdTheatreAdapter;
     private int index;
+    private DetailsMovieBean.ResultBean resultMovie;
 
     @Override
     protected void initData() {
@@ -65,6 +68,16 @@ public class TheatreActivity extends BaseActivity {
                 }
             }
         });*/
+        selectIdTheatreAdapter.setOnClick(new SelectIdTheatreAdapter.OnClick() {
+            @Override
+            public void getdata(SelectIdTheatreBean.ResultBean resultBean) {
+                Intent intent=new Intent(TheatreActivity.this,ScheduleIdActivity.class);
+                intent.putExtra("resultMovie",resultMovie);
+                intent.putExtra("resultCinema",resultBean);
+                startActivity(intent);
+
+            }
+        });
     }
 
     private void setUrl() {
@@ -73,9 +86,10 @@ public class TheatreActivity extends BaseActivity {
 
     private void initIntent() {
         Intent intent = getIntent();
-        movieid = intent.getStringExtra("id");
-        String name = intent.getStringExtra("name");
-        text_name.setText(name);
+        resultMovie = (DetailsMovieBean.ResultBean) intent.getSerializableExtra("resultMovie");
+        int id= resultMovie.getId();
+        movieid=String.valueOf(id);
+        text_name.setText(resultMovie.getName());
     }
 
     @Override

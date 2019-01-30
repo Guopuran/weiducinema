@@ -3,6 +3,7 @@ package com.bw.movie.main.fragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RadioGroup;
 
@@ -10,6 +11,7 @@ import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.main.cinema.fragment.NearFragment;
 import com.bw.movie.main.cinema.fragment.RecommendFragment;
+import com.bw.movie.util.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,5 +101,35 @@ public class CinemaFragment extends BaseFragment {
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_cinema;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        getFocus();
+    }
+
+    private long exitTime=0;
+    private void getFocus() {
+        getView().setFocusableInTouchMode(true);
+        getView().requestFocus();
+        getView().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+
+                    //双击退出
+                    if (System.currentTimeMillis() - exitTime > 2000) {
+                        ToastUtil.showToast(getActivity(),"再按一次退出程序");
+                        exitTime = System.currentTimeMillis();
+                    } else {
+                        getActivity().finish();
+                        System.exit(0);
+                    }
+                    return true;
+                }
+
+                return false;
+            }
+        });
     }
 }

@@ -24,7 +24,8 @@
 
         />
         <activity android:name=".guidance.activity.GuidanceActivity" />
-        <activity android:name=".guidance.activity.StartActivity">
+        <activity android:name=".guidance.activity.StartActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

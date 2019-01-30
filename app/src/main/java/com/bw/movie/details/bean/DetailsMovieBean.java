@@ -1,5 +1,6 @@
 package com.bw.movie.details.bean;
 
+import java.io.Serializable;
 import java.util.List;
 /**
  *
@@ -8,7 +9,7 @@ import java.util.List;
  * @创建日期 2019/1/25 23:56
  *
  */
-public class DetailsMovieBean {
+public class DetailsMovieBean implements Serializable {
     private ResultBean result;
     private String message;
     private String status;
@@ -36,7 +37,7 @@ public class DetailsMovieBean {
         this.status = status;
     }
 
-    public static class ResultBean {
+    public static class ResultBean implements Serializable {
 
         private String director;
         private String duration;
@@ -156,7 +157,7 @@ public class DetailsMovieBean {
             this.shortFilmList = shortFilmList;
         }
 
-        public static class ShortFilmListBean {
+        public static class ShortFilmListBean implements Serializable {
 
             private String imageUrl;
             private String videoUrl;
