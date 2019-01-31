@@ -54,7 +54,7 @@ public class Apis {
     //根据电影ID和影院ID查询电影排期列表
     public static String SELECT_CINEMA_MOVIE="movie/v1/findMovieScheduleList?cinemasId=%d&movieId=%d";
     //查询电影信息明细
-    public static String SELECT_CINEMA_DEATILS="cinema/v1/findCinemaInfo?cinemasId=%d&movieId=%d";
+    public static String SELECT_CINEMA_DEATILS="cinema/v1/findCinemaInfo?cinemaId=%d";
 
 
 }
