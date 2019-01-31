@@ -21,6 +21,7 @@ import com.bw.movie.custom.CustomDialog;
 import com.bw.movie.main.cinema.adpter.CinemaDetailsBannerAdpter;
 import com.bw.movie.main.cinema.adpter.CinemaDetailsTimeListAdpter;
 import com.bw.movie.main.cinema.bean.CinemaDetailsBannerBean;
+import com.bw.movie.main.cinema.bean.CinemaDetailsBean;
 import com.bw.movie.main.cinema.bean.CinemaDetailsTimeListBean;
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.GlidRoundUtils;
@@ -54,6 +55,16 @@ public class CinemaDetailsActivity extends BaseActivity {
     private List<CinemaDetailsTimeListBean.ResultBean> result1;
     private List<CinemaDetailsBannerBean.ResultBean> result;
     private int dialog_height;
+    private TextView cinema_text_details;
+    private TextView cinema_text_comment;
+    private View line_details;
+    private View line_comment;
+    private TextView cinema_text_address;
+    private TextView cinema_text_phone;
+    private TextView cinema_text_path;
+    private TextView cinema_text_subway;
+    private ConstraintLayout details_con;
+    private ConstraintLayout comment_con;
 
     @Override
     protected void initData() {
@@ -145,8 +156,15 @@ public class CinemaDetailsActivity extends BaseActivity {
         if (object instanceof CinemaDetailsTimeListBean) {
             CinemaDetailsTimeListBean cinemaDetailsTimeListBean = (CinemaDetailsTimeListBean) object;
             result1 = cinemaDetailsTimeListBean.getResult();
-
             cinemaDetailsTimeListAdpter.setmList(result1);
+        }
+        if (object instanceof CinemaDetailsBean){
+            CinemaDetailsBean cinemaDetailsBean= (CinemaDetailsBean) object;
+            CinemaDetailsBean.ResultBean cinema_result = cinemaDetailsBean.getResult();
+
+            cinema_text_address.setText(cinema_result.getAddress());
+            cinema_text_phone.setText(cinema_result.getPhone());
+            cinema_text_subway.setText(cinema_result.getVehicleRoute());
         }
     }
 
@@ -180,18 +198,40 @@ public class CinemaDetailsActivity extends BaseActivity {
     }
 
     private void initCinemaUrl() {
-
+        getRequest(String.format(Apis.SELECT_CINEMA_DEATILS,movieids),CinemaDetailsBean.class);
     }
 
     private void setDialogView(View dialog_view) {
-        TextView cinema_text_details=dialog_view.findViewById(R.id.dialog_cinema_text_details);
-        TextView cinema_text_comment=dialog_view.findViewById(R.id.dialog_cinema_text_comment);
-        View line_details=dialog_view.findViewById(R.id.line1);
-        View line_comment=dialog_view.findViewById(R.id.line2);
-        TextView cinema_text_address=dialog_view.findViewById(R.id.dialog_cinema_text_address);
-        TextView cinema_text_phone=dialog_view.findViewById(R.id.dialog_cinema_text_phone);
-        TextView cinema_text_path=dialog_view.findViewById(R.id.dialog_cinema_text_path);
-        TextView cinema_text_subway=dialog_view.findViewById(R.id.dialog_cinema_text_subway);
+        cinema_text_details = dialog_view.findViewById(R.id.dialog_cinema_text_details);
+        cinema_text_comment = dialog_view.findViewById(R.id.dialog_cinema_text_comment);
+        line_details = dialog_view.findViewById(R.id.line1);
+        line_comment = dialog_view.findViewById(R.id.line2);
+        cinema_text_address = dialog_view.findViewById(R.id.dialog_cinema_text_address);
+        cinema_text_phone = dialog_view.findViewById(R.id.dialog_cinema_text_phone);
+        cinema_text_path = dialog_view.findViewById(R.id.dialog_cinema_text_path);
+        cinema_text_subway = dialog_view.findViewById(R.id.dialog_cinema_text_subway);
+        details_con = dialog_view.findViewById(R.id.details_con);
+        comment_con = dialog_view.findViewById(R.id.comment_con);
+        //点击详情
+        cinema_text_details.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                line_details.setVisibility(View.VISIBLE);
+                line_comment.setVisibility(View.INVISIBLE);
+                details_con.setVisibility(View.VISIBLE);
+                comment_con.setVisibility(View.INVISIBLE);
+                initCinemaUrl();
+            }
+        });
+        cinema_text_comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                line_details.setVisibility(View.INVISIBLE);
+                line_comment.setVisibility(View.VISIBLE);
+                details_con.setVisibility(View.INVISIBLE);
+                comment_con.setVisibility(View.VISIBLE);
+            }
+        });
 
     }
 
