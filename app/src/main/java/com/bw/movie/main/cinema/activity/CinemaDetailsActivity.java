@@ -10,7 +10,6 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -20,11 +19,15 @@ import com.bw.movie.base.BaseActivity;
 import com.bw.movie.custom.CustomDialog;
 import com.bw.movie.main.cinema.adpter.CinemaDetailsBannerAdpter;
 import com.bw.movie.main.cinema.adpter.CinemaDetailsTimeListAdpter;
+import com.bw.movie.main.cinema.adpter.SelectCinemaAdapter;
 import com.bw.movie.main.cinema.bean.CinemaDetailsBannerBean;
 import com.bw.movie.main.cinema.bean.CinemaDetailsBean;
 import com.bw.movie.main.cinema.bean.CinemaDetailsTimeListBean;
+import com.bw.movie.main.cinema.bean.SelectCommentCinemaBean;
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.GlidRoundUtils;
+import com.bw.movie.util.ToastUtil;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.List;
 
@@ -65,6 +68,9 @@ public class CinemaDetailsActivity extends BaseActivity {
     private TextView cinema_text_subway;
     private ConstraintLayout details_con;
     private ConstraintLayout comment_con;
+    private XRecyclerView comment_xrecy;
+    private  int comment_page;
+    private SelectCinemaAdapter selectCinemaAdapter;
 
     @Override
     protected void initData() {
@@ -88,7 +94,7 @@ public class CinemaDetailsActivity extends BaseActivity {
         wm.getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;         // 屏幕宽度（像素）
         int height = dm.heightPixels;       // 屏幕高度（像素）
-        dialog_height = height - getResources().getDimensionPixelOffset(R.dimen.dp_150);
+        dialog_height = height - getResources().getDimensionPixelOffset(R.dimen.dp_200);
     }
 
     //得到轮播图点击事件传来的id
@@ -166,11 +172,25 @@ public class CinemaDetailsActivity extends BaseActivity {
             cinema_text_phone.setText(cinema_result.getPhone());
             cinema_text_subway.setText(cinema_result.getVehicleRoute());
         }
+        if (object instanceof SelectCommentCinemaBean){
+            SelectCommentCinemaBean selectCommentCinemaBean= (SelectCommentCinemaBean) object;
+            if (comment_page==1){
+                selectCinemaAdapter.setList(selectCommentCinemaBean.getResult());
+            }else{
+                selectCinemaAdapter.addList(selectCommentCinemaBean.getResult());
+            }
+            comment_xrecy.refreshComplete();
+            comment_xrecy.loadMoreComplete();
+            if (selectCommentCinemaBean.getResult().size()==0){
+                comment_xrecy.setPullRefreshEnabled(false);
+                comment_xrecy.setLoadingMoreEnabled(false);
+            }
+        }
     }
 
     @Override
     protected void failed(String error) {
-
+        ToastUtil.showToast(this,error);
     }
 
     @Override
@@ -201,7 +221,7 @@ public class CinemaDetailsActivity extends BaseActivity {
         getRequest(String.format(Apis.SELECT_CINEMA_DEATILS,movieids),CinemaDetailsBean.class);
     }
 
-    private void setDialogView(View dialog_view) {
+    private void setDialogView(final View dialog_view) {
         cinema_text_details = dialog_view.findViewById(R.id.dialog_cinema_text_details);
         cinema_text_comment = dialog_view.findViewById(R.id.dialog_cinema_text_comment);
         line_details = dialog_view.findViewById(R.id.line1);
@@ -230,9 +250,40 @@ public class CinemaDetailsActivity extends BaseActivity {
                 line_comment.setVisibility(View.VISIBLE);
                 details_con.setVisibility(View.INVISIBLE);
                 comment_con.setVisibility(View.VISIBLE);
+                initXrecy(dialog_view);
             }
         });
 
+    }
+
+    //初始化xrecy
+    private void initXrecy(View dialog_view) {
+        comment_page=1;
+        comment_xrecy = dialog_view.findViewById(R.id.comment_xrecy);
+        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this);
+        comment_xrecy.setLayoutManager(linearLayoutManager);
+        comment_xrecy.setPullRefreshEnabled(true);
+        comment_xrecy.setLoadingMoreEnabled(true);
+        selectCinemaAdapter = new SelectCinemaAdapter(this);
+        comment_xrecy.setAdapter(selectCinemaAdapter);
+        comment_xrecy.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                comment_page=1;
+                initCommentUrl(comment_page);
+            }
+
+            @Override
+            public void onLoadMore() {
+                comment_page++;
+                initCommentUrl(comment_page);
+            }
+        });
+        initCommentUrl(comment_page);
+    }
+
+    private void initCommentUrl(int comment_flag) {
+        getRequest(String.format(Apis.SELECT_COMMENT_CINEMA,movieids,comment_flag,5),SelectCommentCinemaBean.class);
     }
 
     public View initDiaLog(int getLayoutId) {

@@ -1,5 +1,6 @@
 package com.bw.movie.details.bean;
 
+import java.io.Serializable;
 import java.util.List;
 /**
  *
@@ -8,7 +9,7 @@ import java.util.List;
  * @创建日期 2019/1/30 15:25
  *
  */
-public class MovieScheduleBean {
+public class MovieScheduleBean implements Serializable {
 
     /**
      * result : [{"beginTime":"19:20","duration":"118分钟","endTime":"21:18","id":1,"screeningHall":"2号厅","seatsTotal":150,"seatsUseCount":50,"status":1},{"beginTime":"20:30","duration":"118分钟","endTime":"22:28","id":2,"screeningHall":"1号厅","seatsTotal":66,"seatsUseCount":15,"status":1},{"beginTime":"19:20","duration":"118分钟","endTime":"21:18","id":14,"screeningHall":"5号厅","seatsTotal":120,"seatsUseCount":70,"status":1}]
@@ -44,7 +45,7 @@ public class MovieScheduleBean {
         this.result = result;
     }
 
-    public static class ResultBean {
+    public static class ResultBean implements Serializable {
         /**
          * beginTime : 19:20
          * duration : 118分钟

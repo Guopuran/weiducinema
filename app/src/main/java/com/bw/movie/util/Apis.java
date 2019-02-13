@@ -63,4 +63,7 @@ public class Apis {
     public static String MY_SUGGESTIN="tool/v1/verify/recordFeedBack";
     //修改密码的接口
     public static String MY_UPDATE_PASSWORD="user/v1/verify/modifyUserPwd";
+    //查询影院用户评论列表
+    public static String SELECT_COMMENT_CINEMA="cinema/v1/findAllCinemaComment?cinemaId=%d&page=%d&count=%d";
+
 }

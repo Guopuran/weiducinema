@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">维度影院</string>
+    <string name="weixin_name">微信支付</string>
+    <string name="zhifubao_name">支付宝支付</string>
 </resources>
