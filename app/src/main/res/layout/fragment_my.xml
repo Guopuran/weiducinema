@@ -208,14 +208,15 @@
                            android:textSize="12sp"
                            android:textColor="#333333"
                            />
+
                        <ImageView
                            android:layout_width="24dp"
                            android:layout_height="24dp"
-                           android:layout_toRightOf="@id/my_newversion_image"
                            android:layout_marginLeft="84dp"
                            android:layout_marginTop="20dp"
+                           android:layout_toRightOf="@id/my_newversion_image"
                            android:background="@mipmap/my_icon_logout_default"
-
+                           android:id="@+id/my_back_imgae"
                            />
                        <TextView
                            android:layout_width="wrap_content"

@@ -1,18 +1,57 @@
 package com.bw.movie.main.fragment;
 
+import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
+import com.bw.movie.login.activity.LoginActivity;
+import com.bw.movie.main.activity.LocationActivity;
+import com.bw.movie.main.my.activity.MyFollowActivity;
+import com.bw.movie.main.my.activity.MyMessageActivity;
+import com.bw.movie.main.my.activity.MySuggestioActivity;
 import com.bw.movie.util.ToastUtil;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MyFragment extends BaseFragment {
+    @BindView(R.id.my_follow_image)
+    ImageView image_follow;
+    @BindView(R.id.my_suggestio_image)
+    ImageView suggestio;
+    @BindView(R.id.my_back_imgae)
+    ImageView back;
+    @BindView(R.id.my_message_imgae)
+    ImageView message;
     @Override
     protected void initData() {
 
     }
-
+    @OnClick(R.id.my_follow_image)
+    public void  onClickFollow(){
+        Intent intent = new Intent(getActivity(),MyFollowActivity.class);
+        startActivity(intent);
+    }
+    @OnClick(R.id.my_suggestio_image)
+    public void onClicksuggrstio(){
+         Intent intent = new Intent(getActivity(),MySuggestioActivity.class);
+         startActivity(intent);
+    }
+    @OnClick(R.id.my_back_imgae)
+    public void onClickBack(){
+        Intent intent = new Intent(getActivity(),LoginActivity.class);
+        startActivity(intent);
+        getActivity().finish();
+    }
+    @OnClick(R.id.my_message_imgae)
+    public void onClickMessage(){
+        Intent intent = new Intent(getActivity(),MyMessageActivity.class);
+        startActivity(intent);
+    }
     @Override
     protected void success(Object object) {
 
@@ -25,7 +64,7 @@ public class MyFragment extends BaseFragment {
 
     @Override
     protected void initView(View view) {
-
+        ButterKnife.bind(this,view);
     }
 
     @Override
@@ -59,7 +98,6 @@ public class MyFragment extends BaseFragment {
                     }
                     return true;
                 }
-
                 return false;
             }
         });

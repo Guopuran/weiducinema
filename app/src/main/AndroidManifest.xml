@@ -19,13 +19,12 @@
         android:theme="@style/AppTheme.NoTitle_FullScreen">
         <activity
             android:name=".main.activity.MainActivity"
-            android:theme="@style/DefaultCityPickerTheme"
-            /> <!-- or android:screenOrientation="landscape" -->=
+            android:theme="@style/DefaultCityPickerTheme" /> <!-- or android:screenOrientation="landscape" -->
+        =
 
         />
         <activity android:name=".guidance.activity.GuidanceActivity" />
-        <activity android:name=".guidance.activity.StartActivity"
-            >
+        <activity android:name=".guidance.activity.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,14 +33,13 @@
         </activity>
         <activity android:name=".login.activity.LoginActivity" />
         <activity android:name=".login.activity.RegisterActivity" />
-        <activity android:name=".details.activity.TheatreActivity"/>
-        <activity android:name=".main.cinema.activity.CinemaDetailsActivity"/>
-
+        <activity android:name=".details.activity.TheatreActivity" />
+        <activity android:name=".main.cinema.activity.CinemaDetailsActivity" />
         <activity
             android:name=".details.activity.DetailsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"></activity>
             android:screenOrientation="portrait" />
+        android:screenOrientation="portrait" />
 
         <!-- 如果您项目中的所有页面都只需要以高或宽中的一个作为基准进行适配的话, 那就只需要填写高或宽中的一个设计图尺寸即可 -->
         <meta-data
@@ -55,7 +53,11 @@
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true" />
-        <activity android:name=".details.activity.ScheduleIdActivity"></activity>
+        <activity android:name=".details.activity.ScheduleIdActivity" />
+        <activity android:name=".main.my.activity.MyMessageActivity" />
+        <activity android:name=".main.my.activity.MyFollowActivity" />
+        <activity android:name=".main.my.activity.MySuggestioActivity" />
+        <activity android:name=".main.my.activity.ResettingPasswordActivity"></activity>
     </application>
 
 </manifest>

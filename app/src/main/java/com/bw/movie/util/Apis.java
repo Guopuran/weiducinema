@@ -55,6 +55,12 @@ public class Apis {
     public static String SELECT_CINEMA_MOVIE="movie/v1/findMovieScheduleList?cinemasId=%d&movieId=%d";
     //查询电影信息明细
     public static String SELECT_CINEMA_DEATILS="cinema/v1/findCinemaInfo?cinemaId=%d";
-
-
+    //关注的影院
+    public static String MY_FOLLLOW_CINEMA="cinema/v1/verify/findCinemaPageList?page=%d&count=%d";
+    //关注的电影
+    public static String MY_FOLLOW_MOVIE="movie/v1/verify/findMoviePageList?page=%d&count=%d";
+    //意见反馈的接口
+    public static String MY_SUGGESTIN="tool/v1/verify/recordFeedBack";
+    //修改密码的接口
+    public static String MY_UPDATE_PASSWORD="user/v1/verify/modifyUserPwd";
 }
