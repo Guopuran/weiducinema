@@ -55,6 +55,7 @@ public class Apis {
     public static String SELECT_CINEMA_MOVIE="movie/v1/findMovieScheduleList?cinemasId=%d&movieId=%d";
     //查询电影信息明细
     public static String SELECT_CINEMA_DEATILS="cinema/v1/findCinemaInfo?cinemaId=%d";
-
+    //查询影院用户评论列表
+    public static String SELECT_COMMENT_CINEMA="cinema/v1/findAllCinemaComment?cinemaId=%d&page=%d&count=%d";
 
 }

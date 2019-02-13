@@ -1,6 +1,7 @@
 package com.bw.movie.details.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,7 +12,9 @@ import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.details.bean.MovieScheduleBean;
+import com.bw.movie.seat.activity.SeatActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,11 +80,19 @@ public class MovieSchedAapter extends RecyclerView.Adapter<MovieSchedAapter.View
             ButterKnife.bind(this,itemView);
         }
 
-        public void getdata(MovieScheduleBean.ResultBean item, Context context, int i) {
+        public void getdata(final MovieScheduleBean.ResultBean item, final Context context, int i) {
             timelist_flmstudio.setText(item.getScreeningHall());
             time_start.setText(item.getBeginTime());
             timelist_end.setText(item.getEndTime());
             timelist_moeny.setText(item.getPrice()+"");
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent=new Intent(context,SeatActivity.class);
+                    intent.putExtra("item",(Serializable)item);
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 }

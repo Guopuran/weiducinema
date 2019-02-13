@@ -48,14 +48,14 @@ public abstract class BaseFragment extends Fragment implements IView {
     @Override
     public void successData(Object object) {
         //关闭
-        //CircularLoading.closeDialog(mCircularLoading);
+        CircularLoading.closeDialog(mCircularLoading);
         success(object);
     }
 
     @Override
     public void failedData(String error) {
         //关闭
-        //CircularLoading.closeDialog(mCircularLoading);
+        CircularLoading.closeDialog(mCircularLoading);
         failed(error);
     }
 
@@ -66,7 +66,7 @@ public abstract class BaseFragment extends Fragment implements IView {
             return ;
         }
         //显示
-        //mCircularLoading = CircularLoading.showLoadDialog(getActivity(), "加载中...", true);
+        mCircularLoading = CircularLoading.showLoadDialog(getActivity(), "加载中...", true);
 
         mIpresenterImpl.getRequestIpresenter(url,clazz);
     }
@@ -78,7 +78,7 @@ public abstract class BaseFragment extends Fragment implements IView {
             return ;
         }
         //显示
-        //mCircularLoading = CircularLoading.showLoadDialog(getActivity(), "加载中...", true);
+        mCircularLoading = CircularLoading.showLoadDialog(getActivity(), "加载中...", true);
 
         mIpresenterImpl.postRequestIpresenter(url,params,clazz);
     }
