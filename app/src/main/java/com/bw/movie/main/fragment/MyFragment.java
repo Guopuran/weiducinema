@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
@@ -12,6 +13,8 @@ import com.bw.movie.main.activity.LocationActivity;
 import com.bw.movie.main.my.activity.MyFollowActivity;
 import com.bw.movie.main.my.activity.MyMessageActivity;
 import com.bw.movie.main.my.activity.MySuggestioActivity;
+import com.bw.movie.main.my.bean.MySginBean;
+import com.bw.movie.util.Apis;
 import com.bw.movie.util.ToastUtil;
 
 import butterknife.BindView;
@@ -27,6 +30,8 @@ public class MyFragment extends BaseFragment {
     ImageView back;
     @BindView(R.id.my_message_imgae)
     ImageView message;
+    @BindView(R.id.my_sign_text)
+    TextView sign;
     @Override
     protected void initData() {
 
@@ -52,9 +57,23 @@ public class MyFragment extends BaseFragment {
         Intent intent = new Intent(getActivity(),MyMessageActivity.class);
         startActivity(intent);
     }
+    //签到的点击事件
+    @OnClick(R.id.my_sign_text)
+    public void onSingClick(){
+        getSignData();
+    }
+    //签到的网络请求
+    public void getSignData(){
+        getRequest(Apis.MY_SING,MySginBean.class);
+    }
     @Override
     protected void success(Object object) {
-
+        if (object instanceof MySginBean){
+            MySginBean mySginBean = (MySginBean) object;
+            if (mySginBean.getStatus().equals("0000")){
+                ToastUtil.showToast(getActivity(),mySginBean.getMessage());
+            }
+        }
     }
 
     @Override
