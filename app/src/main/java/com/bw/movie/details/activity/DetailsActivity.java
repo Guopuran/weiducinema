@@ -51,6 +51,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.tencent.wxop.stat.StatConfig.R;
+
 /**
  * @描述 影片的详情
  * @创建日期 2019/1/25 16:52
