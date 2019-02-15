@@ -24,6 +24,10 @@
             <!-- or android:screenOrientation="landscape" -->
             =
             android:theme="@style/DefaultCityPickerTheme" >
+
+            android:theme="@style/DefaultCityPickerTheme" /> <!-- or android:screenOrientation="landscape" -->
+
+            android:theme="@style/DefaultCityPickerTheme" >
         </activity> <!-- or android:screenOrientation="landscape" -->
 
         <activity android:name=".guidance.activity.GuidanceActivity" />
