@@ -1,12 +1,16 @@
 package com.bw.movie.main.movie.fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.details.activity.DetailsActivity;
+import com.bw.movie.login.activity.LoginActivity;
+import com.bw.movie.login.bean.RefurbishMessageBean;
 import com.bw.movie.main.movie.adpter.MoreMovieAdpter;
 import com.bw.movie.main.movie.bean.MessageBean;
 import com.bw.movie.main.movie.bean.MoreMovieBean;
@@ -29,8 +33,13 @@ public class WillMoreFragment extends BaseFragment {
     private  int page=1;
     private MoreMovieAdpter moreMovieAdpter;
     private int REQUEST=100;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private boolean loginSuccess;
     @Override
     protected void initData() {
+        sharedPreferences = getActivity().getSharedPreferences("User",Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         //加载布局
         initHotMoreLayout();
         //点赞和取消点赞
@@ -44,19 +53,35 @@ public class WillMoreFragment extends BaseFragment {
             }
         });
     }
+    //接受传值进行刷新
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void enventbus(RefurbishMessageBean messageBean){
+        if (messageBean.getFlag().equals("refurbish")){
+            initHotMoreLayout();
+        }
+    }
     //点赞和取消点赞
     public void onFollowClick(){
         moreMovieAdpter.setFollowOnClick(new MoreMovieAdpter.followOnClikc() {
             @Override
             public void follOnClickLisenter(int id, int follow, int i) {
-                if (follow==2){
-                    getIsFollowData(id);
-                    moreMovieAdpter.isFollow(id,i);
+                loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
+                if (loginSuccess){
+                    if (follow==2){
+                        getIsFollowData(id);
+                        moreMovieAdpter.isFollow(id,i);
+                    }
+                    else {
+                        getNoFollowData(id);
+                        moreMovieAdpter.onfollow(id,i);
+                    }
                 }
                 else {
-                    getNoFollowData(id);
-                    moreMovieAdpter.onfollow(id,i);
+                    ToastUtil.showToast(getActivity(),"请先登录");
+                    Intent intent = new Intent(getActivity(),LoginActivity.class);
+                    startActivity(intent);
                 }
+
             }
         });
     }
@@ -150,6 +175,11 @@ public class WillMoreFragment extends BaseFragment {
     @Override
     protected int getLayoutResId() {
         return R.layout.fragment_will_more;
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        onFollowClick();
     }
     @Override
     public void onDestroyView() {

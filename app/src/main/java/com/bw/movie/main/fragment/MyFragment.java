@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -16,6 +17,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
+import android.content.SharedPreferences;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +37,7 @@ import com.bw.movie.main.movie.bean.UpdateCodeBean;
 import com.bw.movie.main.my.activity.MyFollowActivity;
 import com.bw.movie.main.my.activity.MyMessageActivity;
 import com.bw.movie.main.my.activity.MySuggestioActivity;
+import com.bw.movie.main.my.activity.TicketRecordActivity;
 import com.bw.movie.main.my.bean.HeadImageBean;
 import com.bw.movie.main.my.bean.MySginBean;
 import com.bw.movie.main.my.bean.MyUserMeaagerBean;
@@ -67,6 +70,11 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     ImageView message;
     @BindView(R.id.my_sign_text)
     TextView sign;
+    @BindView(R.id.my_record_image)
+    ImageView record;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private boolean loginSuccess;
     @BindView(R.id.my_head_image)
     ImageView head_image;
     @BindView(R.id.my_name_text)
@@ -89,29 +97,75 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
 
     private void initPresonUrl() {
         getRequest(Apis.SEARCHMESSAGE,MyUserMeaagerBean.class);
+            sharedPreferences = getActivity().getSharedPreferences("User",Context.MODE_PRIVATE);
+            editor = sharedPreferences.edit();
     }
 
+    //点击关注
     @OnClick(R.id.my_follow_image)
     public void  onClickFollow(){
-        Intent intent = new Intent(getActivity(),MyFollowActivity.class);
-        startActivity(intent);
+        loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
+        if (loginSuccess){
+            Intent intent = new Intent(getActivity(),MyFollowActivity.class);
+            startActivity(intent);
+        }
+        else {
+            ToastUtil.showToast(getActivity(),"请先登录");
+            Intent intent = new Intent(getActivity(),LoginActivity.class);
+            startActivity(intent);
+        }
     }
+    //点击反馈信息
     @OnClick(R.id.my_suggestio_image)
     public void onClicksuggrstio(){
-         Intent intent = new Intent(getActivity(),MySuggestioActivity.class);
-         startActivity(intent);
+        loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
+        if (loginSuccess){
+            Intent intent = new Intent(getActivity(),MySuggestioActivity.class);
+            startActivity(intent);
+        }
+        else {
+            ToastUtil.showToast(getActivity(),"请先登录");
+            Intent intent = new Intent(getActivity(),LoginActivity.class);
+            startActivity(intent);
+        }
     }
+    //退出登录
     @OnClick(R.id.my_back_imgae)
-    public void onClickBack(){
-        Intent intent = new Intent(getActivity(),LoginActivity.class);
-        startActivity(intent);
-        getActivity().finish();
+    public void onClickBack()
+    {
+        loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
+        if (loginSuccess){
+            Intent intent = new Intent(getActivity(),LoginActivity.class);
+            intent.putExtra("back","main");
+            startActivity(intent);
+            editor.putString("userId",null);
+            editor.putString("sessionId",null);
+            editor.putBoolean("loginSuccess",false);
+            editor.commit();
+            getActivity().finish();
+        }
+        else {
+            ToastUtil.showToast(getActivity(),"请先登录");
+            Intent intent = new Intent(getActivity(),LoginActivity.class);
+            startActivity(intent);
+        }
+
     }
     //个人信息的点击事件
     @OnClick(R.id.my_message_imgae)
-    public void onClickMessage(){
-        Intent intent = new Intent(getActivity(),MyMessageActivity.class);
-        startActivity(intent);
+    public void onClickMessage()
+    {
+        loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
+        if (loginSuccess){
+            Intent intent = new Intent(getActivity(),MyMessageActivity.class);
+            startActivity(intent);
+        }
+        else {
+            ToastUtil.showToast(getActivity(),"请先登录");
+            Intent intent = new Intent(getActivity(),LoginActivity.class);
+            startActivity(intent);
+        }
+
     }
 
     //版本更新的点击事件
@@ -155,14 +209,40 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     //签到的点击事件
     @OnClick(R.id.my_sign_text)
     public void onSingClick(){
-        getSignData();
+        loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
+        if (loginSuccess){
+            getSignData();
+        }
+        else {
+            ToastUtil.showToast(getActivity(),"请先登录");
+            Intent intent = new Intent(getActivity(),LoginActivity.class);
+            startActivity(intent);
+        }
+
     }
     //签到的网络请求
-    public void getSignData(){
+    public void getSignData()
+    {
         getRequest(Apis.MY_SING,MySginBean.class);
     }
+    //点击到消费记录
+    @OnClick(R.id.my_record_image)
+    public void onClickRecord(){
+        loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
+        if (loginSuccess){
+            Intent intent = new Intent(getActivity(),TicketRecordActivity.class);
+            startActivity(intent);
+        }
+        else {
+            ToastUtil.showToast(getActivity(),"请先登录");
+            Intent intent = new Intent(getActivity(),LoginActivity.class);
+            startActivity(intent);
+        }
+
+    }
     @Override
-    protected void success(Object object) {
+    protected void success(Object object)
+    {
         if (object instanceof MySginBean){
             MySginBean mySginBean = (MySginBean) object;
             if (mySginBean.getStatus().equals("0000")){
@@ -249,7 +329,6 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-
                     //双击退出
                     if (System.currentTimeMillis() - exitTime > 2000) {
                         ToastUtil.showToast(getActivity(),"再按一次退出程序");

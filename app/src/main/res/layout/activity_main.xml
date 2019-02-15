@@ -26,6 +26,7 @@
             android:button="@null"
             android:layout_marginLeft="@dimen/dp_30"
             android:layout_marginTop="10dp"
+            android:checked="true"
             />
         <RadioButton
             android:layout_width="70dp"

@@ -9,6 +9,8 @@ import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
 import android.view.WindowManager;
 
+import com.squareup.leakcanary.LeakCanary;
+
 import java.util.Locale;
 
 import me.jessyan.autosize.AutoSize;
@@ -29,8 +31,7 @@ public class MyApplication extends Application {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
-
-
+        LeakCanary.install(this);
     }
 
     public static Context getContext(){

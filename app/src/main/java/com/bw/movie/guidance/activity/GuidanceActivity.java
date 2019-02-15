@@ -15,6 +15,7 @@ import com.bw.movie.guidance.fragment.GuidanceFourthFragment;
 import com.bw.movie.guidance.fragment.GuidanceSencondFragment;
 import com.bw.movie.guidance.fragment.GuidanceThirdFragment;
 import com.bw.movie.login.activity.LoginActivity;
+import com.bw.movie.main.activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,7 +102,7 @@ public class GuidanceActivity extends BaseActivity {
                     case 3:
                         editor.putInt("falg",1);
                         editor.commit();
-                        Intent intent = new Intent(GuidanceActivity.this,LoginActivity.class);
+                        Intent intent = new Intent(GuidanceActivity.this,MainActivity.class);
                         startActivity(intent);
                         finish();
                         group.check(R.id.radio_fou);
@@ -124,7 +125,7 @@ public class GuidanceActivity extends BaseActivity {
         //判断是否是第一次进入
         int falg = sharedPreferences.getInt("falg", 0);
         if (falg>0){
-            Intent intent = new Intent(GuidanceActivity.this,LoginActivity.class);
+            Intent intent = new Intent(GuidanceActivity.this,MainActivity.class);
             startActivity(intent);
             finish();
         }

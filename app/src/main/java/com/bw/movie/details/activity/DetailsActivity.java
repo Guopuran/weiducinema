@@ -2,6 +2,7 @@ package com.bw.movie.details.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -32,6 +33,8 @@ import com.bw.movie.details.bean.InsertCommentBean;
 import com.bw.movie.details.bean.NextPraiseBean;
 import com.bw.movie.details.bean.SelectCommentBean;
 import com.bw.movie.details.bean.SelectReviewBean;
+import com.bw.movie.login.activity.LoginActivity;
+import com.bw.movie.login.bean.RefurbishMessageBean;
 import com.bw.movie.main.movie.activity.MovieMroeActivity;
 import com.bw.movie.main.movie.bean.MovieIsFollowBean;
 import com.bw.movie.main.movie.bean.MovieNoFollowBean;
@@ -40,6 +43,10 @@ import com.bw.movie.util.ToastUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.xiao.nicevideoplayer.NiceVideoPlayer;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -77,7 +84,9 @@ public class DetailsActivity extends BaseActivity {
     Button button_back;
     @BindView(R.id.details_movie_button_buy)
     Button button_buy;
-
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private boolean loginSuccess;
 
 
 
@@ -104,7 +113,8 @@ public class DetailsActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-
+        sharedPreferences =  getSharedPreferences("User",Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         resultMovie = new DetailsMovieBean.ResultBean();
         //改变图片的透明度
         back_image.setAlpha(0.2f);
@@ -115,17 +125,17 @@ public class DetailsActivity extends BaseActivity {
         int width = dm.widthPixels;         // 屏幕宽度（像素）
         int height = dm.heightPixels;       // 屏幕高度（像素）
         dialog_height = height - getResources().getDimensionPixelOffset(R.dimen.dp_110);
-
         initIntent();
-
-
         //请求详情
         initDetailUrl();
-
-
-
     }
-
+    //接受传值进行刷新
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void enventbus(RefurbishMessageBean messageBean){
+        if (messageBean.getFlag().equals("refurbish")){
+            initDetailUrl();
+        }
+    }
     private void initIntent() {
         Intent intent=getIntent();
         movieId = intent.getStringExtra("flag");
@@ -134,6 +144,12 @@ public class DetailsActivity extends BaseActivity {
 
     private void initDetailUrl() {
         getRequest(String.format(Apis.SELECT_MOVIE_DETAILS, movieId), DetailsMovieBean.class);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -211,6 +227,7 @@ public class DetailsActivity extends BaseActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -223,11 +240,19 @@ public class DetailsActivity extends BaseActivity {
         switch (view.getId()) {
             //是否关注
             case R.id.details_movie_image_attention:
-                if (resultMovie.getFollowMovie()==1){//取消关注
-                    cancelUrl();
-                }else{//点击关注
-                    NextUrl();
-                }
+                loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
+                 if (loginSuccess){
+                     if (resultMovie.getFollowMovie()==1){//取消关注
+                         cancelUrl();
+                     }else{//点击关注
+                         NextUrl();
+                     }
+                 }
+                 else {
+                     ToastUtil.showToast(this,"请先登录");
+                     Intent intent = new Intent(this,LoginActivity.class);
+                     startActivity(intent);
+                 }
                 break;
             //影片详情
             case R.id.details_lin_movie_text_details:

@@ -33,23 +33,28 @@ public class MyFollowActivity extends BaseActivity {
     private int cpage=1;
     @Override
     protected void initData() {
+
       initFollowMovieLayout();
     }
     @OnClick({R.id.my_cinema_follow})
-    public void cinemaOnClick(){
-        ToastUtil.showToast(this,"11111");
+    public void cinemaOnClick()
+    {
+
         initFollowCineamLayout();
     }
     @OnClick({R.id.my_movie_follow})
-    public void movieOnClick(){
-        ToastUtil.showToast(this,"122211");
+    public void movieOnClick()
+    {
+
         initFollowMovieLayout();
     }
     //关注的影片展示数据
     public void initFollowMovieLayout(){
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         movieAdpter = new MyFollowMovieAdpter(this);
         recycle.setAdapter(movieAdpter);
+        mpag=1;
         recycle.setLayoutManager(linearLayoutManager);
         recycle.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -72,6 +77,7 @@ public class MyFollowActivity extends BaseActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         cinemaAadpter = new MyFollowCinemaAadpter(this);
         recycle.setAdapter(cinemaAadpter);
+        cpage=1;
         recycle.setLayoutManager(linearLayoutManager);
         recycle.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override

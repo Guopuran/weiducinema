@@ -77,4 +77,6 @@ public class Apis {
     public static  String HEAD_IMAGE="user/v1/verify/uploadHeadPic";
     //版本更新的接口
     public static  String SUGGESTIO_URL="tool/v1/findNewVersion";
+    //用户查询购票记录
+    public static String MY_TICKETRECROD="user/v1/verify/findUserBuyTicketRecordList?page=%d&count=%d&status=%d";
 }

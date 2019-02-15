@@ -30,13 +30,15 @@
 
         <activity
             android:name=".main.activity.MainActivity"
+            android:theme="@style/DefaultCityPickerTheme">
+            android:theme="@style/DefaultCityPickerTheme" />
+            <!-- or android:screenOrientation="landscape" -->
+            =
             android:theme="@style/DefaultCityPickerTheme" >
 
             android:theme="@style/DefaultCityPickerTheme" /> <!-- or android:screenOrientation="landscape" -->
 
             android:theme="@style/DefaultCityPickerTheme" >
-
-
         </activity> <!-- or android:screenOrientation="landscape" -->
 
         <activity android:name=".guidance.activity.GuidanceActivity" />
@@ -75,8 +77,9 @@
         <activity android:name=".main.my.activity.MyMessageActivity" />
         <activity android:name=".main.my.activity.MyFollowActivity" />
         <activity android:name=".main.my.activity.MySuggestioActivity" />
-        <activity android:name=".main.my.activity.ResettingPasswordActivity"></activity>
-        <activity android:name=".seat.activity.SeatActivity"></activity>
+        <activity android:name=".main.my.activity.ResettingPasswordActivity" />
+        <activity android:name=".seat.activity.SeatActivity" />
+        <activity android:name=".main.my.activity.TicketRecordActivity"></activity>
     </application>
 
 </manifest>
