@@ -28,12 +28,12 @@
     <ImageView
         android:id="@+id/dialog_back"
         android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_marginRight="-15dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="5dp"
         android:background="@mipmap/com_icon_down_default"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="5dp"
+
         />
 
         <ImageView
@@ -93,6 +93,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="13dp"
+                android:checked="true"
                 />
             <RadioButton
                 android:id="@+id/zhifubao_pay"

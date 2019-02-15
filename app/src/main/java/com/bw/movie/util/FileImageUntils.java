@@ -1,4 +1,4 @@
-package com.bw.movie.login_success.person.personal_bean;
+package com.bw.movie.util;
 
 import android.graphics.Bitmap;
 

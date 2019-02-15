@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ import com.bw.movie.main.movie.bean.MovieHotBean;
 import com.bw.movie.main.movie.bean.MovieNowHotBean;
 import com.bw.movie.main.movie.bean.MovieWillBean;
 import com.bw.movie.util.Apis;
+import com.bw.movie.util.ImageViewAnimationHelper;
 import com.bw.movie.util.ToastUtil;
 import com.zaaach.citypicker.CityPicker;
 import com.zaaach.citypicker.adapter.OnPickListener;
@@ -76,11 +78,15 @@ public class MovieFragment extends BaseFragment {
     Button location_but;
     @BindView(R.id.movie_location_text)
     TextView location_text;
+    @BindView(R.id.checked_layout)
+    LinearLayout checked_layout;
      MovieBannerAdpter movieBannerAdpter;
      MovieHotAdpter movieHotAdpter;
      MovieNowHotAdpter movieNowHotAdpter;
      MovieWillAdpter movieWillAdpter;
      int REQUEST=101;
+    private ImageViewAnimationHelper imageViewAnimationHelper;
+
     @Override
     protected void initData()
     {
@@ -210,6 +216,13 @@ public class MovieFragment extends BaseFragment {
         movieBannerAdpter  = new MovieBannerAdpter(getActivity());
         recyclerCoverFlow.setAdapter(movieBannerAdpter);
         recyclerCoverFlow.smoothScrollToPosition(4);
+        recyclerCoverFlow.setOnItemSelectedListener(new CoverFlowLayoutManger.OnSelected() {
+            @Override
+            public void onItemSelected(int position) {
+                imageViewAnimationHelper.startAnimation(position);
+            }
+        });
+
 
     }
     //热门的展示
@@ -266,6 +279,8 @@ public class MovieFragment extends BaseFragment {
          if (object instanceof MovieBannerBean){
              MovieBannerBean movieBannerBean = (MovieBannerBean) object;
              movieBannerAdpter.setmList(movieBannerBean.getResult());
+             imageViewAnimationHelper = new ImageViewAnimationHelper(getContext(), checked_layout, 2, 31);
+
          }
          if (object instanceof MovieHotBean){
             MovieHotBean movieHotBean = (MovieHotBean) object;

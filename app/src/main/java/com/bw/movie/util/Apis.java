@@ -69,4 +69,12 @@ public class Apis {
     public static String MY_SING="user/v1/verify/userSignIn";
     //查询用户信息
     public static  String SEARCHMESSAGE="user/v1/verify/getUserInfoByUserId";
+    //购票下单
+    public static  String INDENTPAY="movie/v1/verify/buyMovieTicket";
+    //支付
+    public static  String WEIXIN_PAY="movie/v1/verify/pay";
+    //上传头像
+    public static  String HEAD_IMAGE="user/v1/verify/uploadHeadPic";
+    //版本更新的接口
+    public static  String SUGGESTIO_URL="tool/v1/findNewVersion";
 }

@@ -9,7 +9,9 @@ import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login.bean.WeiXinBean;
 import com.bw.movie.main.activity.MainActivity;
 import com.bw.movie.util.Apis;
+import com.bw.movie.util.ToastUtil;
 import com.bw.movie.util.WeiXinUtil;
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -37,6 +39,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        WeiXinUtil.reg(WXEntryActivity.this).handleIntent(getIntent(), this);
 
     }
 
@@ -53,7 +56,9 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     @Override
     public void onResp(final BaseResp baseResp)
     {
-        switch (baseResp.errCode){
+
+
+            switch (baseResp.errCode){
             case BaseResp.ErrCode.ERR_OK:
                 //主线程
                 runOnUiThread(new Runnable() {
@@ -71,6 +76,20 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 break;
                 default:
                     break;
+        }
+        if (baseResp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
+            int errCord = baseResp.errCode;
+            if (errCord == 0) {
+                ToastUtil.showToast(this, "支付成功！");
+
+            } else if (errCord == -1) {
+                ToastUtil.showToast(this, "支付失败");
+            } else {
+                ToastUtil.showToast(this, "用户取消了");
+            }
+            //这里接收到了返回的状态码可以进行相应的操作，如果不想在这个页面操作可以把状态码存在本地然后finish掉这个页面，这样就回到了你调起支付的那个页面
+            //获取到你刚刚存到本地的状态码进行相应的操作就可以了
+            finish();
         }
     }
     @Override

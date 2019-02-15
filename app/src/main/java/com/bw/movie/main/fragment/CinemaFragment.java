@@ -1,11 +1,14 @@
 package com.bw.movie.main.fragment;
 
+import android.animation.ObjectAnimator;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
@@ -18,12 +21,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class CinemaFragment extends BaseFragment {
     @BindView(R.id.cinema_viewpager)
     ViewPager cinema_viewpager;
     @BindView(R.id.cinema_group)
     RadioGroup cineam_group;
+    @BindView(R.id.movie_cinema_relative)
+    RelativeLayout search_relative;
     private List<Fragment> mList;
     @Override
     protected void initData() {
@@ -82,7 +88,21 @@ public class CinemaFragment extends BaseFragment {
           }
       });
     }
-
+    //弹出的动画
+    @OnClick(R.id.movie_search_image)
+    public void outAnimation(){
+        ObjectAnimator animator = ObjectAnimator.ofFloat(search_relative, "translationX",  -400f);
+        animator.setDuration(1000);
+        animator.start();
+    }
+    //收回的动画
+    @OnClick(R.id.movie_search_text)
+    public void inAnimation()
+    {
+        ObjectAnimator animator = ObjectAnimator.ofFloat(search_relative, "translationX",  10f);
+        animator.setDuration(500);
+        animator.start();
+    }
     @Override
     protected void success(Object object) {
 

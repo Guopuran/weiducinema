@@ -17,6 +17,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.custom.CustomDialog;
+import com.bw.movie.details.bean.MovieScheduleBean;
 import com.bw.movie.main.cinema.adpter.CinemaDetailsBannerAdpter;
 import com.bw.movie.main.cinema.adpter.CinemaDetailsTimeListAdpter;
 import com.bw.movie.main.cinema.adpter.SelectCinemaAdapter;
@@ -55,7 +56,7 @@ public class CinemaDetailsActivity extends BaseActivity {
     private CinemaDetailsBannerAdpter cinemaDetailsBannerAdpter;
     private int movieids;
     private CinemaDetailsTimeListAdpter cinemaDetailsTimeListAdpter;
-    private List<CinemaDetailsTimeListBean.ResultBean> result1;
+    private List<MovieScheduleBean.ResultBean> result1;
     private List<CinemaDetailsBannerBean.ResultBean> result;
     private int dialog_height;
     private TextView cinema_text_details;
@@ -149,7 +150,7 @@ public class CinemaDetailsActivity extends BaseActivity {
 
     //排期表请求数据
     public void getTimeListData() {
-        getRequest(String.format(Apis.CINEMADDETAILSTIMELIST_URL, cinemaId, movieids), CinemaDetailsTimeListBean.class);
+        getRequest(String.format(Apis.CINEMADDETAILSTIMELIST_URL, cinemaId, movieids), MovieScheduleBean.class);
     }
 
     @Override
@@ -159,9 +160,9 @@ public class CinemaDetailsActivity extends BaseActivity {
             result = cinemaDetailsBannerBean.getResult();
             cinemaDetailsBannerAdpter.setmList(result);
         }
-        if (object instanceof CinemaDetailsTimeListBean) {
-            CinemaDetailsTimeListBean cinemaDetailsTimeListBean = (CinemaDetailsTimeListBean) object;
-            result1 = cinemaDetailsTimeListBean.getResult();
+        if (object instanceof MovieScheduleBean) {
+            MovieScheduleBean movieScheduleBean = (MovieScheduleBean) object;
+            result1 = movieScheduleBean.getResult();
             cinemaDetailsTimeListAdpter.setmList(result1);
         }
         if (object instanceof CinemaDetailsBean){

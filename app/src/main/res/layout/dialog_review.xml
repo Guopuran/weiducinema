@@ -75,15 +75,23 @@
             android:fitsSystemWindows="true"
             android:background="@drawable/dialog_write"
             >
-            <EditText
-                android:id="@+id/revice_dialog_edit_write"
+            <ScrollView
                 android:layout_width="284dp"
-                android:layout_height="match_parent"
-                android:hint="写评论"
-                android:gravity="top|left"
-                android:layout_marginLeft="@dimen/dp_10"
-                android:background="@null"
-                />
+                android:layout_height="60dp"
+                android:fillViewport="true"
+                android:scrollbars="vertical"
+                >
+                <EditText
+                    android:id="@+id/revice_dialog_edit_write"
+                    android:layout_width="284dp"
+                    android:layout_height="match_parent"
+                    android:hint="写评论"
+                    android:gravity="top|left"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:background="@null"
+                    />
+
+            </ScrollView>
         </LinearLayout>
         <TextView
             android:id="@+id/revice_dialog_text_send"

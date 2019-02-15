@@ -51,7 +51,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.tencent.wxop.stat.StatConfig.R;
 
 /**
  * @描述 影片的详情
@@ -479,7 +478,6 @@ public class DetailsActivity extends BaseActivity {
         final CustomDialog dialog = new CustomDialog(this, details_view, false, true, dialog_height);
         dialog.show();
         ImageView image_back = details_view.findViewById(R.id.dialog_back);
-        ;
         image_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

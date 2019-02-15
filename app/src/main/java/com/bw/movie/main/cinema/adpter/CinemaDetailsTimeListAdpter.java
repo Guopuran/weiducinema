@@ -1,6 +1,7 @@
 package com.bw.movie.main.cinema.adpter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bw.movie.R;
+import com.bw.movie.details.bean.MovieScheduleBean;
 import com.bw.movie.main.cinema.bean.CinemaDetailsTimeListBean;
+import com.bw.movie.seat.activity.SeatActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class CinemaDetailsTimeListAdpter extends RecyclerView.Adapter<CinemaDetailsTimeListAdpter.ViewHolder> {
-   private List<CinemaDetailsTimeListBean.ResultBean> mList;
+   private List<MovieScheduleBean.ResultBean> mList;
    private Context mContext;
 
     public CinemaDetailsTimeListAdpter(Context mContext) {
@@ -25,7 +29,7 @@ public class CinemaDetailsTimeListAdpter extends RecyclerView.Adapter<CinemaDeta
         mList = new ArrayList<>();
     }
 
-    public void setmList(List<CinemaDetailsTimeListBean.ResultBean> mList) {
+    public void setmList(List<MovieScheduleBean.ResultBean> mList) {
         this.mList = mList;
         notifyDataSetChanged();
     }
@@ -38,11 +42,19 @@ public class CinemaDetailsTimeListAdpter extends RecyclerView.Adapter<CinemaDeta
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CinemaDetailsTimeListAdpter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull CinemaDetailsTimeListAdpter.ViewHolder viewHolder, final int i) {
          viewHolder.endtime.setText(mList.get(i).getEndTime());
          viewHolder.starttime.setText(mList.get(i).getBeginTime());
          viewHolder.flmstudio.setText(mList.get(i).getScreeningHall());
          viewHolder.moeny.setText(mList.get(i).getPrice()+"");
+         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 Intent intent=new Intent(mContext,SeatActivity.class);
+                 intent.putExtra("item",(Serializable)mList.get(i));
+                 mContext.startActivity(intent);
+             }
+         });
     }
 
     @Override

@@ -31,7 +31,7 @@
                    android:layout_width="72dp"
                    android:layout_height="72dp"
                    android:id="@+id/my_head_image"
-                   android:background="@mipmap/touxiang"
+
                    android:layout_marginTop="60dp"
                    android:layout_centerHorizontal="true"
                    />
@@ -40,7 +40,7 @@
                    android:layout_height="wrap_content"
                    android:textSize="14sp"
                    android:textColor="#ffff"
-                   android:text="冬天来了"
+                   android:text=""
                    android:layout_below="@id/my_head_image"
                    android:layout_centerHorizontal="true"
                    android:layout_marginTop="10dp"

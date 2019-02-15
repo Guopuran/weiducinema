@@ -1,9 +1,12 @@
 package com.bw.movie.seat.activity;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.bw.movie.MyApplication;
 import com.bw.movie.R;
 
 import android.view.Gravity;
@@ -12,6 +15,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.bw.movie.base.BaseActivity;;
@@ -19,7 +24,13 @@ import com.bw.movie.custom.CustomDialog;
 import com.bw.movie.custom.PayDialog;
 import com.bw.movie.details.bean.MovieScheduleBean;
 import com.bw.movie.seat.bean.CinemaSeatBean;
+import com.bw.movie.seat.bean.IndentPayBean;
+import com.bw.movie.seat.bean.WXPayBean;
 import com.bw.movie.seat.custom.SeatTable;
+import com.bw.movie.util.Apis;
+import com.bw.movie.util.EncryptUtil;
+import com.bw.movie.util.ToastUtil;
+import com.bw.movie.util.WeiXinUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -27,6 +38,10 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,6 +70,12 @@ public class SeatActivity extends BaseActivity {
     double totalPrice;
     private MovieScheduleBean.ResultBean resultBean;
     private double price;
+    private RadioButton dialog_weixin_button;
+    private RadioButton dialog_zhifubao_button;
+    private RadioGroup dialog_pay_group;
+    private TextView dialog_text_pay;
+    private IndentPayBean indentPayBean;
+    private final int WX_PAY_CODE=1;
     @Override
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
@@ -127,26 +148,109 @@ public class SeatActivity extends BaseActivity {
 
     @OnClick(R.id.item_cinema_detail_img_v)
     public void onImgVClickListener() {
-        View view = initDiaLog(R.layout.dialog_pay);
+        BigDecimal bigDecimal = new BigDecimal(price).setScale(2, BigDecimal.ROUND_DOWN);
 
+        if (price<=0.00d){
+            ToastUtil.showToast(SeatActivity.this,"请先选座");
+            return ;
+        }
+
+        //生成订单
+        initIndentUrl();
 
     }
+
+    private void initIndentUrl() {
+        Map<String,String> params=new HashMap<>();
+        params.put("scheduleId",resultBean.getId()+"");
+        params.put("amount",mSeatsTotal+"");
+        SharedPreferences mSharedPreferences=MyApplication.getContext().getSharedPreferences("User",Context.MODE_PRIVATE);
+        String userId = mSharedPreferences.getString("userId","");
+        String qianming=userId+resultBean.getId()+mSeatsTotal+"movie";
+        //String encrypt = EncryptUtil.encrypt(qianming);
+        String s = MD5(qianming);
+        params.put("sign",s);
+        postRequest(Apis.INDENTPAY,params,IndentPayBean.class);
+    }
+
     public View initDiaLog(int getLayoutId) {
-        View details_view = View.inflate(this, getLayoutId, null);
-        final PayDialog dialog = new PayDialog(this, details_view);
+        View pay_view = View.inflate(this, getLayoutId, null);
+        final PayDialog dialog = new PayDialog(this, pay_view);
+        ImageView image_back = pay_view.findViewById(R.id.dialog_back);
+        image_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
         dialog.show();
 
-        return details_view;
+        return pay_view;
     }
 
     @Override
-    public void success(Object data) {
+    public void success(Object object) {
+        if (object instanceof IndentPayBean){
+            indentPayBean = (IndentPayBean) object;
+            if (indentPayBean.getStatus().equals("0000")){
+                ToastUtil.showToast(SeatActivity.this, indentPayBean.getMessage());
+                initDialog();
+            }
+        }
+        if (object instanceof WXPayBean){
+            WXPayBean wxPayBean= (WXPayBean) object;
+            if (wxPayBean.getStatus().equals("0000")){
+                WeiXinUtil.weiXinPay(this,wxPayBean);
+            }
+        }
+    }
 
+    private void initDialog() {
+        View view = initDiaLog(R.layout.dialog_pay);
+        dialog_pay_group = view.findViewById(R.id.radio_pay);
+        dialog_weixin_button = view.findViewById(R.id.weixin_pay);
+        dialog_zhifubao_button = view.findViewById(R.id.zhifubao_pay);
+        dialog_text_pay = view.findViewById(R.id.text_pay);
+        dialog_text_pay.setText("微信支付"+new BigDecimal(price).setScale(2,BigDecimal.ROUND_DOWN)+"元");
+        dialog_pay_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.weixin_pay:
+                        dialog_text_pay.setText("微信支付"+new BigDecimal(price).setScale(2,BigDecimal.ROUND_DOWN)+"元");
+                        break;
+                    case R.id.zhifubao_pay:
+                        dialog_text_pay.setText("支付宝支付"+new BigDecimal(price).setScale(2,BigDecimal.ROUND_DOWN)+"元");
+                        break;
+                }
+            }
+        });
+        //点击支付
+        clickPay();
+    }
+
+    private void clickPay() {
+        dialog_text_pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dialog_weixin_button.isChecked()){
+                    initWeixinPayUrl();
+                }
+            }
+        });
+    }
+
+    private void initWeixinPayUrl() {
+        Map<String,String> params=new HashMap<>();
+        params.put("payType",WX_PAY_CODE+"");
+        params.put("orderId",indentPayBean.getOrderId());
+        postRequest(Apis.WEIXIN_PAY,params,WXPayBean.class);
     }
 
     @Override
     protected void failed(String error) {
-
+        ToastUtil.showToast(this,error);
     }
 
 
@@ -163,5 +267,32 @@ public class SeatActivity extends BaseActivity {
         EventBus.getDefault().unregister(this);
     }
 
+    /**
+     *  MD5加密
+     * @param sourceStr
+     * @return
+     */
+    public  String MD5(String sourceStr) {
+        String result = "";
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(sourceStr.getBytes());
+            byte b[] = md.digest();
+            int i;
+            StringBuffer buf = new StringBuffer("");
+            for (int offset = 0; offset < b.length; offset++) {
+                i = b[offset];
+                if (i < 0)
+                    i += 256;
+                if (i < 16)
+                    buf.append("0");
+                buf.append(Integer.toHexString(i));
+            }
+            result = buf.toString();
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println(e);
+        }
+        return result;
+    }
 
 }

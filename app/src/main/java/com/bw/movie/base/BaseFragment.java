@@ -14,6 +14,7 @@ import com.bw.movie.util.CircularLoading;
 import com.bw.movie.util.NetWorkUtil;
 import com.bw.movie.view.IView;
 
+import java.io.File;
 import java.util.Map;
 
 public abstract class BaseFragment extends Fragment implements IView {
@@ -81,6 +82,18 @@ public abstract class BaseFragment extends Fragment implements IView {
         mCircularLoading = CircularLoading.showLoadDialog(getActivity(), "加载中...", true);
 
         mIpresenterImpl.postRequestIpresenter(url,params,clazz);
+    }
+
+    //图片请求
+    protected void postImageRequest(String url, File file, Class clazz){
+        if (!(NetWorkUtil.isConn(getActivity()))){
+            NetWorkUtil.setNetworkMethod(getActivity());
+            return ;
+        }
+        //显示
+        mCircularLoading = CircularLoading.showLoadDialog(getActivity(), "加载中...", true);
+
+        mIpresenterImpl.postImageRequestIpresenter(url,file,clazz);
     }
 
     @Override

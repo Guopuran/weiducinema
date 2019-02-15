@@ -28,18 +28,18 @@
         android:id="@+id/movie_cinema_relative"
         android:layout_width="@dimen/dp_200"
         android:layout_height="@dimen/dp_24"
+        android:layout_alignParentTop="true"
         android:layout_marginRight="-160dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="30dp"
         android:layout_alignParentRight="true"
         android:background="@drawable/movie_search_bg" >
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/movie_search_image"
-            android:background="@mipmap/com_icon_search_default"
+            android:src="@mipmap/com_icon_search_default"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/dp_10"
-            android:layout_marginTop="13dp"
             />
         <EditText
             android:layout_width="120dp"
@@ -51,7 +51,8 @@
             android:textSize="12sp"
             android:layout_marginTop="5dp"
             android:paddingLeft="15dp"
-            android:focusable="true"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             />
         <TextView
             android:layout_width="wrap_content"

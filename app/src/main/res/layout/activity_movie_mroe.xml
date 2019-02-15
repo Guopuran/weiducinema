@@ -7,7 +7,7 @@
     tools:context=".main.movie.activity.MovieMroeActivity">
 
         <Button
-            android:layout_width="@dimen/dp_20"
+            android:layout_width="15dp"
             android:layout_height="@dimen/dp_20"
             android:background="@mipmap/com_icon_loc_white_default"
             android:layout_marginTop="@dimen/dp_30"

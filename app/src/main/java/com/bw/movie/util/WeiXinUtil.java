@@ -2,6 +2,10 @@ package com.bw.movie.util;
 
 import android.content.Context;
 
+import com.bw.movie.MyApplication;
+import com.bw.movie.seat.activity.SeatActivity;
+import com.bw.movie.seat.bean.WXPayBean;
+import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -32,9 +36,9 @@ public class WeiXinUtil {
             return  null;
         }
     }
-   /* //支付
-    public static void  weiXinPay(Bean_OrderSuccessBean bean){
-        IWXAPI wxapi = WXAPIFactory.createWXAPI(App.context, APP_ID, true);
+    //支付
+    public static void  weiXinPay(Context context, WXPayBean bean){
+        IWXAPI wxapi = WXAPIFactory.createWXAPI(context, APP_ID, true);
         //注册到微信
         wxapi.registerApp(APP_ID);
 
@@ -46,7 +50,6 @@ public class WeiXinUtil {
         payReq.timeStamp=bean.getTimeStamp();
         payReq.sign=bean.getSign();
         payReq.packageValue=bean.getPackageValue();
-        Log.d("",payReq.toString()+"111111");
         wxapi.sendReq(payReq);
-    }*/
+    }
 }

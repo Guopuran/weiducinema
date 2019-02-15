@@ -1,4 +1,4 @@
-package com.bw.movie.utils;
+package com.bw.movie.util;
 
 import android.content.Context;
 import android.view.ViewGroup;

@@ -19,7 +19,7 @@
                 >
                 <Button
                     android:layout_width="15dp"
-                    android:layout_height="@dimen/dp_20"
+                    android:layout_height="20dp"
                     android:background="@drawable/map_select"
                     android:layout_marginTop="@dimen/dp_30"
                     android:layout_marginLeft="24dp"
@@ -53,7 +53,6 @@
                         android:src="@mipmap/com_icon_search_default"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/dp_10"
-                        android:layout_marginTop="13dp"
                         />
                     <EditText
                         android:layout_width="120dp"
@@ -85,21 +84,33 @@
                 android:layout_marginLeft="24dp"
                 android:layout_marginTop="85dp"
                 android:layout_marginRight="24dp"/>
-            <TextView
+            <LinearLayout
+                android:id="@+id/parent_layout"
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_below="@id/movie_banner_recycle"
-                android:textSize="2sp"
-                android:layout_marginTop="20dp"
-                android:id="@+id/view"
-                android:background="#000"
-                />
+                android:layout_height="@dimen/dp_3"
+                android:background="@drawable/bg_line_while"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_below="@+id/movie_banner_recycle"
+                android:layout_marginLeft="@dimen/dp_24"
+                android:layout_marginRight="@dimen/dp_24">
+                <LinearLayout
+                    android:id="@+id/checked_layout"
+                    android:layout_width="@dimen/dp_21"
+                    android:layout_height="@dimen/dp_3"
+                    android:background="@drawable/bg_dividing_line_title"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    ></LinearLayout>
+
+            </LinearLayout>
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
                 android:layout_marginTop="20dp"
-                android:layout_below="@id/view"
+                android:layout_below="@id/parent_layout"
                 android:id="@+id/hot"
                 >
                 <TextView
