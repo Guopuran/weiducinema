@@ -19,7 +19,6 @@ public class StartActivity extends BaseActivity {
             int t=msg.what;
             if (t==0){
                 //进行跳转
-
                 Intent intent = new Intent(StartActivity.this,GuidanceActivity.class);
                 startActivity(intent);
                 finish();

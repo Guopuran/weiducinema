@@ -69,4 +69,6 @@ public class Apis {
     public static String MY_SING="user/v1/verify/userSignIn";
     //查询用户信息
     public static  String SEARCHMESSAGE="user/v1/verify/getUserInfoByUserId";
+    //用户查询购票记录
+    public static String MY_TICKETRECROD="user/v1/verify/findUserBuyTicketRecordList?page=%d&count=%d&status=%d";
 }

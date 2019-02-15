@@ -35,9 +35,11 @@ public class MovieMroeActivity extends BaseActivity {
     ImageView image_back;
      private List<Fragment> mList;
     private int flag;
+    private String moviemore;
 
     @Override
     protected void initData() {
+        //接受intent的值
         ButterKnife.bind(this);
         Intent intent = getIntent();
         flag = intent.getIntExtra("flag", 4);
@@ -102,8 +104,10 @@ public class MovieMroeActivity extends BaseActivity {
             }
         });
         setLayout();
-
     }
+
+
+
     public void setLayout(){
         if (flag==0){
             viewPager.setCurrentItem(0);

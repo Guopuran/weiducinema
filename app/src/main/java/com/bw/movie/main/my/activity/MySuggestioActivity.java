@@ -38,9 +38,9 @@ public class MySuggestioActivity extends BaseActivity {
     }
     //点击返回按钮
     @OnClick(R.id.my_suggestion_back)
-    public void  backOnClick(){
-        relative.setVisibility(View.VISIBLE);
-        relative_success.setVisibility(View.INVISIBLE);
+    public void  backOnClick()
+    {
+       finish();
     }
     //点击提交数据
     @OnClick(R.id.my_suggestio_submit)

@@ -23,14 +23,19 @@ import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login.bean.LoginBean;
 
+import com.bw.movie.login.bean.RefurbishMessageBean;
 import com.bw.movie.main.activity.MainActivity;
 
+import com.bw.movie.main.movie.activity.MovieMroeActivity;
+import com.bw.movie.main.movie.bean.MessageBean;
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.EncryptUtil;
 import com.bw.movie.util.RegularUtil;
 import com.bw.movie.util.ToastUtil;
 import com.bw.movie.util.WeiXinUtil;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -61,9 +66,16 @@ public class LoginActivity extends BaseActivity {
      private String encrypt;
      private SharedPreferences sharedPreferences;
      private SharedPreferences.Editor editor;
+    private String aReturn;
+    private String back;
+    private String back1;
+
     //逻辑代码
     @Override
     protected void initData() {
+        //intent的值
+          Intent intent = getIntent();
+          back1 = intent.getStringExtra("back");
           sharedPreferences = getSharedPreferences("User",MODE_PRIVATE);
           editor = sharedPreferences.edit();
           //记住密码
@@ -74,6 +86,7 @@ public class LoginActivity extends BaseActivity {
         checkremOnClick();
         //小眼睛的显示隐藏
         eyesOnClick();
+
     }
     //记住密码
     public void getCheckRem(){
@@ -163,7 +176,6 @@ public class LoginActivity extends BaseActivity {
              editor.putBoolean("check_auto1",true);
              editor.commit();
           }
-
         //登录请求数据
         getLoginData();
     }
@@ -202,16 +214,27 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void success(Object object)
     {
-        if (object instanceof LoginBean){
+        if (object instanceof LoginBean)
+        {
             LoginBean loginBean = (LoginBean) object;
-            if (loginBean.getStatus().equals("0000")){
+            if (loginBean.getStatus().equals("0000"))
+            {
                 editor.putString("userId",loginBean.getResult().getUserId()+"");
                 editor.putString("sessionId",loginBean.getResult().getSessionId()+"");
+                editor.putBoolean("loginSuccess",true);
                 editor.commit();
-                ToastUtil.showToast(this,loginBean.getMessage());
-                Intent intent = new Intent(this,MainActivity.class);
-                startActivity(intent);
+                if (this.back1!=null&& this.back1.equals("main"))
+                {
+                    Intent intent = new Intent(this,MainActivity.class);
+                    startActivity(intent);
+                }
+                else
+                {
+                    EventBus.getDefault().post(new RefurbishMessageBean(null,"refurbish"));
+                }
+
                 finish();
+                ToastUtil.showToast(this,loginBean.getMessage());
             }
         }
     }
