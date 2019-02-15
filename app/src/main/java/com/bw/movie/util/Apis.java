@@ -65,5 +65,8 @@ public class Apis {
     public static String MY_UPDATE_PASSWORD="user/v1/verify/modifyUserPwd";
     //查询影院用户评论列表
     public static String SELECT_COMMENT_CINEMA="cinema/v1/findAllCinemaComment?cinemaId=%d&page=%d&count=%d";
-
+    //签到的网络接口
+    public static String MY_SING="user/v1/verify/userSignIn";
+    //查询用户信息
+    public static  String SEARCHMESSAGE="user/v1/verify/getUserInfoByUserId";
 }
