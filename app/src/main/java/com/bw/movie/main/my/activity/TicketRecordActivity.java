@@ -4,16 +4,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
+import com.bw.movie.custom.PayDialog;
 import com.bw.movie.main.my.adpter.MyCompleAdpter;
 import com.bw.movie.main.my.adpter.MyWaitPayAdpter;
 import com.bw.movie.main.my.bean.MyTicketRecrodBean;
 import com.bw.movie.main.my.bean.MyTicketRecrodBean1;
+import com.bw.movie.seat.bean.WXPayBean;
 import com.bw.movie.util.Apis;
+import com.bw.movie.util.WeiXinUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,6 +45,14 @@ public class TicketRecordActivity extends BaseActivity {
     private int cpage=1;
     MyWaitPayAdpter waitPayAdpter;
     MyCompleAdpter compleAdpter;
+    private RadioButton dialog_weixin_button;
+    private RadioButton dialog_zhifubao_button;
+    private RadioGroup dialog_pay_group;
+    private TextView dialog_text_pay;
+    private final int WX_PAY_CODE=1;
+    private MyTicketRecrodBean ticketRecrodBean;
+    private List<MyTicketRecrodBean.ResultBean> result;
+    private String orderid;
     @Override
     protected void initData() {
       initWaitLayout();
@@ -67,6 +89,13 @@ public class TicketRecordActivity extends BaseActivity {
             }
         });
         getWatiData();
+        waitPayAdpter.setonclick(new MyWaitPayAdpter.onclick() {
+            @Override
+            public void setonclick(double price,String orderId) {
+                orderid=orderId;
+                initDialog(price);
+            }
+        });
     }
     //已完成加载布局
     public void  initComLayout(){
@@ -90,6 +119,7 @@ public class TicketRecordActivity extends BaseActivity {
             }
         });
         getComData();
+
     }
     //待付款请求数据
     public void getWatiData(){
@@ -103,6 +133,7 @@ public class TicketRecordActivity extends BaseActivity {
     protected void success(Object object) {
         if (object instanceof MyTicketRecrodBean){
             MyTicketRecrodBean ticketRecrodBean = (MyTicketRecrodBean) object;
+            result = ticketRecrodBean.getResult();
             if (wpage==1){
                waitPayAdpter.setmList(ticketRecrodBean.getResult());
 
@@ -123,6 +154,28 @@ public class TicketRecordActivity extends BaseActivity {
             }
             cpage++;
         }
+        if (object instanceof WXPayBean){
+            WXPayBean wxPayBean= (WXPayBean) object;
+            if (wxPayBean.getStatus().equals("0000")){
+                WeiXinUtil.weiXinPay(this,wxPayBean);
+            }
+        }
+    }
+
+    public View initDiaLog(int getLayoutId) {
+        View pay_view = View.inflate(this, getLayoutId, null);
+        final PayDialog dialog = new PayDialog(this, pay_view);
+        ImageView image_back = pay_view.findViewById(R.id.dialog_back);
+        image_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+        dialog.show();
+
+        return pay_view;
     }
 
     @Override
@@ -138,5 +191,73 @@ public class TicketRecordActivity extends BaseActivity {
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_ticket_record;
+    }
+
+    private void initDialog(final double price) {
+        View view = initDiaLog(R.layout.dialog_pay);
+        dialog_pay_group = view.findViewById(R.id.radio_pay);
+        dialog_weixin_button = view.findViewById(R.id.weixin_pay);
+        dialog_zhifubao_button = view.findViewById(R.id.zhifubao_pay);
+        dialog_text_pay = view.findViewById(R.id.text_pay);
+        dialog_text_pay.setText("微信支付"+new BigDecimal(price).setScale(2,BigDecimal.ROUND_DOWN)+"元");
+        dialog_pay_group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId){
+                    case R.id.weixin_pay:
+                        dialog_text_pay.setText("微信支付"+new BigDecimal(price).setScale(2,BigDecimal.ROUND_DOWN)+"元");
+                        break;
+                    case R.id.zhifubao_pay:
+                        dialog_text_pay.setText("支付宝支付"+new BigDecimal(price).setScale(2,BigDecimal.ROUND_DOWN)+"元");
+                        break;
+                }
+            }
+        });
+        //点击支付
+        clickPay();
+    }
+    private void clickPay() {
+        dialog_text_pay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (dialog_weixin_button.isChecked()){
+                    initWeixinPayUrl();
+                }
+            }
+        });
+    }
+    private void initWeixinPayUrl() {
+        Map<String,String> params=new HashMap<>();
+        params.put("payType",WX_PAY_CODE+"");
+        params.put("orderId",orderid);
+        postRequest(Apis.WEIXIN_PAY,params,WXPayBean.class);
+    }
+
+    /**
+     *  MD5加密
+     * @param sourceStr
+     * @return
+     */
+    public  String MD5(String sourceStr) {
+        String result = "";
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(sourceStr.getBytes());
+            byte b[] = md.digest();
+            int i;
+            StringBuffer buf = new StringBuffer("");
+            for (int offset = 0; offset < b.length; offset++) {
+                i = b[offset];
+                if (i < 0)
+                    i += 256;
+                if (i < 16)
+                    buf.append("0");
+                buf.append(Integer.toHexString(i));
+            }
+            result = buf.toString();
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println(e);
+        }
+        return result;
     }
 }

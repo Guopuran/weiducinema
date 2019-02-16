@@ -44,17 +44,17 @@ public class MyCompleAdpter extends RecyclerView.Adapter<MyCompleAdpter.ViewHold
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = View.inflate(mContext, R.layout.ticket_wait,null);
+        View view = View.inflate(mContext, R.layout.ticket_ok,null);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.ticketOkName.setText(mList.get(i).getMovieName());
-        String startTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(mList.get(i).getBeginTime());
-        viewHolder.ticketOkStarttime.setText(startTime+" -");
-        String endTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(mList.get(i).getEndTime());
-        viewHolder.ticketOkEndtime.setText(" "+endTime);
+        //String startTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(mList.get(i).getBeginTime());
+        viewHolder.ticketOkStarttime.setText(mList.get(i).getBeginTime());
+        //String endTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(mList.get(i).getEndTime());
+        viewHolder.ticketOkEndtime.setText(mList.get(i).getEndTime());
         viewHolder.ticketOkOrder.setText(mList.get(i).getScreeningHall());
         String date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(mList.get(i).getCreateTime());
         viewHolder.ticketOkOrdertime.setText(date);

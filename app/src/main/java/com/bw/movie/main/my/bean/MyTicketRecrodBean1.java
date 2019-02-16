@@ -38,8 +38,8 @@ public class MyTicketRecrodBean1 {
         private int amount;
         private String beginTime;
         private String cinemaName;
-        private String createTime;
-        private long endTime;
+        private long createTime;
+        private String endTime;
         private int id;
         private String movieName;
         private String orderId;
@@ -72,19 +72,19 @@ public class MyTicketRecrodBean1 {
             this.cinemaName = cinemaName;
         }
 
-        public String getCreateTime() {
+        public long getCreateTime() {
             return createTime;
         }
 
-        public void setCreateTime(String createTime) {
+        public void setCreateTime(long createTime) {
             this.createTime = createTime;
         }
 
-        public long getEndTime() {
+        public String getEndTime() {
             return endTime;
         }
 
-        public void setEndTime(int endTime) {
+        public void setEndTime(String endTime) {
             this.endTime = endTime;
         }
 
