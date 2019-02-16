@@ -97,8 +97,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
 
     private void initPresonUrl() {
         getRequest(Apis.SEARCHMESSAGE,MyUserMeaagerBean.class);
-            sharedPreferences = getActivity().getSharedPreferences("User",Context.MODE_PRIVATE);
-            editor = sharedPreferences.edit();
+        sharedPreferences = getActivity().getSharedPreferences("User",Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
     }
 
     //点击关注
