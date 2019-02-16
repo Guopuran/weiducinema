@@ -50,19 +50,22 @@ public class MyWaitPayAdpter extends RecyclerView.Adapter<MyWaitPayAdpter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.ticketWaitName.setText(mList.get(i).getMovieName());
-        viewHolder.ticketWaitOrder.setText(mList.get(i).getOrderId());
-        viewHolder.ticketWaitMovie.setText(mList.get(i).getCinemaName());
-        viewHolder.ticketWaitFilm.setText(mList.get(i).getScreeningHall());
-        String date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(mList.get(i).getCreateTime());
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
+        final MyTicketRecrodBean.ResultBean resultBean = mList.get(i);
+        viewHolder.ticketWaitName.setText(resultBean.getMovieName());
+        viewHolder.ticketWaitOrder.setText(resultBean.getOrderId());
+        viewHolder.ticketWaitMovie.setText(resultBean.getCinemaName());
+        viewHolder.ticketWaitFilm.setText(resultBean.getScreeningHall());
+        String date = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(resultBean.getCreateTime());
         viewHolder.ticketWaitTime.setText(date);
-        viewHolder.ticketWaitNum.setText(mList.get(i).getAmount()+"张");
-        viewHolder.ticketWaitPrice.setText(mList.get(i).getPrice()+"元");
+        viewHolder.ticketWaitNum.setText(resultBean.getAmount()+"张");
+        viewHolder.ticketWaitPrice.setText(resultBean.getPrice()+"元");
         viewHolder.ticketWaitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO:这里是去付款
+                if (monclick!=null){
+                    monclick.setonclick(resultBean.getPrice(),resultBean.getOrderId());
+                }
             }
         });
     }
@@ -93,5 +96,12 @@ public class MyWaitPayAdpter extends RecyclerView.Adapter<MyWaitPayAdpter.ViewHo
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
+    }
+    private onclick monclick;
+    public void setonclick(onclick monclick){
+        this.monclick=monclick;
+    }
+    public  interface onclick{
+        void setonclick(double  price,String orderId);
     }
 }

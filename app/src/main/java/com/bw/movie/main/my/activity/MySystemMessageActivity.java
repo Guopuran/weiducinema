@@ -32,7 +32,7 @@ public class MySystemMessageActivity extends BaseActivity {
     }
     //点击读取消息
     public void onCLick(){
-        systemMessageAdpter.setOnClic(new MySystemMessageAdpter.OnClick() {
+        systemMessageAdpter.setOnClick(new MySystemMessageAdpter.OnClick() {
             @Override
             public void OnClickLisenter(int id, int i) {
                 getSystemMesageReadData(id);

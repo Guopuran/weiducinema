@@ -143,7 +143,7 @@ public class MySystemMessageAdpter extends RecyclerView.Adapter<RecyclerView.Vie
 
     //读取消息接口回调
     OnClick monClick;
-    public void setOnClic(OnClick onClic){
+    public void setOnClick(OnClick onClic){
         monClick = onClic;
     }
     public interface  OnClick{
