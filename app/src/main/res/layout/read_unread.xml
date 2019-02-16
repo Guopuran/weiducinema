@@ -19,7 +19,7 @@
         android:id="@+id/read_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_below="@id/read_title"
         android:text="111"
         android:textSize="12sp"
@@ -42,10 +42,11 @@
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="20dp"
         android:layout_below="@id/read_time"
         android:background="@drawable/read_type"
+
         >
         <TextView
             android:layout_width="wrap_content"

@@ -80,7 +80,7 @@ public class MySystemMessageAdpter extends RecyclerView.Adapter<RecyclerView.Vie
                         new java.util.Date(mList.get(i).getPushTime()));
                 unReadViewHolder.time.setText(date);
                 unReadViewHolder.title.setText(mList.get(i).getTitle());
-                unReadViewHolder.read_relative.setOnClickListener(new View.OnClickListener() {
+                unReadViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         if (monClick!=null){
@@ -92,6 +92,7 @@ public class MySystemMessageAdpter extends RecyclerView.Adapter<RecyclerView.Vie
             case READ:
                 ReadViewHolder readViewHolder = (ReadViewHolder) viewHolder;
                 readViewHolder.read_count.setText(mList.get(i).getContent());
+                readViewHolder.read_title.setText(mList.get(i).getTitle());
                 String date1 = new SimpleDateFormat("yyyy-MM-dd hh:mm").format(
                         new java.util.Date(mList.get(i).getPushTime()));
                 readViewHolder.read_time.setText(date1);
@@ -105,6 +106,12 @@ public class MySystemMessageAdpter extends RecyclerView.Adapter<RecyclerView.Vie
     public int getItemCount() {
         return  mList.size();
     }
+
+    public void onRefresh(int i) {
+        mList.get(i).setStatus(1);
+        notifyDataSetChanged();
+    }
+
     //未读
     public class  unReadViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.read_title)

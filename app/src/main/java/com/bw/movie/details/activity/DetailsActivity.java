@@ -88,8 +88,6 @@ public class DetailsActivity extends BaseActivity {
     private SharedPreferences.Editor editor;
     private boolean loginSuccess;
 
-
-
     private int dialog_height;
     private ImageView dialog_image;
     private TextView dialog_text_type;
@@ -286,9 +284,17 @@ public class DetailsActivity extends BaseActivity {
                 break;
             //购票按钮
             case R.id.details_movie_button_buy:
-                Intent buy_intent=new Intent(this,TheatreActivity.class);
-                buy_intent.putExtra("resultMovie", (Serializable) resultMovie);
-                startActivity(buy_intent);
+                loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
+                if (loginSuccess){
+                    Intent buy_intent=new Intent(this,TheatreActivity.class);
+                    buy_intent.putExtra("resultMovie", (Serializable) resultMovie);
+                    startActivity(buy_intent);
+                }
+                else {
+                    ToastUtil.showToast(this,"请先登录");
+                    Intent intent1 = new Intent(this,LoginActivity.class);
+                    startActivity(intent1);
+                }
                 break;
             default:
                 break;

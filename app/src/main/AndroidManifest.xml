@@ -13,6 +13,8 @@
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -37,8 +39,6 @@
             android:theme="@style/DefaultCityPickerTheme">
             android:theme="@style/DefaultCityPickerTheme" />
             <!-- or android:screenOrientation="landscape" -->
-            =
-            android:theme="@style/DefaultCityPickerTheme" >
 
             android:theme="@style/DefaultCityPickerTheme" />
             <!-- or android:screenOrientation="landscape" -->
@@ -88,7 +88,7 @@
         <activity android:name=".seat.activity.SeatActivity" />
         <activity android:name=".main.my.activity.TicketRecordActivity" />
         <activity android:name=".main.my.activity.MySystemMessageActivity"></activity>
-        <activity android:name=".main.my.activity.TicketRecordActivity"></activity>
+
 
 
 

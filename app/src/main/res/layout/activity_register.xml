@@ -21,22 +21,45 @@
         android:textColorHint="#fff"
         android:textSize="@dimen/sp_16"
         />
-    <EditText
-        android:id="@+id/reg_sex"
+     <ImageView
+         android:layout_width="20dp"
+         android:layout_height="20dp"
+         android:id="@+id/reg_sex"
+         android:layout_below="@id/reg_name"
+         android:layout_marginLeft="40dp"
+         android:background="@mipmap/register_icon_sex_default"
+         />
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/reg_sex"
         android:layout_below="@id/reg_name"
-        android:layout_width="@dimen/dp_280"
-        android:layout_height="@dimen/dp_40"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="@dimen/dp_10"
-        android:layout_marginRight="40dp"
-        android:drawableLeft="@mipmap/register_icon_sex_default"
-        android:drawablePadding="@dimen/dp_20"
-        android:hint="性别"
-        android:maxLength="11"
-        android:textColor="#eeeeee"
-        android:textColorHint="#fff"
-        android:textSize="@dimen/sp_16"
-        />
+        android:layout_marginLeft="10dp"
+
+        android:orientation="horizontal"
+        >
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radio_man"
+            android:text="男"
+            android:textSize="16sp"
+            android:textColor="#ffff"
+            android:button="@drawable/radio_button_style"
+
+            />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radio_woman"
+            android:text="女"
+            android:textSize="16sp"
+            android:textColor="#ffff"
+            android:button="@drawable/radio_button_style"
+            android:checked="true"
+            android:layout_marginLeft="20dp"
+            />
+    </RadioGroup>
     <!--SHURU-->
     <TextView
         android:id="@+id/reg_date"

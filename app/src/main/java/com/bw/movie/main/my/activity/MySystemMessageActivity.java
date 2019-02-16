@@ -36,7 +36,7 @@ public class MySystemMessageActivity extends BaseActivity {
             @Override
             public void OnClickLisenter(int id, int i) {
                 getSystemMesageReadData(id);
-
+                systemMessageAdpter.onRefresh(i);
             }
         });
     }
@@ -67,7 +67,8 @@ public class MySystemMessageActivity extends BaseActivity {
         getRequest(String.format(Apis.SYSTEM_MESSAGE_READ,id),MySystemMessageReadBean.class);
     }
     //读取类表请求数据
-    public void getSystemMessageList(){
+    public void getSystemMessageList()
+    {
         getRequest(String.format(Apis.SYSTEM_MESSAGE_LIST,page,10),MySystemMessageBean.class);
     }
     @Override

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.bigkoo.pickerview.builder.TimePickerBuilder;
@@ -40,18 +42,21 @@ public class RegisterActivity extends BaseActivity {
      @BindView(R.id.reg_pass)
      EditText edit_pass;
      @BindView(R.id.reg_sex)
-     EditText edit_sex;
+     ImageView edit_sex;
      @BindView(R.id.reg_but)
      Button but_reg;
      @BindView(R.id.reg_phone)
      EditText edit_phone;
+     @BindView(R.id.radio_man)
+     RadioButton man;
+     @BindView(R.id.radio_woman)
+     RadioButton woman;
     private String emil;
     private String name;
     private String pass;
     private String sex;
     private String phone;
     private String date;
-
     //逻辑代码
     @Override
     protected void initData() {
@@ -63,7 +68,6 @@ public class RegisterActivity extends BaseActivity {
         emil = edit_emil.getText().toString();
         name = edit_name.getText().toString();
         pass = edit_pass.getText().toString();
-        sex = edit_sex.getText().toString();
         phone = edit_phone.getText().toString();
         date = text_date.getText().toString();
         getRegData();
@@ -71,16 +75,25 @@ public class RegisterActivity extends BaseActivity {
     //注册请求网络
     public void  getRegData(){
         String decrypt = EncryptUtil.encrypt(pass);
-        int sex1 = isSex();
         Map<String,String> prams = new HashMap<>();
         prams.put("nickName",name);
         prams.put("phone",phone);
         prams.put("pwd",decrypt);
-        prams.put("sex", sex1+"");
+        prams.put("sex", sex+"");
         prams.put("birthday",date);
         prams.put("email",emil);
         prams.put("pwd2",decrypt);
         postRequest(Apis.REGISTER_URL,prams,RegisterBean.class);
+    }
+    //点击女
+    @OnClick(R.id.radio_man)
+    public void onClickWoman(){
+            sex=1+"";
+    }
+    //点击男
+    @OnClick(R.id.radio_woman)
+    public void onClickman(){
+            sex=2+"";
     }
     //日期选择的点击事件
     @OnClick(R.id.reg_date)
@@ -126,16 +139,7 @@ public class RegisterActivity extends BaseActivity {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         return format.format(date);
     }
-    //判断性别男女
-    public int isSex(){
-        if (sex.equals("男")){
-            return  1;
-        }
-        if (sex.equals("女")){
-            return 2;
-        }
-        return 0;
-    }
+
     //获取网络消息
     @Override
     protected void success(Object object) {
