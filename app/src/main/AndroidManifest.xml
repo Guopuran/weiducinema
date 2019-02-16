@@ -8,15 +8,16 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/xg_network_security_config"
         android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
-        android:networkSecurityConfig="@xml/xg_network_security_config"
         android:theme="@style/AppTheme.NoTitle_FullScreen">
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -25,7 +26,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
         <activity
@@ -36,7 +37,8 @@
             =
             android:theme="@style/DefaultCityPickerTheme" >
 
-            android:theme="@style/DefaultCityPickerTheme" /> <!-- or android:screenOrientation="landscape" -->
+            android:theme="@style/DefaultCityPickerTheme" />
+            <!-- or android:screenOrientation="landscape" -->
 
             android:theme="@style/DefaultCityPickerTheme" >
         </activity> <!-- or android:screenOrientation="landscape" -->
@@ -57,8 +59,7 @@
             android:name=".details.activity.DetailsActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"
-            />
+            android:windowSoftInputMode="adjustResize" />
         android:screenOrientation="portrait" />
 
         <!-- 如果您项目中的所有页面都只需要以高或宽中的一个作为基准进行适配的话, 那就只需要填写高或宽中的一个设计图尺寸即可 -->
@@ -79,7 +80,8 @@
         <activity android:name=".main.my.activity.MySuggestioActivity" />
         <activity android:name=".main.my.activity.ResettingPasswordActivity" />
         <activity android:name=".seat.activity.SeatActivity" />
-        <activity android:name=".main.my.activity.TicketRecordActivity"></activity>
+        <activity android:name=".main.my.activity.TicketRecordActivity" />
+        <activity android:name=".main.my.activity.MySystemMessageActivity"></activity>
     </application>
 
 </manifest>

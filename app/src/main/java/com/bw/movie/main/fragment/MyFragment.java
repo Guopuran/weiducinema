@@ -37,6 +37,7 @@ import com.bw.movie.main.movie.bean.UpdateCodeBean;
 import com.bw.movie.main.my.activity.MyFollowActivity;
 import com.bw.movie.main.my.activity.MyMessageActivity;
 import com.bw.movie.main.my.activity.MySuggestioActivity;
+import com.bw.movie.main.my.activity.MySystemMessageActivity;
 import com.bw.movie.main.my.activity.TicketRecordActivity;
 import com.bw.movie.main.my.bean.HeadImageBean;
 import com.bw.movie.main.my.bean.MySginBean;
@@ -81,7 +82,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     TextView name_text;
     @BindView(R.id.my_newversion_image)
     ImageView newversion_image;
-
+     @BindView(R.id.my_xtmessage_imgae)
+     ImageView systemMessage;
     private static final int PHOTO_REQUEST_CAREMA=1;//拍照
     private static final int PHOTO_REQUEST_GALLERY=2;//从相册中选择
     private static final int PHOTO_REQUEST_CUT=3;//裁剪之后
@@ -170,7 +172,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
 
     //版本更新的点击事件
     @OnClick(R.id.my_newversion_image)
-    public void my_suggestio_image(){
+    public void my_suggestio_image()
+    {
         ObjectAnimator rotation = ObjectAnimator.ofFloat(newversion_image, "rotation", 0.0f, 720f);
         rotation.setDuration(2000);
         rotation.start();
@@ -219,6 +222,20 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
             startActivity(intent);
         }
 
+    }
+    //系统消息的点击事件
+    @OnClick(R.id.my_xtmessage_imgae)
+    public void ststemMessageClick(){
+        loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
+        if (loginSuccess){
+            Intent intent =  new Intent(getActivity(),MySystemMessageActivity.class);
+            startActivity(intent);
+        }
+        else {
+            ToastUtil.showToast(getActivity(),"请先登录");
+            Intent intent = new Intent(getActivity(),LoginActivity.class);
+            startActivity(intent);
+        }
     }
     //签到的网络请求
     public void getSignData()

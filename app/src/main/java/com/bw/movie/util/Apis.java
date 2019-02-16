@@ -79,4 +79,10 @@ public class Apis {
     public static  String SUGGESTIO_URL="tool/v1/findNewVersion";
     //用户查询购票记录
     public static String MY_TICKETRECROD="user/v1/verify/findUserBuyTicketRecordList?page=%d&count=%d&status=%d";
+    //消息读取
+    public static  String SYSTEM_MESSAGE_LIST="tool/v1/verify/findAllSysMsgList?page=%d&count=%d";
+    //改变读取状态
+    public static String SYSTEM_MESSAGE_READ="tool/v1/verify/changeSysMsgStatus?id=%d";
+    //系统消息未读数量
+    public static String SYSTEM_MESSAGE_COUNT="tool/v1/verify/findUnreadMessageCount";
 }

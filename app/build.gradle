@@ -16,8 +16,8 @@ android {
         }
         manifestPlaceholders = [
 
-                XG_ACCESS_ID:"2100326982",
-                XG_ACCESS_KEY : "A48C3I6PK5DY",
+                XG_ACCESS_ID : "2100326982",
+                XG_ACCESS_KEY: "A48C3I6PK5DY",
         ]
 
     }
@@ -88,10 +88,10 @@ dependencies {
     implementation 'com.zaaach:citypicker:2.0.3'
 
     //信鸽普通版本jar，不包含厂商通道
-    implementation  'com.tencent.xinge:xinge:4.0.5-release'
+    implementation 'com.tencent.xinge:xinge:4.0.5-release'
     //implementation'com.tencent.xinge:xinge:4.3.1-beta'
     //jg包
-    implementation'com.tencent.jg:jg:1.1'
+    implementation 'com.tencent.jg:jg:1.1'
     //wup包
     implementation 'com.tencent.wup:wup:1.0.0.E-release'
     //mid包，minSdkVersion 14
