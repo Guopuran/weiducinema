@@ -8,6 +8,7 @@ import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login.bean.WeiXinBean;
 import com.bw.movie.main.activity.MainActivity;
+import com.bw.movie.main.my.activity.TicketRecordActivity;
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.ToastUtil;
 import com.bw.movie.util.WeiXinUtil;
@@ -81,6 +82,9 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             int errCord = baseResp.errCode;
             if (errCord == 0) {
                 ToastUtil.showToast(this, "支付成功！");
+                Intent intent=new Intent(this,TicketRecordActivity.class);
+                startActivity(intent);
+                finish();
 
             } else if (errCord == -1) {
                 ToastUtil.showToast(this, "支付失败");
@@ -89,7 +93,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             }
             //这里接收到了返回的状态码可以进行相应的操作，如果不想在这个页面操作可以把状态码存在本地然后finish掉这个页面，这样就回到了你调起支付的那个页面
             //获取到你刚刚存到本地的状态码进行相应的操作就可以了
-            finish();
+            //finish();
         }
     }
     @Override
