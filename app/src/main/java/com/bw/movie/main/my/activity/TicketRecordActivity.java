@@ -32,7 +32,13 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+/**
+ *
+ * @描述 订单页面
+ *
+ * @创建日期 2019/2/18 10:43
+ *
+ */
 public class TicketRecordActivity extends BaseActivity {
 
     @BindView(R.id.my_ticket_recycle)
