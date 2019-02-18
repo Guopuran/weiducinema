@@ -6,15 +6,23 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bw.movie.MyApplication;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.main.cinema.fragment.NearFragment;
 import com.bw.movie.main.cinema.fragment.RecommendFragment;
 import com.bw.movie.util.ToastUtil;
+import com.squareup.leakcanary.RefWatcher;
+import com.zaaach.citypicker.CityPicker;
+import com.zaaach.citypicker.adapter.OnPickListener;
+import com.zaaach.citypicker.model.City;
+import com.zaaach.citypicker.model.LocatedCity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +39,10 @@ public class CinemaFragment extends BaseFragment {
     @BindView(R.id.movie_cinema_relative)
     RelativeLayout search_relative;
     private List<Fragment> mList;
+    @BindView(R.id.movie_location_but1)
+     Button location_but;
+    @BindView(R.id.movie_location_text1)
+     TextView location_text;
     @Override
     protected void initData() {
 
@@ -88,6 +100,29 @@ public class CinemaFragment extends BaseFragment {
           }
       });
     }
+    //定位的点击按钮
+    @OnClick({R.id.movie_location_but1})
+    public void onClickLocation(){
+        CityPicker.from(getActivity()) //activity或者fragment
+                .setLocatedCity(new LocatedCity("杭州", "浙江", "101210101"))
+                .setOnPickListener(new OnPickListener() {
+                    @Override
+                    public void onPick(int position, City data) {
+                        location_text.setText(data.getName());
+                    }
+
+                    @Override
+                    public void onCancel(){
+                        ToastUtil.showToast(getActivity(),"取消选择");
+                    }
+
+                    @Override
+                    public void onLocate() {
+
+                    }
+                })
+                .show();
+    }
     //弹出的动画
     @OnClick(R.id.movie_search_image)
     public void outAnimation(){
@@ -127,6 +162,19 @@ public class CinemaFragment extends BaseFragment {
         super.onResume();
         getFocus();
     }
+   //检测内存泄漏
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+    }
+
+   /* @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = MyApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }*/
 
     private long exitTime=0;
     private void getFocus() {

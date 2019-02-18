@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.bw.movie.MyApplication;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.login.activity.LoginActivity;
@@ -17,6 +18,7 @@ import com.bw.movie.main.cinema.bean.CinemaNoFollowBean;
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.ToastUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.squareup.leakcanary.RefWatcher;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -160,7 +162,16 @@ public class RecommendFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
+
     }
+
+    /*@Override
+    public void onDestroy() {
+        super.onDestroy();
+        //检测内存泄漏
+        RefWatcher refWatcher = MyApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }*/
 
     @Override
     protected int getLayoutResId()

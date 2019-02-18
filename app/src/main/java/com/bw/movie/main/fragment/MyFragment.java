@@ -29,9 +29,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.bw.movie.MyApplication;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.login.activity.LoginActivity;
+import com.bw.movie.login.bean.RefurbishMessageBean;
 import com.bw.movie.main.activity.LocationActivity;
 import com.bw.movie.main.movie.bean.UpdateCodeBean;
 import com.bw.movie.main.my.activity.MyFollowActivity;
@@ -45,6 +47,11 @@ import com.bw.movie.main.my.bean.MyUserMeaagerBean;
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.GlidRoundUtils;
 import com.bw.movie.util.ToastUtil;
+import com.squareup.leakcanary.RefWatcher;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -84,6 +91,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     ImageView newversion_image;
      @BindView(R.id.my_xtmessage_imgae)
      ImageView systemMessage;
+
     private static final int PHOTO_REQUEST_CAREMA=1;//拍照
     private static final int PHOTO_REQUEST_GALLERY=2;//从相册中选择
     private static final int PHOTO_REQUEST_CUT=3;//裁剪之后
@@ -102,7 +110,13 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         sharedPreferences = getActivity().getSharedPreferences("User",Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
     }
-
+    //接受传值进行刷新
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void enventbus(RefurbishMessageBean messageBean){
+        if (messageBean.getFlag().equals("refurbish")){
+            initPresonUrl();
+        }
+    }
     //点击关注
     @OnClick(R.id.my_follow_image)
     public void  onClickFollow(){
@@ -184,30 +198,39 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     //头像的点击事件
     @OnClick(R.id.my_head_image)
     public void onClickHead_Image(){
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M) {
-            String[] mStatenetwork = new String[]{
-                    //写的权限
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    //读的权限
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    //入网权限
-                    Manifest.permission.ACCESS_NETWORK_STATE,
-                    //WIFI权限
-                    Manifest.permission.ACCESS_WIFI_STATE,
-                    //读手机权限
-                    Manifest.permission.READ_PHONE_STATE,
-                    //网络权限
-                    Manifest.permission.INTERNET,
-                    //相机
-                    Manifest.permission.CAMERA,
-                    Manifest.permission.WRITE_APN_SETTINGS,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.ACCESS_NETWORK_STATE,
-            };
-            ActivityCompat.requestPermissions(getActivity(), mStatenetwork, 100);
+        loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
+        if (loginSuccess){
+            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M) {
+                String[] mStatenetwork = new String[]{
+                        //写的权限
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        //读的权限
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        //入网权限
+                        Manifest.permission.ACCESS_NETWORK_STATE,
+                        //WIFI权限
+                        Manifest.permission.ACCESS_WIFI_STATE,
+                        //读手机权限
+                        Manifest.permission.READ_PHONE_STATE,
+                        //网络权限
+                        Manifest.permission.INTERNET,
+                        //相机
+                        Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_APN_SETTINGS,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.ACCESS_NETWORK_STATE,
+                };
+                ActivityCompat.requestPermissions(getActivity(), mStatenetwork, 100);
+            }
+            show();
         }
-        show();
+        else {
+            ToastUtil.showToast(getActivity(),"请先登录");
+            Intent intent = new Intent(getActivity(),LoginActivity.class);
+            startActivity(intent);
+        }
+
     }
     //签到的点击事件
     @OnClick(R.id.my_sign_text)
@@ -265,6 +288,9 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
             if (mySginBean.getStatus().equals("0000")){
                 ToastUtil.showToast(getActivity(),mySginBean.getMessage());
             }
+            else {
+                ToastUtil.showToast(getActivity(),mySginBean.getMessage());
+            }
         }
         if (object instanceof HeadImageBean ){
             HeadImageBean headImageBean= (HeadImageBean) object;
@@ -283,6 +309,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
             Glide.with(this).load(result.getHeadPic())
                     .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(180)))
                     .into(head_image);
+
 
         }
         if(object instanceof UpdateCodeBean){
@@ -324,6 +351,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     @Override
     protected void initView(View view) {
         ButterKnife.bind(this,view);
+        EventBus.getDefault().register(this);
     }
 
     @Override
@@ -337,6 +365,19 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         super.onResume();
         getFocus();
     }
+    //检测内存泄漏
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
+
+   /* @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = MyApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }*/
 
     private long exitTime=0;
     private void getFocus() {

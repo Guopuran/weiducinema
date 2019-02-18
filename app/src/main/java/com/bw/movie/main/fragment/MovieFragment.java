@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bw.movie.MyApplication;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.main.activity.LocationActivity;
@@ -37,6 +38,7 @@ import com.bw.movie.main.movie.bean.MovieWillBean;
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.ImageViewAnimationHelper;
 import com.bw.movie.util.ToastUtil;
+import com.squareup.leakcanary.RefWatcher;
 import com.zaaach.citypicker.CityPicker;
 import com.zaaach.citypicker.adapter.OnPickListener;
 import com.zaaach.citypicker.model.City;
@@ -313,11 +315,19 @@ public class MovieFragment extends BaseFragment {
         return R.layout.fragment_movie;
     }
 
-    @Override
+   /* @Override
     public void onDestroy() {
         super.onDestroy();
+        RefWatcher refWatcher = MyApplication.getRefWatcher(getActivity());
+        refWatcher.watch(this);
+    }*/
+    //检测内存泄漏
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
 
     }
+
     @Override
     public void onResume() {
         super.onResume();

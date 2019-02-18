@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ccc"
+    >
+
+    <LinearLayout
+        android:layout_width="321dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:text="用户昵称"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/update_nick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_weight="9"
+            android:background="@null"
+            android:hint="请输入您要修改的昵称"
+            android:textColor="#fff"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="#f2f2f2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:text="用户性别"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+
+        <RadioGroup
+            android:id="@+id/sex_group"
+
+            android:layout_width="0dp"
+            android:layout_weight="9"
+            android:layout_height="@dimen/dp_30"
+            android:layout_toRightOf="@id/reg_sex"
+            android:paddingTop="@dimen/dp_5"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:orientation="horizontal"
+            >
+            <RadioButton
+                android:button="@null"
+                android:layout_marginTop="@dimen/dp_2"
+                android:id="@+id/sex_boy"
+                android:layout_marginLeft="@dimen/dp_20"
+                android:layout_width="@dimen/dp_15"
+                android:layout_height="@dimen/dp_15"
+                android:background="@drawable/radio_button_style"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="男"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:textSize="@dimen/sp_16"
+                android:textColor="#fff"
+                />
+            <RadioButton
+                android:button="@null"
+                android:layout_marginTop="@dimen/dp_2"
+                android:id="@+id/sex_girl"
+                android:layout_marginLeft="@dimen/dp_50"
+                android:layout_width="@dimen/dp_15"
+                android:layout_height="@dimen/dp_15"
+                android:background="@drawable/radio_button_style"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="女"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:textSize="@dimen/sp_16"
+                android:textColor="#fff"
+                />
+        </RadioGroup>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="#f2f2f2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:text="用户邮箱"
+            android:textColor="#333333"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/update_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:layout_weight="9"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:hint="请输入您所修改的邮箱"
+            android:background="@null"
+            android:textColor="#fff"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:background="#f2f2f2" />
+
+    <Button
+        android:id="@+id/user_but"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="#f00"
+        android:text="确定"
+        android:textColor="#ffffff" />
+
+
+
+
+</LinearLayout>

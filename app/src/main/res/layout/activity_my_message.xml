@@ -22,7 +22,7 @@
           app:cardPreventCornerOverlap="false"
           app:cardElevation="@dimen/dp_4"
           android:layout_width="match_parent"
-          android:layout_height="158dp"
+          android:layout_height="178dp"
           android:layout_centerHorizontal="true"
           android:layout_below="@id/text"
           android:layout_marginLeft="24dp"
@@ -95,11 +95,42 @@
               <TextView
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
+                  android:id="@+id/my_xb_text"
+                  android:text="性别"
+                  android:textColor="#333333"
+                  android:textSize="14sp"
+                  android:layout_below="@id/view2"
+                  android:layout_marginLeft="20dp"
+                  android:layout_marginTop="10dp"
+                  />
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="1999-02-12"
+                  android:textColor="#333333"
+                  android:textSize="14sp"
+                  android:layout_alignRight="@id/view3"
+                  android:layout_below="@id/view2"
+                  android:layout_marginTop="10dp"
+                  android:id="@+id/my_sex_text1"
+                  />
+              <View
+                  android:layout_width="272dp"
+                  android:layout_height="1dp"
+                  android:layout_below="@id/my_xb_text"
+                  android:layout_marginTop="10dp"
+                  android:layout_marginLeft="20dp"
+                  android:id="@+id/view7"
+                  android:background="#f2f2f2"
+                  />
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
                   android:id="@+id/my_csrq_text"
                   android:text="出生日期"
                   android:textColor="#333333"
                   android:textSize="14sp"
-                  android:layout_below="@id/view2"
+                  android:layout_below="@id/view7"
                  android:layout_marginLeft="20dp"
                   android:layout_marginTop="10dp"
                   />
@@ -110,7 +141,7 @@
                   android:textColor="#333333"
                   android:textSize="14sp"
                   android:layout_alignRight="@id/view3"
-                  android:layout_below="@id/view2"
+                  android:layout_below="@id/view7"
                   android:layout_marginTop="10dp"
                   android:id="@+id/my_brith_text"
                   />

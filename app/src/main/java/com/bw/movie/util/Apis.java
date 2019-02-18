@@ -85,4 +85,6 @@ public class Apis {
     public static String SYSTEM_MESSAGE_READ="tool/v1/verify/changeSysMsgStatus?id=%d";
     //系统消息未读数量
     public static String SYSTEM_MESSAGE_COUNT="tool/v1/verify/findUnreadMessageCount";
+    //修改个人信息
+    public  static  String UPDATEUSERMESSAGE="user/v1/verify/modifyUserInfo";
 }

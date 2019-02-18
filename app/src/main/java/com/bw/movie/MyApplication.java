@@ -21,6 +21,7 @@ import me.jessyan.autosize.utils.LogUtils;
 
 public class MyApplication extends Application {
     private static Context instance;
+
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     public void onCreate() {
@@ -34,11 +35,13 @@ public class MyApplication extends Application {
         LeakCanary.install(this);
     }
 
-    public static Context getContext(){
+    public static Context getContext()
+    {
         return instance;
     }
 
-    public void getDp(){
+    public void getDp()
+    {
         /**
          * 屏幕适配
          */
