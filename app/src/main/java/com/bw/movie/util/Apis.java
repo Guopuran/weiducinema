@@ -87,4 +87,7 @@ public class Apis {
     public static String SYSTEM_MESSAGE_COUNT="tool/v1/verify/findUnreadMessageCount";
     //修改个人信息
     public  static  String UPDATEUSERMESSAGE="user/v1/verify/modifyUserInfo";
+    //上传消息推送使用的token
+    public  static  String TOKEN="tool/v1/verify/uploadPushToken";
+
 }

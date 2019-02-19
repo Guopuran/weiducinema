@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -24,15 +25,19 @@ import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login.bean.LoginBean;
 
 import com.bw.movie.login.bean.RefurbishMessageBean;
+import com.bw.movie.login.bean.TokenBean;
 import com.bw.movie.main.activity.MainActivity;
 
 import com.bw.movie.main.movie.activity.MovieMroeActivity;
 import com.bw.movie.main.movie.bean.MessageBean;
+import com.bw.movie.receiver.GeReceiver;
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.EncryptUtil;
 import com.bw.movie.util.RegularUtil;
 import com.bw.movie.util.ToastUtil;
 import com.bw.movie.util.WeiXinUtil;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 
 import org.greenrobot.eventbus.EventBus;
@@ -223,6 +228,15 @@ public class LoginActivity extends BaseActivity {
                 editor.putString("sessionId",loginBean.getResult().getSessionId()+"");
                 editor.putBoolean("loginSuccess",true);
                 editor.commit();
+
+               // XGPushManager.registerPush(this);
+                String token = XGPushConfig.getToken(this);
+                ToastUtil.showToast(this,token);
+                Log.i("TAG",token+"");
+                Map<String,String> params=new HashMap();
+                params.put("token",token);
+                params.put("0s",1+"");
+                postRequest(Apis.TOKEN,params,TokenBean.class);
                 if (this.back1!=null&& this.back1.equals("main"))
                 {
                     Intent intent = new Intent(this,MainActivity.class);
@@ -235,6 +249,12 @@ public class LoginActivity extends BaseActivity {
 
                 finish();
                 ToastUtil.showToast(this,loginBean.getMessage());
+            }
+        }
+        if (object instanceof TokenBean){
+            TokenBean tokenBean= (TokenBean) object;
+            if (tokenBean.getStatus().equals("0000")){
+                ToastUtil.showToast(this, tokenBean.getMessage());
             }
         }
     }
