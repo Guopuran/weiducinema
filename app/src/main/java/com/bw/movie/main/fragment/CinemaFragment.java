@@ -60,7 +60,7 @@ public class CinemaFragment extends BaseFragment {
               return mList.size();
           }
       });
-      cinema_viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+       cinema_viewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
           @Override
           public void onPageScrolled(int i, float v, int i1) {
 

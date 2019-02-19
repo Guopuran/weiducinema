@@ -2,6 +2,7 @@ package com.bw.movie.main.cinema.adpter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,8 +11,10 @@ import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.details.bean.MovieScheduleBean;
+import com.bw.movie.login.activity.LoginActivity;
 import com.bw.movie.main.cinema.bean.CinemaDetailsTimeListBean;
 import com.bw.movie.seat.activity.SeatActivity;
+import com.bw.movie.util.ToastUtil;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,8 +26,13 @@ import butterknife.ButterKnife;
 public class CinemaDetailsTimeListAdpter extends RecyclerView.Adapter<CinemaDetailsTimeListAdpter.ViewHolder> {
    private List<MovieScheduleBean.ResultBean> mList;
    private Context mContext;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
+    private boolean loginSuccess;
 
     public CinemaDetailsTimeListAdpter(Context mContext) {
+        sharedPreferences = mContext.getSharedPreferences("User",Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
         this.mContext = mContext;
         mList = new ArrayList<>();
     }
@@ -50,9 +58,18 @@ public class CinemaDetailsTimeListAdpter extends RecyclerView.Adapter<CinemaDeta
          viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
-                 Intent intent=new Intent(mContext,SeatActivity.class);
-                 intent.putExtra("item",(Serializable)mList.get(i));
-                 mContext.startActivity(intent);
+                 loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
+                 if (loginSuccess){
+                     Intent intent=new Intent(mContext,SeatActivity.class);
+                     intent.putExtra("item",(Serializable)mList.get(i));
+                     mContext.startActivity(intent);
+                 }
+                 else {
+                     ToastUtil.showToast(mContext,"请先登录");
+                     Intent intent = new Intent(mContext,LoginActivity.class);
+                     mContext.startActivity(intent);
+                 }
+
              }
          });
     }

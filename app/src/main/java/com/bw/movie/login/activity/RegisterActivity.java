@@ -1,6 +1,7 @@
 package com.bw.movie.login.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -57,10 +58,13 @@ public class RegisterActivity extends BaseActivity {
     private String sex;
     private String phone;
     private String date;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.Editor editor;
     //逻辑代码
     @Override
     protected void initData() {
-
+        sharedPreferences = getSharedPreferences("User",MODE_PRIVATE);
+        editor = sharedPreferences.edit();
     }
       //注册按钮的点击事件
     @OnClick(R.id.reg_but)
@@ -142,8 +146,10 @@ public class RegisterActivity extends BaseActivity {
 
     //获取网络消息
     @Override
-    protected void success(Object object) {
-       if (object instanceof RegisterBean){
+    protected void success(Object object)
+    {
+       if (object instanceof RegisterBean)
+       {
            RegisterBean registerBean = (RegisterBean) object;
            if (registerBean.getStatus().equals("0000"))
            {
@@ -151,6 +157,7 @@ public class RegisterActivity extends BaseActivity {
                Map<String,String> map  = new HashMap<>();
                map.put("phone",phone);
                map.put("pwd",pass);
+               editor.putBoolean("loginSuccess",true);
                postRequest(Apis.LOGIN_URL,map,LoginBean.class);
                Intent intent = new Intent(this,MainActivity.class);
                startActivity(intent);

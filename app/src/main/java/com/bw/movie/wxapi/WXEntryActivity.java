@@ -105,6 +105,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 String sessionId = bean.getResult().getSessionId();
                 editor.putString("userId", userId + "");
                 editor.putString("sessionId", sessionId);
+                editor.putBoolean("loginSuccess",true);
                 editor.commit();
                 Intent intent = new Intent(WXEntryActivity.this, MainActivity.class);
                 startActivity(intent);

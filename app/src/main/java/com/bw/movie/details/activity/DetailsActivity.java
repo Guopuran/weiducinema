@@ -334,7 +334,8 @@ public class DetailsActivity extends BaseActivity {
         review_dialog_xrecy.setAdapter(reviewAdapter);
         review_dialog_xrecy.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
-            public void onRefresh() {
+            public void onRefresh()
+            {
                 page=1;
                 selectReviceUrl(page);
             }
@@ -354,14 +355,23 @@ public class DetailsActivity extends BaseActivity {
         });
 
         //点赞
-        reviewAdapter.getPraise(new ReviewAdapter.setPraise() {
+        reviewAdapter.getPraise(new ReviewAdapter.setPraise()
+        {
             @Override
             public void changePraise(int id, int great, int position) {
-                NextCommentUrl(id);
-                if (great==0){
-                    reviewAdapter.getlike(position);
+                loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
+                if (loginSuccess){
+                    NextCommentUrl(id);
+                    if (great==0){
+                        reviewAdapter.getlike(position);
+                    }
                 }
-
+                else
+                    {
+                    ToastUtil.showToast(DetailsActivity.this,"请先登录");
+                    Intent intent1 = new Intent(DetailsActivity.this,LoginActivity.class);
+                    startActivity(intent1);
+                }
 
             }
         });
@@ -373,7 +383,16 @@ public class DetailsActivity extends BaseActivity {
         dialog_image_write.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                revice_linear_write.setVisibility(View.VISIBLE);
+                loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
+                if (loginSuccess){
+                    revice_linear_write.setVisibility(View.VISIBLE);
+                }
+                else {
+                    ToastUtil.showToast(DetailsActivity.this,"请先登录");
+                    Intent intent1 = new Intent(DetailsActivity.this,LoginActivity.class);
+                    startActivity(intent1);
+                }
+
 
 
             }
