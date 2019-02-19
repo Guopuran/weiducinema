@@ -321,10 +321,11 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         if (object instanceof HeadImageBean ){
             HeadImageBean headImageBean= (HeadImageBean) object;
             if (headImageBean.getStatus().equals("0000")){
-                head_image.setScaleType(ImageView.ScaleType.FIT_XY);
+
                 Glide.with(getActivity()).load(headImageBean.getHeadPath())
                         .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(180)))
                         .into(head_image);
+                head_image.setScaleType(ImageView.ScaleType.FIT_XY);
                 ToastUtil.showToast(getActivity(),"上传成功");
             }
         }
