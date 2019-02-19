@@ -10,6 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -49,6 +50,8 @@ public class CinemaDetailsActivity extends BaseActivity {
     RecyclerCoverFlow recyclerCoverFlow;
     @BindView(R.id.cinema_details_timelist_recycle)
     RecyclerView timelist_recycle;
+    @BindView(R.id.rela)
+    RelativeLayout relativeLayout;
     private int cinemaId;
     private String cinemaImage;
     private String cinemaNmae;
@@ -158,6 +161,11 @@ public class CinemaDetailsActivity extends BaseActivity {
         if (object instanceof CinemaDetailsBannerBean) {
             CinemaDetailsBannerBean cinemaDetailsBannerBean = (CinemaDetailsBannerBean) object;
             result = cinemaDetailsBannerBean.getResult();
+            //if (cinemaDetailsBannerBean.getMessage().equals(""))
+            if (result==null||result.size()==0){
+                relativeLayout.setVisibility(View.VISIBLE);
+                return;
+            }
             cinemaDetailsBannerAdpter.setmList(result);
         }
         if (object instanceof MovieScheduleBean) {

@@ -31,8 +31,8 @@
                    android:layout_width="72dp"
                    android:layout_height="72dp"
                    android:id="@+id/my_head_image"
-
                    android:layout_marginTop="60dp"
+                   android:background="@drawable/icon"
                    android:layout_centerHorizontal="true"
                    />
                <TextView
@@ -49,7 +49,7 @@
                <TextView
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
-                   android:text="签到"
+                   android:text=""
                    android:background="@drawable/loaginregister_but_bg"
                    android:paddingLeft="10dp"
                    android:paddingRight="10dp"

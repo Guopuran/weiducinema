@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bw.movie.R;
@@ -19,6 +20,7 @@ import com.bw.movie.main.my.bean.MyTicketRecrodBean;
 import com.bw.movie.main.my.bean.MyTicketRecrodBean1;
 import com.bw.movie.seat.bean.WXPayBean;
 import com.bw.movie.util.Apis;
+import com.bw.movie.util.ToastUtil;
 import com.bw.movie.util.WeiXinUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -47,6 +49,8 @@ public class TicketRecordActivity extends BaseActivity {
     RadioButton waitpay;
     @BindView(R.id.my_complete_radio)
     RadioButton complete;
+    @BindView(R.id.rela)
+    RelativeLayout relativeLayout;
     private int wpage=1;
     private int cpage=1;
     MyWaitPayAdpter waitPayAdpter;
@@ -141,24 +145,43 @@ public class TicketRecordActivity extends BaseActivity {
             MyTicketRecrodBean ticketRecrodBean = (MyTicketRecrodBean) object;
             result = ticketRecrodBean.getResult();
             if (wpage==1){
+                relativeLayout.setVisibility(View.GONE);
                waitPayAdpter.setmList(ticketRecrodBean.getResult());
 
             }
            else {
+                relativeLayout.setVisibility(View.GONE);
                waitPayAdpter.addmList(ticketRecrodBean.getResult());
            }
            wpage++;
+            recyclerView.loadMoreComplete();;
+            recyclerView.refreshComplete();
+            if (ticketRecrodBean.getResult().size()==0){
+                relativeLayout.setVisibility(View.VISIBLE);
+                recyclerView.setLoadingMoreEnabled(false);
+                recyclerView.setPullRefreshEnabled(false);
+            }
         }
         if (object instanceof MyTicketRecrodBean1){
             MyTicketRecrodBean1 ticketRecrodBean1 = (MyTicketRecrodBean1) object;
             if (cpage==1){
+                relativeLayout.setVisibility(View.GONE);
                 compleAdpter.setmList(ticketRecrodBean1.getResult());
 
             }
             else {
-                 compleAdpter.addmList(ticketRecrodBean1.getResult());
+                relativeLayout.setVisibility(View.GONE);
+                compleAdpter.addmList(ticketRecrodBean1.getResult());
             }
             cpage++;
+            recyclerView.loadMoreComplete();;
+            recyclerView.refreshComplete();
+            if (ticketRecrodBean1.getResult().size()==0){
+                relativeLayout.setVisibility(View.VISIBLE);
+                recyclerView.setLoadingMoreEnabled(false);
+                recyclerView.setPullRefreshEnabled(false);
+            }
+
         }
         if (object instanceof WXPayBean){
             WXPayBean wxPayBean= (WXPayBean) object;

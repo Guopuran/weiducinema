@@ -48,4 +48,31 @@
           android:id="@+id/my_follow_xrecycle"
           >
       </com.jcodecraeer.xrecyclerview.XRecyclerView>
+    <RelativeLayout
+        android:id="@+id/rela"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+
+        >
+        <ImageView
+            android:id="@+id/image_wu"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/wu"
+            android:layout_centerInParent="true"
+            />
+        <TextView
+            android:id="@+id/name_wu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 暂无数据"
+            android:layout_below="@id/image_wu"
+            android:layout_alignLeft="@id/image_wu"
+            android:layout_alignRight="@id/image_wu"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:textColor="#b42c87"
+            />
+    </RelativeLayout>
 </RelativeLayout>

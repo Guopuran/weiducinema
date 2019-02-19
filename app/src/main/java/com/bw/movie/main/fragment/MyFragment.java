@@ -89,8 +89,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     TextView name_text;
     @BindView(R.id.my_newversion_image)
     ImageView newversion_image;
-     @BindView(R.id.my_xtmessage_imgae)
-     ImageView systemMessage;
+    @BindView(R.id.my_xtmessage_imgae)
+    ImageView systemMessage;
 
     private static final int PHOTO_REQUEST_CAREMA=1;//拍照
     private static final int PHOTO_REQUEST_GALLERY=2;//从相册中选择
@@ -101,8 +101,32 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     private static final String PHOTO_FILE_MAME="header_image.jpg";//临时文件名
     @Override
     protected void initData() {
+
         //请求信息
         initPresonUrl();
+        //判断是否登录提示文字信息
+        initSign();
+        //判断是否登录显示头像
+        initHeadImage();
+    }
+
+    private void initHeadImage() {
+        loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
+        if (loginSuccess){
+            head_image.setVisibility(head_image.VISIBLE);
+        }else{
+            head_image.setVisibility(head_image.INVISIBLE);
+        }
+
+    }
+
+    private void initSign() {
+        loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
+        if (loginSuccess){
+            sign.setText("签到");
+        }else{
+            sign.setText("请登录");
+        }
     }
 
     private void initPresonUrl() {
@@ -115,6 +139,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     public void enventbus(RefurbishMessageBean messageBean){
         if (messageBean.getFlag().equals("refurbish")){
             initPresonUrl();
+            sign.setText("签到");
+            head_image.setVisibility(head_image.VISIBLE);
         }
     }
     //点击关注
@@ -309,7 +335,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
             Glide.with(this).load(result.getHeadPic())
                     .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(180)))
                     .into(head_image);
-
+            head_image.setScaleType(ImageView.ScaleType.FIT_XY);
 
         }
         if(object instanceof UpdateCodeBean){

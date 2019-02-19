@@ -3,7 +3,9 @@ package com.bw.movie.main.my.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
@@ -27,6 +29,8 @@ public class MyFollowActivity extends BaseActivity {
     RadioButton cinema_follow;
     @BindView(R.id.my_follow_xrecycle)
     XRecyclerView recycle;
+    @BindView(R.id.rela)
+    RelativeLayout relativeLayout;
     MyFollowCinemaAadpter cinemaAadpter;
     MyFollowMovieAdpter movieAdpter;
     private int mpag=1;
@@ -110,23 +114,42 @@ public class MyFollowActivity extends BaseActivity {
     protected void success(Object object) {
          if (object instanceof MyFollowMovieBean){
              MyFollowMovieBean myFollowMovieBean = (MyFollowMovieBean) object;
+
              if (mpag==1){
+                 relativeLayout.setVisibility(View.GONE);
                  movieAdpter.setmList(myFollowMovieBean.getResult());
              }
              else {
+                 relativeLayout.setVisibility(View.GONE);
                  movieAdpter.addmList(myFollowMovieBean.getResult());
              }
              mpag++;
+             recycle.refreshComplete();
+             recycle.loadMoreComplete();
+             if (myFollowMovieBean.getResult().size()==0){
+                 relativeLayout.setVisibility(View.VISIBLE);
+                 recycle.setPullRefreshEnabled(false);
+                 recycle.setLoadingMoreEnabled(false);
+             }
          }
         if (object instanceof MyFollowCinemaBean){
             MyFollowCinemaBean myFollowCinemaBean = (MyFollowCinemaBean) object;
             if (cpage==1){
+                relativeLayout.setVisibility(View.GONE);
                 cinemaAadpter.setmList(myFollowCinemaBean.getResult());
             }
             else {
+                relativeLayout.setVisibility(View.GONE);
                 cinemaAadpter.addmList(myFollowCinemaBean.getResult());
             }
             cpage++;
+            recycle.refreshComplete();
+            recycle.loadMoreComplete();
+            if (myFollowCinemaBean.getResult().size()==0){
+                relativeLayout.setVisibility(View.VISIBLE);
+                recycle.setPullRefreshEnabled(false);
+                recycle.setLoadingMoreEnabled(false);
+            }
         }
     }
 
