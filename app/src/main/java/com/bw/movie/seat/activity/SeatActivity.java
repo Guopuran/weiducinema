@@ -1,14 +1,19 @@
 package com.bw.movie.seat.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import com.alipay.sdk.app.PayTask;
 import com.bw.movie.MyApplication;
 import com.bw.movie.R;
 
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +23,18 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bw.movie.base.BaseActivity;;
 import com.bw.movie.custom.CustomDialog;
 import com.bw.movie.custom.PayDialog;
 import com.bw.movie.details.bean.MovieScheduleBean;
+import com.bw.movie.main.my.activity.TicketRecordActivity;
+import com.bw.movie.seat.bean.AliBean;
 import com.bw.movie.seat.bean.CinemaSeatBean;
 import com.bw.movie.seat.bean.IndentPayBean;
+import com.bw.movie.seat.bean.PayMessageBaen;
+import com.bw.movie.seat.bean.PayResult;
 import com.bw.movie.seat.bean.WXPayBean;
 import com.bw.movie.seat.custom.SeatTable;
 import com.bw.movie.util.Apis;
@@ -76,6 +86,38 @@ public class SeatActivity extends BaseActivity {
     private TextView dialog_text_pay;
     private IndentPayBean indentPayBean;
     private final int WX_PAY_CODE=1;
+    private AliBean aliBean;
+    private final int SDK_PAY_FLAG=1;
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case SDK_PAY_FLAG: {
+                    @SuppressWarnings("unchecked")
+                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                    /**
+                     * 对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                     */
+                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                    String resultStatus = payResult.getResultStatus();
+                    // 判断resultStatus 为9000则代表支付成功
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                        ToastUtil.showToast(SeatActivity.this,"支付成功");
+                        Intent intent=new Intent(SeatActivity.this,TicketRecordActivity.class);
+                        startActivity(intent);
+                        EventBus.getDefault().postSticky(new PayMessageBaen("pay"));
+                        finish();
+                    } else {
+                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+
+                        ToastUtil.showToast(SeatActivity.this,"支付失败");  
+                    }
+                    break;
+                }
+            }
+        };
+    };
     @Override
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
@@ -204,6 +246,29 @@ public class SeatActivity extends BaseActivity {
                 WeiXinUtil.weiXinPay(this,wxPayBean);
             }
         }
+        if (object instanceof AliBean){
+            aliBean = (AliBean) object;
+            if (aliBean.getStatus().equals("0000")){
+                final String orderInfo = aliBean.getResult();   // 订单信息
+
+                Runnable payRunnable = new Runnable() {
+
+                    @Override
+                    public void run() {
+                        PayTask alipay = new PayTask(SeatActivity.this);
+                        Map <String,String> result = alipay.payV2(orderInfo,true);
+
+                        Message msg = new Message();
+                        msg.what = SDK_PAY_FLAG;
+                        msg.obj = result;
+                        mHandler.sendMessage(msg);
+                    }
+                };
+                // 必须异步调用
+                Thread payThread = new Thread(payRunnable);
+                payThread.start();
+            }
+        }
     }
 
     private void initDialog() {
@@ -237,15 +302,27 @@ public class SeatActivity extends BaseActivity {
                 if (dialog_weixin_button.isChecked()){
                     initWeixinPayUrl();
                 }
+                if (dialog_zhifubao_button.isChecked()){
+                    initAliPayUrl();
+                }
             }
         });
+    }
+    //支付宝支付路径
+    private void initAliPayUrl() {
+
+        Map<String,String> params=new HashMap<>();
+        params.put("payType","2");
+        params.put("orderId",indentPayBean.getOrderId());
+        postRequest(Apis.PAY,params,AliBean.class);
+
     }
 
     private void initWeixinPayUrl() {
         Map<String,String> params=new HashMap<>();
         params.put("payType",WX_PAY_CODE+"");
         params.put("orderId",indentPayBean.getOrderId());
-        postRequest(Apis.WEIXIN_PAY,params,WXPayBean.class);
+        postRequest(Apis.PAY,params,WXPayBean.class);
     }
 
     @Override
@@ -265,6 +342,7 @@ public class SeatActivity extends BaseActivity {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        mHandler.removeCallbacks(null);
     }
 
     /**
@@ -294,5 +372,4 @@ public class SeatActivity extends BaseActivity {
         }
         return result;
     }
-
 }

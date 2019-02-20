@@ -1,9 +1,14 @@
 package com.bw.movie.main.my.activity;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -11,6 +16,7 @@ import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alipay.sdk.app.PayTask;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.custom.PayDialog;
@@ -18,11 +24,19 @@ import com.bw.movie.main.my.adpter.MyCompleAdpter;
 import com.bw.movie.main.my.adpter.MyWaitPayAdpter;
 import com.bw.movie.main.my.bean.MyTicketRecrodBean;
 import com.bw.movie.main.my.bean.MyTicketRecrodBean1;
+import com.bw.movie.seat.activity.SeatActivity;
+import com.bw.movie.seat.bean.AliBean;
+import com.bw.movie.seat.bean.PayMessageBaen;
+import com.bw.movie.seat.bean.PayResult;
 import com.bw.movie.seat.bean.WXPayBean;
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.ToastUtil;
 import com.bw.movie.util.WeiXinUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.math.BigDecimal;
 import java.security.MessageDigest;
@@ -63,6 +77,37 @@ public class TicketRecordActivity extends BaseActivity {
     private MyTicketRecrodBean ticketRecrodBean;
     private List<MyTicketRecrodBean.ResultBean> result;
     private String orderid;
+    private final int SDK_PAY_FLAG=1;
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case SDK_PAY_FLAG: {
+                    @SuppressWarnings("unchecked")
+                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                    /**
+                     * 对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+                     */
+                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
+                    String resultStatus = payResult.getResultStatus();
+                    // 判断resultStatus 为9000则代表支付成功
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
+                        ToastUtil.showToast(TicketRecordActivity.this,"支付成功");
+                        complete.setChecked(true);
+                        finish();
+                    } else {
+                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
+
+                        ToastUtil.showToast(TicketRecordActivity.this,"支付失败");
+                    }
+                    break;
+                }
+            }
+        };
+    };
+    private AliBean aliBean;
+
     @Override
     protected void initData() {
       initWaitLayout();
@@ -131,6 +176,9 @@ public class TicketRecordActivity extends BaseActivity {
         getComData();
 
     }
+    public void initClick(int i){
+
+    }
     //待付款请求数据
     public void getWatiData(){
         getRequest(String.format(Apis.MY_TICKETRECROD,wpage,10,1),MyTicketRecrodBean.class);
@@ -189,6 +237,29 @@ public class TicketRecordActivity extends BaseActivity {
                 WeiXinUtil.weiXinPay(this,wxPayBean);
             }
         }
+        if (object instanceof AliBean){
+            aliBean = (AliBean) object;
+            if (aliBean.getStatus().equals("0000")){
+                final String orderInfo = aliBean.getResult();   // 订单信息
+
+                Runnable payRunnable = new Runnable() {
+
+                    @Override
+                    public void run() {
+                        PayTask alipay = new PayTask(TicketRecordActivity.this);
+                        Map <String,String> result = alipay.payV2(orderInfo,true);
+
+                        Message msg = new Message();
+                        msg.what = SDK_PAY_FLAG;
+                        msg.obj = result;
+                        mHandler.sendMessage(msg);
+                    }
+                };
+                // 必须异步调用
+                Thread payThread = new Thread(payRunnable);
+                payThread.start();
+            }
+        }
     }
 
     public View initDiaLog(int getLayoutId) {
@@ -209,11 +280,13 @@ public class TicketRecordActivity extends BaseActivity {
 
     @Override
     protected void failed(String error) {
-
+        ToastUtil.showToast(this,error);
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        //注册
+        EventBus.getDefault().register(this);
         ButterKnife.bind(this);
     }
 
@@ -246,20 +319,39 @@ public class TicketRecordActivity extends BaseActivity {
         clickPay();
     }
     private void clickPay() {
+
         dialog_text_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (dialog_weixin_button.isChecked()){
                     initWeixinPayUrl();
                 }
+                if (dialog_zhifubao_button.isChecked()){
+                    initAliPayUrl();
+                }
             }
         });
+    }
+    //支付宝支付路径
+    private void initAliPayUrl() {
+
+        Map<String,String> params=new HashMap<>();
+        params.put("payType","2");
+        params.put("orderId",orderid);
+        postRequest(Apis.PAY,params,AliBean.class);
+
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
+    public void initOpen(PayMessageBaen payMessageBaen){
+        if (payMessageBaen.getPay_message().equals("pay")){
+            complete.setChecked(true);
+        }
     }
     private void initWeixinPayUrl() {
         Map<String,String> params=new HashMap<>();
         params.put("payType",WX_PAY_CODE+"");
         params.put("orderId",orderid);
-        postRequest(Apis.WEIXIN_PAY,params,WXPayBean.class);
+        postRequest(Apis.PAY,params,WXPayBean.class);
     }
 
     /**
@@ -288,5 +380,12 @@ public class TicketRecordActivity extends BaseActivity {
             System.out.println(e);
         }
         return result;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //反注册
+        EventBus.getDefault().unregister(this);
     }
 }

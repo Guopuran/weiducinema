@@ -261,6 +261,7 @@ public class DetailsActivity extends BaseActivity {
             case R.id.details_lin_movie_text_notice:
                 View view_notice = initDiaLog(R.layout.dialog_notice);
                 getNoticeView(view_notice);
+
                 break;
             //影片剧照
             case R.id.details_lin_movie_text_photo:
