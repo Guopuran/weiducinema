@@ -72,7 +72,7 @@ public class Apis {
     //购票下单
     public static  String INDENTPAY="movie/v1/verify/buyMovieTicket";
     //支付
-    public static  String WEIXIN_PAY="movie/v1/verify/pay";
+    public static  String PAY="movie/v1/verify/pay";
     //上传头像
     public static  String HEAD_IMAGE="user/v1/verify/uploadHeadPic";
     //版本更新的接口
