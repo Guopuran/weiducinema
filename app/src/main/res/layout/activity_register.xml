@@ -70,7 +70,7 @@
                 />
         </RadioGroup>
 
-        <EditText
+        <TextView
             android:id="@+id/reg_date"
             android:layout_below="@id/reg_sex"
             android:layout_width="@dimen/dp_278"

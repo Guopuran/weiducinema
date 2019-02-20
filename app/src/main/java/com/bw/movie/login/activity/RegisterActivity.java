@@ -39,7 +39,7 @@ public class RegisterActivity extends BaseActivity {
      @BindView(R.id.reg_name)
      EditText edit_name;
      @BindView(R.id.reg_date)
-     EditText text_date;
+     TextView text_date;
      @BindView(R.id.reg_emil)
      EditText edit_emil;
      @BindView(R.id.reg_pass)

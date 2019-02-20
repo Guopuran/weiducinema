@@ -68,7 +68,7 @@ public class NoticeDialogAdapter extends RecyclerView.Adapter<NoticeDialogAdapte
             controller.setTitle("预告");
             Glide.with(context).load(shortFilmListBean.getImageUrl()).into(controller.imageView());
             mNiceVideoPlayer.setController(controller);
-            
+
         }
     }
 }
