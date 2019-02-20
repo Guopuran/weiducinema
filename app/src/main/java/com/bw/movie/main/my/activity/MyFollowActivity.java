@@ -127,9 +127,12 @@ public class MyFollowActivity extends BaseActivity {
              recycle.refreshComplete();
              recycle.loadMoreComplete();
              if (myFollowMovieBean.getResult().size()==0){
-                 relativeLayout.setVisibility(View.VISIBLE);
+
                  recycle.setPullRefreshEnabled(false);
                  recycle.setLoadingMoreEnabled(false);
+             }
+             if (movieAdpter.getmList().size()==0){
+                 relativeLayout.setVisibility(View.VISIBLE);
              }
          }
         if (object instanceof MyFollowCinemaBean){
@@ -146,9 +149,12 @@ public class MyFollowActivity extends BaseActivity {
             recycle.refreshComplete();
             recycle.loadMoreComplete();
             if (myFollowCinemaBean.getResult().size()==0){
-                relativeLayout.setVisibility(View.VISIBLE);
+
                 recycle.setPullRefreshEnabled(false);
                 recycle.setLoadingMoreEnabled(false);
+            }
+            if (cinemaAadpter.getmList().size()==0){
+                relativeLayout.setVisibility(View.VISIBLE);
             }
         }
     }

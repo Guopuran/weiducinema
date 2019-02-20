@@ -140,12 +140,14 @@ public class MyMessageActivity extends BaseActivity {
              String date = new SimpleDateFormat("yyyy-MM-dd").format(result.getBirthday());
              brith_text.setText(date);
              phone_text.setText(result.getPhone());
+             email_text.setText(result.getEmail());
              int sex = result.getSex();
              if (sex==1)
              {
                  sex_text.setText("男");
              }
-             else {
+             else
+                 {
                  sex_text.setText("女");
              }
          }

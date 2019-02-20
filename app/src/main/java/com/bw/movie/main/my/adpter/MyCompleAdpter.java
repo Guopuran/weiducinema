@@ -27,6 +27,10 @@ public class MyCompleAdpter extends RecyclerView.Adapter<MyCompleAdpter.ViewHold
         mList = new ArrayList<>();
     }
 
+    public List<MyTicketRecrodBean1.ResultBean> getmList() {
+        return mList;
+    }
+
     public void setmList(List<MyTicketRecrodBean1.ResultBean> list)
     {
         mList.clear();

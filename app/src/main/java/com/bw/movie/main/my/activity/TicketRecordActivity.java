@@ -157,9 +157,11 @@ public class TicketRecordActivity extends BaseActivity {
             recyclerView.loadMoreComplete();;
             recyclerView.refreshComplete();
             if (ticketRecrodBean.getResult().size()==0){
-                relativeLayout.setVisibility(View.VISIBLE);
                 recyclerView.setLoadingMoreEnabled(false);
                 recyclerView.setPullRefreshEnabled(false);
+            }
+            if (waitPayAdpter.getmList().size()==0){
+                relativeLayout.setVisibility(View.VISIBLE);
             }
         }
         if (object instanceof MyTicketRecrodBean1){
@@ -176,12 +178,15 @@ public class TicketRecordActivity extends BaseActivity {
             cpage++;
             recyclerView.loadMoreComplete();;
             recyclerView.refreshComplete();
+
             if (ticketRecrodBean1.getResult().size()==0){
-                relativeLayout.setVisibility(View.VISIBLE);
+
                 recyclerView.setLoadingMoreEnabled(false);
                 recyclerView.setPullRefreshEnabled(false);
             }
-
+            if (compleAdpter.getmList().size()==0){
+                relativeLayout.setVisibility(View.VISIBLE);
+            }
         }
         if (object instanceof WXPayBean){
             WXPayBean wxPayBean= (WXPayBean) object;

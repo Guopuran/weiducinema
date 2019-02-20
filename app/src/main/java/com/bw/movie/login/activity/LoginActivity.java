@@ -246,9 +246,11 @@ public class LoginActivity extends BaseActivity {
                 {
                     EventBus.getDefault().post(new RefurbishMessageBean(null,"refurbish"));
                 }
-
                 finish();
                 ToastUtil.showToast(this,loginBean.getMessage());
+            }
+            else {
+                ToastUtil.showToast(LoginActivity.this,loginBean.getMessage());
             }
         }
         if (object instanceof TokenBean){

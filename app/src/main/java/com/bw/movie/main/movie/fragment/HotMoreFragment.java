@@ -56,7 +56,8 @@ public class HotMoreFragment extends BaseFragment {
     }
     //接受传值进行刷新
     @Subscribe(threadMode = ThreadMode.MAIN,sticky = true)
-    public void enventbus(RefurbishMessageBean messageBean){
+    public void enventbus(RefurbishMessageBean messageBean)
+    {
         if (messageBean.getFlag().equals("refurbish")){
             initHotMoreLayout();
         }
@@ -138,15 +139,18 @@ public class HotMoreFragment extends BaseFragment {
     }
     //得到传值进行刷新
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void refresh(MessageBean messageBean){
-        if (messageBean.getFlag().equals("send")){
+    public void refresh(MessageBean messageBean)
+    {
+        if (messageBean.getFlag().equals("send"))
+        {
             page =1;
             getHotMoreData(page);
         }
     }
     @Override
     protected void success(Object object) {
-           if (object instanceof MoreMovieBean){
+           if (object instanceof MoreMovieBean)
+           {
                MoreMovieBean moreMovieBean = (MoreMovieBean) object;
                if (page==1){
                    moreMovieAdpter.setmList(moreMovieBean.getResult());
@@ -203,7 +207,8 @@ public class HotMoreFragment extends BaseFragment {
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         onFollowClick();
     }

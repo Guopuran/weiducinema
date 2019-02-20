@@ -29,6 +29,10 @@ public class MyFollowCinemaAadpter  extends RecyclerView.Adapter<MyFollowCinemaA
         mList = new ArrayList<>();
     }
 
+    public List<MyFollowCinemaBean.ResultBean> getmList() {
+        return mList;
+    }
+
     public void setmList(List<MyFollowCinemaBean.ResultBean> list) {
        mList.clear();
        if (list!=null){

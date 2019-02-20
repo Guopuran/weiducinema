@@ -28,6 +28,10 @@ public class MyWaitPayAdpter extends RecyclerView.Adapter<MyWaitPayAdpter.ViewHo
         mList = new ArrayList<>();
     }
 
+    public List<MyTicketRecrodBean.ResultBean> getmList() {
+        return mList;
+    }
+
     public void setmList(List<MyTicketRecrodBean.ResultBean> list)
     {
         mList.clear();

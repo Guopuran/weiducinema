@@ -129,6 +129,9 @@
         <activity android:name=".seat.activity.SeatActivity" />
         <activity android:name=".main.my.activity.TicketRecordActivity" />
         <activity android:name=".main.my.activity.MySystemMessageActivity"></activity>
+        <meta-data android:name="com.amap.api.v2.apikey" android:value="dc77a49344f42ad1e4f9614643cc93a9">
+            <!--开发者申请的key-->
+        </meta-data>
 
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver android:name="com.tencent.android.tpush.XGPushReceiver"
