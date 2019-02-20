@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,7 +38,7 @@ public class RegisterActivity extends BaseActivity {
      @BindView(R.id.reg_name)
      EditText edit_name;
      @BindView(R.id.reg_date)
-     TextView text_date;
+     EditText text_date;
      @BindView(R.id.reg_emil)
      EditText edit_emil;
      @BindView(R.id.reg_pass)

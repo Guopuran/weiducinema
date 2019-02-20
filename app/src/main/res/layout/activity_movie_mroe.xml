@@ -13,6 +13,7 @@
             android:layout_marginTop="@dimen/dp_30"
             android:layout_marginLeft="24dp"
             android:id="@+id/movie_more_location_but"
+            android:padding="5dp"
             />
         <TextView
             android:layout_width="wrap_content"
@@ -23,7 +24,7 @@
             android:layout_marginTop="@dimen/dp_30"
             android:layout_marginLeft="@dimen/dp_6"
             android:textColor="#000"
-            android:id="@+id/movie_location_text"
+            android:id="@+id/movie_more_location_text"
             />
         <RelativeLayout
             android:id="@+id/movie_more_search_relative"
@@ -71,7 +72,7 @@
              android:layout_height="wrap_content"
              android:layout_marginLeft="24dp"
              android:layout_marginRight="24dp"
-             android:layout_below="@id/movie_location_text"
+             android:layout_below="@id/movie_more_location_text"
              >
              <RadioGroup
                  android:layout_width="match_parent"

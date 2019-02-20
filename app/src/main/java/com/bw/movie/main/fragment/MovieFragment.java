@@ -1,12 +1,15 @@
 package com.bw.movie.main.fragment;
 
 
+import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Movie;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -182,6 +185,18 @@ public class MovieFragment extends BaseFragment {
     //定位的跳转
      @OnClick(R.id.movie_location_but)
      public void locationOnClick(){
+         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M) {
+             String[] mStatenetwork = new String[]{
+                     Manifest.permission.ACCESS_COARSE_LOCATION,
+                     Manifest.permission.ACCESS_FINE_LOCATION,
+                     Manifest.permission.CHANGE_WIFI_STATE,
+                     Manifest.permission.ACCESS_LOCATION_EXTRA_COMMANDS,
+                     Manifest.permission.BLUETOOTH,
+                     Manifest.permission.BLUETOOTH_ADMIN,
+             };
+             ActivityCompat.requestPermissions(getActivity(), mStatenetwork, 100);
+         }
+
          CityPicker.from(getActivity()) //activity或者fragment
                  .setOnPickListener(new OnPickListener() {
                      @Override

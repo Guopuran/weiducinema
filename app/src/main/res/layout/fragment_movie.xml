@@ -25,6 +25,7 @@
                     android:layout_marginLeft="24dp"
                     android:id="@+id/movie_location_but"
                     android:selectAllOnFocus="false"
+                    android:padding="5dp"
                     />
                 <TextView
                     android:layout_width="wrap_content"
