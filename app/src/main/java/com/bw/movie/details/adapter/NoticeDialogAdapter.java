@@ -45,6 +45,8 @@ public class NoticeDialogAdapter extends RecyclerView.Adapter<NoticeDialogAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.getdata(list.get(i),viewHolder,i);
+
+
     }
 
     @Override
@@ -66,7 +68,7 @@ public class NoticeDialogAdapter extends RecyclerView.Adapter<NoticeDialogAdapte
             controller.setTitle("预告");
             Glide.with(context).load(shortFilmListBean.getImageUrl()).into(controller.imageView());
             mNiceVideoPlayer.setController(controller);
-
+          
         }
     }
 }

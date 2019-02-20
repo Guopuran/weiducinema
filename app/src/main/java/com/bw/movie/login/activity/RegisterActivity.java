@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -99,9 +100,20 @@ public class RegisterActivity extends BaseActivity {
     public void onClickman(){
             sex=2+"";
     }
+
+    protected void hideInput() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        View v = getWindow().peekDecorView();
+        if (null != v) {
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
+    }
     //日期选择的点击事件
+
+
     @OnClick(R.id.reg_date)
     public void dateOnClick(){
+        hideInput();
         Calendar selectedDate = Calendar.getInstance();
         Calendar calendar = Calendar.getInstance();
         final int year = calendar.get(Calendar.YEAR);
