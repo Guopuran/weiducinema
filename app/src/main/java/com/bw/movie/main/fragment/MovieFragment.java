@@ -4,6 +4,7 @@ package com.bw.movie.main.fragment;
 import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Movie;
 import android.os.Build;
@@ -18,6 +19,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -66,6 +68,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import recycler.coverflow.CoverFlowLayoutManger;
 import recycler.coverflow.RecyclerCoverFlow;
+
+import static android.content.Context.INPUT_METHOD_SERVICE;
+import static android.support.v4.content.ContextCompat.getSystemService;
 
 
 public class MovieFragment extends BaseFragment {
@@ -288,6 +293,7 @@ public class MovieFragment extends BaseFragment {
     //弹出的动画
     @OnClick(R.id.movie_search_image)
     public void outAnimation(){
+
         ObjectAnimator animator = ObjectAnimator.ofFloat(search_relative, "translationX",  -400f);
         animator.setDuration(1000);
         animator.start();
@@ -296,9 +302,15 @@ public class MovieFragment extends BaseFragment {
     @OnClick(R.id.movie_search_text)
     public void inAnimation()
     {
+
         ObjectAnimator animator = ObjectAnimator.ofFloat(search_relative, "translationX",  10f);
         animator.setDuration(500);
         animator.start();
+        hideKeyboard(getView());
+    }
+
+    protected void hideInput() {
+
     }
     //设置轮播
     public void setBannerRecycle()
@@ -445,5 +457,13 @@ public class MovieFragment extends BaseFragment {
                 return false;
             }
         });
+    }
+    //隐藏虚拟键盘
+    public static void hideKeyboard(View v){
+        InputMethodManager imm = ( InputMethodManager ) v.getContext( ).getSystemService( Context.INPUT_METHOD_SERVICE );
+        if ( imm.isActive( ) ) {
+
+            imm.hideSoftInputFromWindow( v.getApplicationWindowToken( ) , 0 );
+        }
     }
 }

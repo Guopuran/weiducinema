@@ -2,6 +2,7 @@ package com.bw.movie.main.fragment;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -9,7 +10,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -33,6 +36,8 @@ import com.zaaach.citypicker.model.City;
 import com.zaaach.citypicker.model.LocateState;
 import com.zaaach.citypicker.model.LocatedCity;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +57,8 @@ public class CinemaFragment extends BaseFragment {
      Button location_but;
     @BindView(R.id.movie_location_text1)
      TextView location_text;
+    @BindView(R.id.movie_search_edit)
+    EditText search_edit;
     private ImageViewAnimationHelper imageViewAnimationHelper;
     //声明mlocationClient对象
     public AMapLocationClient mlocationClient;
@@ -201,6 +208,7 @@ public class CinemaFragment extends BaseFragment {
     //弹出的动画
     @OnClick(R.id.movie_search_image)
     public void outAnimation(){
+        search_edit.setText("");
         ObjectAnimator animator = ObjectAnimator.ofFloat(search_relative, "translationX",  -400f);
         animator.setDuration(1000);
         animator.start();
@@ -212,6 +220,7 @@ public class CinemaFragment extends BaseFragment {
         ObjectAnimator animator = ObjectAnimator.ofFloat(search_relative, "translationX",  10f);
         animator.setDuration(500);
         animator.start();
+        hideKeyboard(getView());
     }
     @Override
     protected void success(Object object) {
@@ -274,5 +283,13 @@ public class CinemaFragment extends BaseFragment {
                 return false;
             }
         });
+    }
+    //隐藏虚拟键盘
+    public static void hideKeyboard(View v){
+        InputMethodManager imm = ( InputMethodManager ) v.getContext( ).getSystemService( Context.INPUT_METHOD_SERVICE );
+        if ( imm.isActive( ) ) {
+
+            imm.hideSoftInputFromWindow( v.getApplicationWindowToken( ) , 0 );
+        }
     }
 }

@@ -144,14 +144,10 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
                 }
             });
 
-
-
-
-
             LinearLayoutManager linearLayoutManager=new LinearLayoutManager(context);
             linearLayoutManager.setOrientation(OrientationHelper.VERTICAL);
             dialog_xrecy.setLayoutManager(linearLayoutManager);
-            image_comment.setOnClickListener(new View.OnClickListener() {
+            /*image_comment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (flag%2==0){
@@ -180,7 +176,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
                     }
                     flag++;
                 }
-            });
+            });*/
 
         }
 

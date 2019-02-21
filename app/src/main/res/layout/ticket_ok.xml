@@ -35,7 +35,7 @@
                 android:layout_marginTop="@dimen/dp_10"
                 android:textSize="@dimen/sp_14"
                 android:textColor="#f77421"
-                android:text="14:40:00 -"
+                android:text="14:40:00 -- "
                 android:id="@+id/ticket_ok_starttime"
                 />
             <TextView
@@ -56,7 +56,8 @@
                 android:layout_marginTop="@dimen/dp_4"
                 android:textSize="@dimen/sp_14"
                 android:textColor="#f77421"
-                android:text="开始时间"
+                android:text="开始时间 -- "
+
                 android:id="@+id/ticket_ok_starttimetext"
                 />
             <TextView

@@ -206,7 +206,6 @@ public class TicketRecordActivity extends BaseActivity {
             recyclerView.refreshComplete();
             if (ticketRecrodBean.getResult().size()==0){
                 recyclerView.setLoadingMoreEnabled(false);
-                recyclerView.setPullRefreshEnabled(false);
             }
             if (waitPayAdpter.getmList().size()==0){
                 relativeLayout.setVisibility(View.VISIBLE);
@@ -230,7 +229,6 @@ public class TicketRecordActivity extends BaseActivity {
             if (ticketRecrodBean1.getResult().size()==0){
 
                 recyclerView.setLoadingMoreEnabled(false);
-                recyclerView.setPullRefreshEnabled(false);
             }
             if (compleAdpter.getmList().size()==0){
                 relativeLayout.setVisibility(View.VISIBLE);
