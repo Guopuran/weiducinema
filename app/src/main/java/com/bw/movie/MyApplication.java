@@ -33,6 +33,9 @@ public class MyApplication extends Application {
         StrictMode.setVmPolicy(builder.build());
         builder.detectFileUriExposure();
         LeakCanary.install(this);
+
+
+
     }
 
     public static Context getContext()

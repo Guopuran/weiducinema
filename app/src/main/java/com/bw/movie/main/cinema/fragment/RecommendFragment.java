@@ -6,11 +6,11 @@ import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.bw.movie.MyApplication;
 import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.login.activity.LoginActivity;
 import com.bw.movie.login.bean.RefurbishMessageBean;
+import com.bw.movie.main.bean.CinMessageBean;
 import com.bw.movie.main.cinema.adpter.CinemaMessageAdpter;
 import com.bw.movie.main.cinema.bean.CinemaIsFollowBean;
 import com.bw.movie.main.cinema.bean.CinemaMessageBean;
@@ -18,7 +18,6 @@ import com.bw.movie.main.cinema.bean.CinemaNoFollowBean;
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.ToastUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-import com.squareup.leakcanary.RefWatcher;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -53,6 +52,15 @@ public class RecommendFragment extends BaseFragment {
             initCinemaMessageLayout();
         }
     }
+    //接受传值进行刷新
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void enventbus(CinMessageBean messageBean){
+        if (messageBean.getFlag().equals("chuan")){
+            page=1;
+            getCinemaMessageData(page);
+        }
+    }
+
     //加载布局
     public void initCinemaMessageLayout(){
         page=1;
@@ -64,17 +72,17 @@ public class RecommendFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 page=1;
-                getCinemaMessageData();
+                getCinemaMessageData(page);
                 recommend_recycle.refreshComplete();
             }
 
             @Override
             public void onLoadMore() {
-                getCinemaMessageData();
+                getCinemaMessageData(page);
                 recommend_recycle.loadMoreComplete();
             }
         });
-        getCinemaMessageData();
+        getCinemaMessageData(page);
     }
     //关注的点击事件
     public void onFollowOnClick(){
@@ -111,8 +119,8 @@ public class RecommendFragment extends BaseFragment {
         getRequest(String.format(Apis.CINEMANOFOLLOW_URL,id),CinemaNoFollowBean.class);
     }
     //请求数据
-    public void  getCinemaMessageData(){
-        getRequest(String.format(Apis.CONEMARECOMMEND_URL,page,10),CinemaMessageBean.class);
+    public void  getCinemaMessageData(int cpage){
+        getRequest(String.format(Apis.CONEMARECOMMEND_URL, cpage,10),CinemaMessageBean.class);
     }
     @Override
     protected void success(Object object) {
@@ -133,12 +141,14 @@ public class RecommendFragment extends BaseFragment {
             CinemaIsFollowBean cinemaIsFollowBean  = (CinemaIsFollowBean) object;
             if (cinemaIsFollowBean.getStatus().equals("0000")){
                 ToastUtil.showToast(getContext(),cinemaIsFollowBean.getMessage());
+                EventBus.getDefault().post(new CinMessageBean("chuan"));
             }
         }
         if (object instanceof CinemaNoFollowBean){
             CinemaNoFollowBean cinemaNoFollowBean  = (CinemaNoFollowBean) object;
             if (cinemaNoFollowBean.getStatus().equals("0000")){
                 ToastUtil.showToast(getContext(),cinemaNoFollowBean.getMessage());
+                EventBus.getDefault().post(new CinMessageBean("chuan"));
             }
         }
     }

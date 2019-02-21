@@ -233,8 +233,6 @@ public class LoginActivity extends BaseActivity {
                 editor.commit();
                // XGPushManager.registerPush(this);
                 String token = XGPushConfig.getToken(this);
-                ToastUtil.showToast(this,token);
-                Log.i("TAG",token+"");
                 Map<String,String> params=new HashMap();
                 params.put("token",token);
                 params.put("0s",1+"");
@@ -257,9 +255,9 @@ public class LoginActivity extends BaseActivity {
         }
         if (object instanceof TokenBean){
             TokenBean tokenBean= (TokenBean) object;
-            if (tokenBean.getStatus().equals("0000")){
+            /*if (tokenBean.getStatus().equals("0000")){
                 ToastUtil.showToast(this, tokenBean.getMessage());
-            }
+            }*/
         }
     }
    //请求网路失败

@@ -26,46 +26,47 @@
             android:textColor="#000"
             android:id="@+id/movie_more_location_text"
             />
-        <RelativeLayout
-            android:id="@+id/movie_more_search_relative"
-            android:layout_width="@dimen/dp_200"
-            android:layout_height="@dimen/dp_24"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="-160dp"
-            android:layout_marginTop="30dp"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/movie_search_bg" >
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/movie_search_image"
-                android:src="@mipmap/com_icon_search_default"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/dp_10"
-                />
-            <EditText
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/movie_search_image"
-                android:id="@+id/movie_search_edit"
-                android:background="@null"
-                android:hint="请输入查询内容"
-                android:textSize="12sp"
-                android:layout_marginTop="5dp"
-                android:paddingLeft="15dp"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/movie_search_text"
-                android:textSize="12sp"
-                android:text="搜索"
-                android:layout_toRightOf="@id/movie_search_edit"
-                android:layout_centerVertical="true"
-                />
-        </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/movie_more_search_relative"
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="@dimen/dp_24"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="-160dp"
+        android:layout_marginTop="30dp"
+        android:layout_alignParentRight="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:background="@drawable/movie_search_bg" >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/movie_search_image"
+            android:src="@mipmap/com_icon_search_default"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_10"
+            />
+        <EditText
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/movie_search_image"
+            android:id="@+id/movie_search_edit"
+            android:background="@null"
+            android:hint="请输入查询内容"
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="15dp"
+            android:focusable="true"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/movie_search_text"
+            android:textSize="12sp"
+            android:text="搜索"
+            android:layout_toRightOf="@id/movie_search_edit"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
 
          <RelativeLayout
              android:layout_width="match_parent"

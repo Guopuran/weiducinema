@@ -11,6 +11,7 @@ import com.bw.movie.R;
 import com.bw.movie.base.BaseFragment;
 import com.bw.movie.login.activity.LoginActivity;
 import com.bw.movie.login.bean.RefurbishMessageBean;
+import com.bw.movie.main.bean.CinMessageBean;
 import com.bw.movie.main.cinema.adpter.CinemaMessageAdpter;
 import com.bw.movie.main.cinema.bean.CinemaIsFollowBean;
 import com.bw.movie.main.cinema.bean.CinemaMessageBean;
@@ -51,6 +52,16 @@ public class NearFragment extends BaseFragment {
             initNearCinemaMessageLayout();
         }
     }
+
+    //接受传值进行刷新
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void enventbus(CinMessageBean messageBean){
+        if (messageBean.getFlag().equals("chuan")){
+            page=1;
+            getNearCinemaMessageData(page);
+        }
+    }
+
     //关注的点击事件
     public void onFollowOnClick(){
         cinemaMessageAdpter.setOnFollowOnClick(new CinemaMessageAdpter.onFollowOnClick() {
@@ -87,17 +98,17 @@ public class NearFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 page=1;
-                getNearCinemaMessageData();
+                getNearCinemaMessageData(page);
                 near_recycle.refreshComplete();
             }
 
             @Override
             public void onLoadMore() {
-                getNearCinemaMessageData();
+                getNearCinemaMessageData(page);
                 near_recycle.loadMoreComplete();
             }
         });
-        getNearCinemaMessageData();
+        getNearCinemaMessageData(page);
     }
     //关注请求数据
     public void getIsFollowData(int id){
@@ -108,8 +119,8 @@ public class NearFragment extends BaseFragment {
         getRequest(String.format(Apis.CINEMANOFOLLOW_URL,id),CinemaNoFollowBean.class);
     }
     //请求数据
-    public void  getNearCinemaMessageData(){
-        getRequest(String.format(Apis.CONEMARENEAR_URL,page,10),CinemaMessageBean.class);
+    public void  getNearCinemaMessageData(int cpage){
+        getRequest(String.format(Apis.CONEMARENEAR_URL,cpage,10),CinemaMessageBean.class);
     }
 
     @Override
@@ -129,12 +140,14 @@ public class NearFragment extends BaseFragment {
             CinemaIsFollowBean cinemaIsFollowBean  = (CinemaIsFollowBean) object;
             if (cinemaIsFollowBean.getStatus().equals("0000")){
                 ToastUtil.showToast(getContext(),cinemaIsFollowBean.getMessage());
+                EventBus.getDefault().post(new CinMessageBean("chuan"));
             }
         }
         if (object instanceof CinemaNoFollowBean){
             CinemaNoFollowBean cinemaNoFollowBean  = (CinemaNoFollowBean) object;
             if (cinemaNoFollowBean.getStatus().equals("0000")){
                 ToastUtil.showToast(getContext(),cinemaNoFollowBean.getMessage());
+                EventBus.getDefault().post(new CinMessageBean("chuan"));
             }
         }
     }

@@ -128,7 +128,6 @@ public class MyFollowActivity extends BaseActivity {
              recycle.loadMoreComplete();
              if (myFollowMovieBean.getResult().size()==0){
 
-                 recycle.setPullRefreshEnabled(false);
                  recycle.setLoadingMoreEnabled(false);
              }
              if (movieAdpter.getmList().size()==0){
@@ -150,7 +149,6 @@ public class MyFollowActivity extends BaseActivity {
             recycle.loadMoreComplete();
             if (myFollowCinemaBean.getResult().size()==0){
 
-                recycle.setPullRefreshEnabled(false);
                 recycle.setLoadingMoreEnabled(false);
             }
             if (cinemaAadpter.getmList().size()==0){

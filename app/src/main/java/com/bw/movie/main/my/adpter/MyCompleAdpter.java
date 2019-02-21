@@ -56,7 +56,7 @@ public class MyCompleAdpter extends RecyclerView.Adapter<MyCompleAdpter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.ticketOkName.setText(mList.get(i).getMovieName());
         //String startTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(mList.get(i).getBeginTime());
-        viewHolder.ticketOkStarttime.setText(mList.get(i).getBeginTime());
+        viewHolder.ticketOkStarttime.setText(mList.get(i).getBeginTime()+" -- ");
         //String endTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(mList.get(i).getEndTime());
         viewHolder.ticketOkEndtime.setText(mList.get(i).getEndTime());
         viewHolder.ticketOkOrder.setText(mList.get(i).getScreeningHall());

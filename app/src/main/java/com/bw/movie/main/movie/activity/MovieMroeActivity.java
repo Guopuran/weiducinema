@@ -2,6 +2,7 @@ package com.bw.movie.main.movie.activity;
 
 import android.Manifest;
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
@@ -11,7 +12,10 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -54,6 +58,8 @@ public class MovieMroeActivity extends BaseActivity {
     Button location_but;
      @BindView(R.id.movie_more_location_text)
     TextView location_text;
+     @BindView(R.id.movie_search_edit)
+    EditText search_edit;
      private List<Fragment> mList;
     private int flag;
     private String moviemore;
@@ -244,6 +250,7 @@ public class MovieMroeActivity extends BaseActivity {
     //弹出的动画
     @OnClick(R.id.movie_search_image)
     public void outAnimation(){
+        search_edit.setText("");
         ObjectAnimator animator = ObjectAnimator.ofFloat(movie_more_relative, "translationX",  -400f);
         animator.setDuration(1000);
         animator.start();
@@ -255,6 +262,7 @@ public class MovieMroeActivity extends BaseActivity {
         ObjectAnimator animator = ObjectAnimator.ofFloat(movie_more_relative, "translationX",  10f);
         animator.setDuration(500);
         animator.start();
+        hideInput();
     }
     @Override
     protected void success(Object object) {
@@ -274,5 +282,13 @@ public class MovieMroeActivity extends BaseActivity {
     @Override
     protected int getLayoutResId() {
         return R.layout.activity_movie_mroe;
+    }
+    //收起软键盘
+    protected void hideInput() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        View v = getWindow().peekDecorView();
+        if (null != v) {
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+        }
     }
 }

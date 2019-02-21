@@ -20,10 +20,12 @@ import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.login.bean.LoginBean;
 import com.bw.movie.login.bean.RegisterBean;
+import com.bw.movie.login.bean.TokenBean;
 import com.bw.movie.main.activity.MainActivity;
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.EncryptUtil;
 import com.bw.movie.util.ToastUtil;
+import com.tencent.android.tpush.XGPushConfig;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -113,6 +115,7 @@ public class RegisterActivity extends BaseActivity {
             sex=2+"";
     }
 
+    //收起软键盘
     protected void hideInput() {
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         View v = getWindow().peekDecorView();
@@ -181,6 +184,15 @@ public class RegisterActivity extends BaseActivity {
                map.put("phone",phone);
                map.put("pwd",pass);
                postRequest(Apis.LOGIN_URL,map,LoginBean.class);
+               Intent intent = new Intent(this,MainActivity.class);
+               startActivity(intent);
+
+               // XGPushManager.registerPush(this);
+               String token = XGPushConfig.getToken(this);
+               Map<String,String> params=new HashMap();
+               params.put("token",token);
+               params.put("0s",1+"");
+               postRequest(Apis.TOKEN,params,TokenBean.class);
            }
            else {
                ToastUtil.showToast(this,registerBean.getMessage());
@@ -196,6 +208,9 @@ public class RegisterActivity extends BaseActivity {
                startActivity(intent);
         }
 
+       if (object instanceof TokenBean){
+           TokenBean tokenBean= (TokenBean) object;
+    }
     }
 
     @Override

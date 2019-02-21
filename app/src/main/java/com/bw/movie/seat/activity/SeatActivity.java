@@ -111,7 +111,7 @@ public class SeatActivity extends BaseActivity {
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
 
-                        ToastUtil.showToast(SeatActivity.this,"支付失败");  
+                        ToastUtil.showToast(SeatActivity.this,"支付失败");
                     }
                     break;
                 }
