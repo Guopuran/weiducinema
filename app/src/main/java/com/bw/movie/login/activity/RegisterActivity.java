@@ -60,6 +60,7 @@ public class RegisterActivity extends BaseActivity {
     private String sex;
     private String phone;
     private String date;
+    private String encrypt;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
     //逻辑代码
@@ -78,6 +79,16 @@ public class RegisterActivity extends BaseActivity {
         date = text_date.getText().toString();
         getRegData();
     }
+   /* //登录请求数据
+    public void getLoginData()
+    {
+        //密码加密
+        encrypt = EncryptUtil.encrypt(pass);
+        Map<String,String> prams = new HashMap<>();
+        prams.put("phone",phone);
+        prams.put("pwd",encrypt);
+        postRequest(Apis.LOGIN_URL,prams,LoginBean.class);
+    }*/
     //注册请求网络
     public void  getRegData(){
         String decrypt = EncryptUtil.encrypt(pass);
@@ -110,10 +121,9 @@ public class RegisterActivity extends BaseActivity {
         }
     }
     //日期选择的点击事件
-
-
     @OnClick(R.id.reg_date)
-    public void dateOnClick(){
+    public void dateOnClick()
+    {
         hideInput();
         Calendar selectedDate = Calendar.getInstance();
         Calendar calendar = Calendar.getInstance();
@@ -170,16 +180,22 @@ public class RegisterActivity extends BaseActivity {
                Map<String,String> map  = new HashMap<>();
                map.put("phone",phone);
                map.put("pwd",pass);
-               editor.putBoolean("loginSuccess",true);
                postRequest(Apis.LOGIN_URL,map,LoginBean.class);
-               Intent intent = new Intent(this,MainActivity.class);
-               startActivity(intent);
            }
            else {
                ToastUtil.showToast(this,registerBean.getMessage());
            }
 
        }
+        if (object instanceof LoginBean){
+            LoginBean loginBean = (LoginBean) object;
+            editor.putString("userId",loginBean.getResult().getUserId()+"");
+            editor.putString("sessionId",loginBean.getResult().getSessionId()+"");
+            editor.putBoolean("loginSuccess",true);
+            Intent intent = new Intent(this,MainActivity.class);
+               startActivity(intent);
+        }
+
     }
 
     @Override

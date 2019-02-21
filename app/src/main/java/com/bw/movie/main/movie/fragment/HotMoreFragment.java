@@ -90,9 +90,7 @@ public class HotMoreFragment extends BaseFragment {
                         ToastUtil.showToast(getActivity(),"请先登录");
                         Intent intent = new Intent(getActivity(),LoginActivity.class);
                         startActivity(intent);
-
                     }
-
                 }
             });
     }

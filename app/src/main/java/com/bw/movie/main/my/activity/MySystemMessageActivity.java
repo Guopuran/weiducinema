@@ -3,18 +3,22 @@ package com.bw.movie.main.my.activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
 import com.bw.movie.main.my.adpter.MySystemMessageAdpter;
 import com.bw.movie.main.my.bean.MySystemMessageBean;
 import com.bw.movie.main.my.bean.MySystemMessageReadBean;
+import com.bw.movie.main.my.bean.SystemMessageCountBean;
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.ToastUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MySystemMessageActivity extends BaseActivity {
 
@@ -22,13 +26,18 @@ public class MySystemMessageActivity extends BaseActivity {
     XRecyclerView system_recycle;
     MySystemMessageAdpter systemMessageAdpter;
     private int page=1;
-
+     @BindView(R.id.system_message_back)
+    ImageView system_message_back;
+     @BindView(R.id.system_message_unread)
+    TextView unread;
     @Override
     protected void initData() {
         //加载布局
         initSystemMessageLoayout();
         //点击读取消息
         onCLick();
+        //未读消息请求网络
+        getSystemMessage();
     }
     //点击读取消息
     public void onCLick(){
@@ -37,8 +46,14 @@ public class MySystemMessageActivity extends BaseActivity {
             public void OnClickLisenter(int id, int i) {
                 getSystemMesageReadData(id);
                 systemMessageAdpter.onRefresh(i);
+                getSystemMessage();
             }
         });
+    }
+    //点击返回按钮
+    @OnClick(R.id.system_message_back)
+    public void backOnClick(){
+        finish();
     }
     //加载布局
     public void initSystemMessageLoayout(){
@@ -61,6 +76,10 @@ public class MySystemMessageActivity extends BaseActivity {
             }
         });
         getSystemMessageList();
+    }
+    //未读消息请求网络
+    public void getSystemMessage(){
+        getRequest(Apis.SYSTEM_MESSAGE_COUNT,SystemMessageCountBean.class);
     }
     //读取消息
     public void getSystemMesageReadData(int id){
@@ -90,6 +109,10 @@ public class MySystemMessageActivity extends BaseActivity {
 
                }
            }
+           if (object instanceof SystemMessageCountBean){
+              SystemMessageCountBean systemMessageCountBean = (SystemMessageCountBean) object;
+                unread.setText("("+systemMessageCountBean.getCount()+"条未读)");
+           }
     }
 
     @Override
@@ -98,12 +121,14 @@ public class MySystemMessageActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView(Bundle savedInstanceState) {
+    protected void initView(Bundle savedInstanceState)
+    {
         ButterKnife.bind(this);
     }
 
     @Override
-    protected int getLayoutResId() {
+    protected int getLayoutResId()
+    {
         return R.layout.activity_my_system_message;
     }
 }

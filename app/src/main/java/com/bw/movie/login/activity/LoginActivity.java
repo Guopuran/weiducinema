@@ -94,7 +94,8 @@ public class LoginActivity extends BaseActivity {
 
     }
     //记住密码
-    public void getCheckRem(){
+    public void getCheckRem()
+    {
         boolean check_rem1 = sharedPreferences.getBoolean("check_rem1", false);
         if (check_rem1){
             String phonenum = sharedPreferences.getString("phone", null);
@@ -165,7 +166,8 @@ public class LoginActivity extends BaseActivity {
              return;
          }
          //记住密码判断
-          if (check_rem.isChecked()){
+          if (check_rem.isChecked())
+          {
              editor.putString("phone",phone);
              editor.putString("pass",pwd);
              editor.putBoolean("check_rem1",true);
@@ -196,7 +198,8 @@ public class LoginActivity extends BaseActivity {
     }
     //注册按钮的点击事件
     @OnClick(R.id.login_text_reg)
-    public void regOnClick(){
+    public void regOnClick()
+    {
         Intent intent = new Intent(LoginActivity.this,RegisterActivity.class);
         startActivity(intent);
     }
@@ -228,7 +231,6 @@ public class LoginActivity extends BaseActivity {
                 editor.putString("sessionId",loginBean.getResult().getSessionId()+"");
                 editor.putBoolean("loginSuccess",true);
                 editor.commit();
-
                // XGPushManager.registerPush(this);
                 String token = XGPushConfig.getToken(this);
                 ToastUtil.showToast(this,token);

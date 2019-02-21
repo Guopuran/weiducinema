@@ -158,7 +158,7 @@ public class MovieMroeActivity extends BaseActivity {
                         adCode = aMapLocation.getAdCode();
                         CityPicker.from(MovieMroeActivity.this).locateComplete(new LocatedCity(city, province, cityCode), LocateState.SUCCESS);
                         location_text.setText(city);
-
+                        mlocationClient.stopLocation();
 
                     }
                 }

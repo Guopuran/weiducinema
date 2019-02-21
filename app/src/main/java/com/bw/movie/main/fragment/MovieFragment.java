@@ -184,7 +184,7 @@ public class MovieFragment extends BaseFragment {
     //定位的跳转
      @OnClick(R.id.movie_location_but)
      public void locationOnClick(){
-     /*    if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M) {
+      if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M) {
              String[] mStatenetwork = new String[]{
                      Manifest.permission.ACCESS_COARSE_LOCATION,
                      Manifest.permission.ACCESS_FINE_LOCATION,
@@ -194,7 +194,7 @@ public class MovieFragment extends BaseFragment {
                      Manifest.permission.BLUETOOTH_ADMIN,
              };
              ActivityCompat.requestPermissions(getActivity(), mStatenetwork, 100);
-         }*/
+         }
 
          CityPicker.from(getActivity()) //activity或者fragment
                  .setOnPickListener(new OnPickListener() {

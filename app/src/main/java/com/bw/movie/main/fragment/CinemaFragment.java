@@ -143,7 +143,7 @@ public class CinemaFragment extends BaseFragment {
                         adCode = aMapLocation.getAdCode();
                         CityPicker.from(getActivity()).locateComplete(new LocatedCity(city, province, cityCode), LocateState.SUCCESS);
                         location_text.setText(city);
-
+                        mlocationClient.stopLocation();
 
                     }
                 }
