@@ -65,6 +65,8 @@ public class RegisterActivity extends BaseActivity {
     private String encrypt;
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
+    private String decrypt;
+
     //逻辑代码
     @Override
     protected void initData() {
@@ -93,15 +95,15 @@ public class RegisterActivity extends BaseActivity {
     }*/
     //注册请求网络
     public void  getRegData(){
-        String decrypt = EncryptUtil.encrypt(pass);
+        decrypt = EncryptUtil.encrypt(pass);
         Map<String,String> prams = new HashMap<>();
         prams.put("nickName",name);
         prams.put("phone",phone);
-        prams.put("pwd",decrypt);
+        prams.put("pwd", decrypt);
         prams.put("sex", sex+"");
         prams.put("birthday",date);
         prams.put("email",emil);
-        prams.put("pwd2",decrypt);
+        prams.put("pwd2", decrypt);
         postRequest(Apis.REGISTER_URL,prams,RegisterBean.class);
     }
     //点击女
@@ -182,10 +184,9 @@ public class RegisterActivity extends BaseActivity {
                ToastUtil.showToast(this,registerBean.getMessage());
                Map<String,String> map  = new HashMap<>();
                map.put("phone",phone);
-               map.put("pwd",pass);
+               map.put("pwd",decrypt );
                postRequest(Apis.LOGIN_URL,map,LoginBean.class);
-               Intent intent = new Intent(this,MainActivity.class);
-               startActivity(intent);
+
 
                // XGPushManager.registerPush(this);
                String token = XGPushConfig.getToken(this);
@@ -201,11 +202,17 @@ public class RegisterActivity extends BaseActivity {
        }
         if (object instanceof LoginBean){
             LoginBean loginBean = (LoginBean) object;
-            editor.putString("userId",loginBean.getResult().getUserId()+"");
-            editor.putString("sessionId",loginBean.getResult().getSessionId()+"");
-            editor.putBoolean("loginSuccess",true);
-            Intent intent = new Intent(this,MainActivity.class);
-               startActivity(intent);
+            if (loginBean.getStatus().equals("0000")){
+                editor.putString("userId",loginBean.getResult().getUserId()+"");
+                editor.putString("sessionId",loginBean.getResult().getSessionId()+"");
+                editor.putBoolean("loginSuccess",true);
+                editor.commit();
+                Intent intent = new Intent(this,MainActivity.class);
+                startActivity(intent);
+            }else {
+                ToastUtil.showToast(RegisterActivity.this,loginBean.getMessage());
+            }
+
         }
 
        if (object instanceof TokenBean){

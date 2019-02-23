@@ -11,7 +11,9 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.bw.movie.R;
-import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
+
+import cn.jzvd.JZVideoPlayerStandard;
+
 
 public class CustomDialog extends Dialog {
     private boolean iscancelable;//控制点击dialog外部是否dismiss
@@ -44,17 +46,18 @@ public class CustomDialog extends Dialog {
         window.setAttributes(params);
     }
 
-    @Override
+   @Override
     public void dismiss() {
         super.dismiss();
         // 在onStop时释放掉播放器
-        NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
+       // NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
+       JZVideoPlayerStandard.releaseAllVideos();
     }
 
     @Override
     public void cancel() {
         super.cancel();
-
+        JZVideoPlayerStandard.releaseAllVideos();
     }
 }
 

@@ -65,7 +65,7 @@
                 android:textSize="16sp"
                 android:textColor="#ffff"
                 android:button="@drawable/radio_button_style"
-                android:checked="true"
+
                 android:layout_marginLeft="20dp"
                 />
         </RadioGroup>

@@ -85,9 +85,9 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     implementation 'com.android.support:design:28.3.1'
     //视频播放
-    /*implementation 'fm.jiecao:jiecaovideoplayer:5.5.2'
-    implementation 'cn.jzvd:jiaozivideoplayer:6.2.9'*/
-    implementation 'com.github.xiaoyanger0825:NiceVieoPlayer:v2.2'
+    //implementation 'com.github.xiaoyanger0825:NiceVieoPlayer:v2.2'
+    implementation 'cn.jzvd:jiaozivideoplayer:6.2.10'
+
     implementation 'com.jcodecraeer:xrecyclerview:1.5.9'
     //微信登录
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
@@ -102,7 +102,6 @@ dependencies {
 
     //信鸽普通版本jar，不包含厂商通道
     implementation 'com.tencent.xinge:xinge:4.0.5-release'
-    //implementation'com.tencent.xinge:xinge:4.3.1-beta'
     //jg包
     implementation 'com.tencent.jg:jg:1.1'
     //wup包
