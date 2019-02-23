@@ -41,8 +41,7 @@ import com.bw.movie.main.movie.bean.MovieNoFollowBean;
 import com.bw.movie.util.Apis;
 import com.bw.movie.util.ToastUtil;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-import com.xiao.nicevideoplayer.NiceVideoPlayer;
-import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
+
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -57,6 +56,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jzvd.JZVideoPlayerStandard;
 
 
 /**
@@ -441,7 +441,7 @@ public class DetailsActivity extends BaseActivity {
         NoticeDialogAdapter noticeDialogAdapter=new NoticeDialogAdapter(this);
         notice_dialog_recy.setAdapter(noticeDialogAdapter);
         noticeDialogAdapter.setList(resultMovie.getShortFilmList());
-        notice_dialog_recy.setRecyclerListener(new RecyclerView.RecyclerListener() {
+       /* notice_dialog_recy.setRecyclerListener(new RecyclerView.RecyclerListener() {
             @Override
             public void onViewRecycled(RecyclerView.ViewHolder holder) {
                 NiceVideoPlayer niceVideoPlayer = (NiceVideoPlayer) ((NoticeDialogAdapter.ViewHolder) holder).itemView;
@@ -449,7 +449,7 @@ public class DetailsActivity extends BaseActivity {
                     NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
                 }
             }
-        });
+        });*/
 
     }
     private void getPhotoView(View view_photo) {
@@ -543,14 +543,21 @@ public class DetailsActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         // 在onStop时释放掉播放器
-        NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
+        //NiceVideoPlayerManager.instance().releaseNiceVideoPlayer();
+        JZVideoPlayerStandard.releaseAllVideos();
     }
+
     @Override
     public void onBackPressed() {
-        // 在全屏或者小窗口时按返回键要先退出全屏或小窗口，
-        // 所以在Activity中onBackPress要交给NiceVideoPlayer先处理。
-        if (NiceVideoPlayerManager.instance().onBackPressd()) return;
+        if (JZVideoPlayerStandard.backPress()) {
+            return;
+        }
         super.onBackPressed();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JZVideoPlayerStandard.releaseAllVideos();
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {

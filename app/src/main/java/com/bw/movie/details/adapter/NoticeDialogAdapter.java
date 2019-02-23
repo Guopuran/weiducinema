@@ -11,28 +11,30 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.bw.movie.R;
 import com.bw.movie.details.bean.DetailsMovieBean;
-import com.xiao.nicevideoplayer.NiceVideoPlayer;
-import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
-import com.xiao.nicevideoplayer.TxVideoPlayerController;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import cn.jzvd.JZVideoPlayerStandard;
+
 
 public class NoticeDialogAdapter extends RecyclerView.Adapter<NoticeDialogAdapter.ViewHolder> {
+
     private List<DetailsMovieBean.ResultBean.ShortFilmListBean> list;
     private Context context;
 
     public NoticeDialogAdapter(Context context) {
         this.context = context;
-        list=new ArrayList<>();
+        list = new ArrayList<>();
     }
 
     public void setList(List<DetailsMovieBean.ResultBean.ShortFilmListBean> mlist) {
-       if (mlist!=null){
-           list.addAll(mlist);
-       }
-       notifyDataSetChanged();
+        if (mlist != null) {
+            list.addAll(mlist);
+        }
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -44,7 +46,7 @@ public class NoticeDialogAdapter extends RecyclerView.Adapter<NoticeDialogAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        viewHolder.getdata(list.get(i),viewHolder,i);
+        viewHolder.getdata(list.get(i), viewHolder, i);
 
 
     }
@@ -55,20 +57,27 @@ public class NoticeDialogAdapter extends RecyclerView.Adapter<NoticeDialogAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private NiceVideoPlayer mNiceVideoPlayer ;
+        //private NiceVideoPlayer mNiceVideoPlayer;
+        private JZVideoPlayerStandard videoplayer;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mNiceVideoPlayer=itemView.findViewById(R.id.item_notice_dialog_video);
+           // mNiceVideoPlayer = itemView.findViewById(R.id.item_notice_dialog_video);
+            videoplayer=itemView.findViewById(R.id.videoplayer);
         }
 
         public void getdata(DetailsMovieBean.ResultBean.ShortFilmListBean shortFilmListBean, ViewHolder viewHolder, int i) {
-            mNiceVideoPlayer.setPlayerType(NiceVideoPlayer.TYPE_IJK); // or NiceVideoPlayer.TYPE_NATIVE
+            /*mNiceVideoPlayer.setPlayerType(NiceVideoPlayer.TYPE_IJK); // or NiceVideoPlayer.TYPE_NATIVE
             mNiceVideoPlayer.setUp(shortFilmListBean.getVideoUrl(), null);
             TxVideoPlayerController controller = new TxVideoPlayerController(context);
             controller.setTitle("预告");
             Glide.with(context).load(shortFilmListBean.getImageUrl()).into(controller.imageView());
-            mNiceVideoPlayer.setController(controller);
+            mNiceVideoPlayer.setController(controller);*/
+            videoplayer.setUp(shortFilmListBean.getVideoUrl(),
+                    JZVideoPlayerStandard.SCREEN_WINDOW_NORMAL);
+            Uri uri = Uri.parse(shortFilmListBean.getImageUrl());
+            Glide.with(context).load(uri).into(videoplayer.thumbImageView);
 
+            //videoplayer.thumbImageView.setImageBitmap(shortFilmListBean.getImageUrl());
         }
     }
 }
