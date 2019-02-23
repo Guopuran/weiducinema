@@ -184,9 +184,8 @@ public class RegisterActivity extends BaseActivity {
                map.put("phone",phone);
                map.put("pwd",pass);
                postRequest(Apis.LOGIN_URL,map,LoginBean.class);
-               Intent intent = new Intent(this,MainActivity.class);
-               startActivity(intent);
-
+              /* Intent intent = new Intent(this,MainActivity.class);
+               startActivity(intent);*/
                // XGPushManager.registerPush(this);
                String token = XGPushConfig.getToken(this);
                Map<String,String> params=new HashMap();
@@ -194,12 +193,14 @@ public class RegisterActivity extends BaseActivity {
                params.put("0s",1+"");
                postRequest(Apis.TOKEN,params,TokenBean.class);
            }
-           else {
+           else
+           {
                ToastUtil.showToast(this,registerBean.getMessage());
            }
 
        }
-        if (object instanceof LoginBean){
+        if (object instanceof LoginBean)
+        {
             LoginBean loginBean = (LoginBean) object;
             editor.putString("userId",loginBean.getResult().getUserId()+"");
             editor.putString("sessionId",loginBean.getResult().getSessionId()+"");

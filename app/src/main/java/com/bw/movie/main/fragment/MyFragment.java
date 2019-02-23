@@ -175,22 +175,35 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     @OnClick(R.id.my_back_imgae)
     public void onClickBack()
     {
-        loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
-        if (loginSuccess){
-            Intent intent = new Intent(getActivity(),LoginActivity.class);
-            intent.putExtra("back","main");
-            startActivity(intent);
-            editor.putString("userId",null);
-            editor.putString("sessionId",null);
-            editor.putBoolean("loginSuccess",false);
-            editor.commit();
-            getActivity().finish();
-        }
-        else {
-            ToastUtil.showToast(getActivity(),"请先登录");
-            Intent intent = new Intent(getActivity(),LoginActivity.class);
-            startActivity(intent);
-        }
+        Dialog dialog = new AlertDialog.Builder(getActivity())
+                .setTitle("         是否退出")
+                .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
+                        if (loginSuccess){
+                            Intent intent = new Intent(getActivity(),LoginActivity.class);
+                            intent.putExtra("back","main");
+                            startActivity(intent);
+                            editor.putString("userId",null);
+                            editor.putString("sessionId",null);
+                            editor.putBoolean("loginSuccess",false);
+                            editor.commit();
+                            getActivity().finish();
+                        }
+                        else {
+                            ToastUtil.showToast(getActivity(),"请先登录");
+                            Intent intent = new Intent(getActivity(),LoginActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                }).setNegativeButton("否", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).create();
+            dialog.show();
 
     }
     //个人信息的点击事件
@@ -313,6 +326,7 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
             MySginBean mySginBean = (MySginBean) object;
             if (mySginBean.getStatus().equals("0000")){
                 ToastUtil.showToast(getActivity(),mySginBean.getMessage());
+                sign.setText("已签到");
             }
             else {
                 ToastUtil.showToast(getActivity(),mySginBean.getMessage());

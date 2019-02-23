@@ -176,7 +176,8 @@ public class TicketRecordActivity extends BaseActivity {
         getComData();
 
     }
-    public void initClick(int i){
+    public void initClick(int i)
+    {
 
     }
     //待付款请求数据
@@ -225,9 +226,8 @@ public class TicketRecordActivity extends BaseActivity {
             cpage++;
             recyclerView.loadMoreComplete();;
             recyclerView.refreshComplete();
-
-            if (ticketRecrodBean1.getResult().size()==0){
-
+            if (ticketRecrodBean1.getResult().size()==0)
+            {
                 recyclerView.setLoadingMoreEnabled(false);
             }
             if (compleAdpter.getmList().size()==0){

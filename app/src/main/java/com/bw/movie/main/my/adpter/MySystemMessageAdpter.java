@@ -84,7 +84,7 @@ public class MySystemMessageAdpter extends RecyclerView.Adapter<RecyclerView.Vie
                     @Override
                     public void onClick(View v) {
                         if (monClick!=null){
-                            monClick.OnClickLisenter(mList.get(i).getId(),i);
+                            monClick.OnClickLisenter(mList.get(i).getId(),i,mList.get(i).getContent());
                         }
                     }
                 });
@@ -104,7 +104,7 @@ public class MySystemMessageAdpter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public int getItemCount() {
-        return  mList.size();
+        return  mList.size()-1;
     }
 
     public void onRefresh(int i) {
@@ -147,6 +147,6 @@ public class MySystemMessageAdpter extends RecyclerView.Adapter<RecyclerView.Vie
         monClick = onClic;
     }
     public interface  OnClick{
-        void OnClickLisenter(int id,int i);
+        void OnClickLisenter(int id,int i,String message);
     }
 }

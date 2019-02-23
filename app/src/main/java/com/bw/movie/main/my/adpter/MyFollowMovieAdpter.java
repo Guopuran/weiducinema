@@ -14,6 +14,7 @@ import com.bw.movie.R;
 import com.bw.movie.main.my.bean.MyFollowMovieBean;
 import com.bw.movie.util.GlidRoundUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,16 +56,17 @@ public class MyFollowMovieAdpter extends RecyclerView.Adapter<MyFollowMovieAdpte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i)
+    {
          viewHolder.context.setText(mList.get(i).getSummary());
          viewHolder.time.setText(mList.get(i).getReleaseTime());
+
          viewHolder.naem.setText(mList.get(i).getName());
-        Glide.with(mContext)
+         Glide.with(mContext)
                 .load(mList.get(i).getImageUrl())
                 .apply(RequestOptions.bitmapTransform(new GlidRoundUtils(10)))
                 .into(viewHolder.image);
     }
-
     @Override
     public int getItemCount() {
         return mList.size();
@@ -79,7 +81,8 @@ public class MyFollowMovieAdpter extends RecyclerView.Adapter<MyFollowMovieAdpte
         TextView time;
         @BindView(R.id.follow_movie_item_image)
         ImageView image;
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView)
+        {
             super(itemView);
             ButterKnife.bind(this,itemView);
         }

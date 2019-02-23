@@ -1,10 +1,15 @@
 package com.bw.movie.main.my.activity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bw.movie.R;
 import com.bw.movie.base.BaseActivity;
@@ -30,8 +35,10 @@ public class MySystemMessageActivity extends BaseActivity {
     ImageView system_message_back;
      @BindView(R.id.system_message_unread)
     TextView unread;
+    private int count;
     @Override
-    protected void initData() {
+    protected void initData()
+    {
         //加载布局
         initSystemMessageLoayout();
         //点击读取消息
@@ -43,10 +50,30 @@ public class MySystemMessageActivity extends BaseActivity {
     public void onCLick(){
         systemMessageAdpter.setOnClick(new MySystemMessageAdpter.OnClick() {
             @Override
-            public void OnClickLisenter(int id, int i) {
-                getSystemMesageReadData(id);
-                systemMessageAdpter.onRefresh(i);
-                getSystemMessage();
+            public void OnClickLisenter(final int id, final int i, String mesage) {
+                View view = View.inflate(MySystemMessageActivity.this,R.layout.system_mesage_pop_item,null);
+                final TextView system_message = view.findViewById(R.id.system_message);
+                system_message.setText(mesage);
+                Dialog dialog = new AlertDialog.Builder(MySystemMessageActivity.this)
+                        .setView(view)
+                        .setPositiveButton("知道了",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        getSystemMesageReadData(id);
+                                        systemMessageAdpter.onRefresh(i);
+                                        count--;
+                                        unread.setText("("+ count +"条未读)");
+
+                                    }
+                                })
+                        /* .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                              *//*  Toast.makeText(MySystemMessageActivity.this, "您已取消操作", Toast.LENGTH_LONG).show();*//*
+                            }
+                        })*/.create();
+                dialog.show();
             }
         });
     }
@@ -56,7 +83,8 @@ public class MySystemMessageActivity extends BaseActivity {
         finish();
     }
     //加载布局
-    public void initSystemMessageLoayout(){
+    public void initSystemMessageLoayout()
+    {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         system_recycle.setLayoutManager(linearLayoutManager);
         systemMessageAdpter = new MySystemMessageAdpter(this);
@@ -70,7 +98,8 @@ public class MySystemMessageActivity extends BaseActivity {
             }
 
             @Override
-            public void onLoadMore() {
+            public void onLoadMore()
+            {
                 getSystemMessageList();
                 system_recycle.loadMoreComplete();
             }
@@ -78,7 +107,8 @@ public class MySystemMessageActivity extends BaseActivity {
         getSystemMessageList();
     }
     //未读消息请求网络
-    public void getSystemMessage(){
+    public void getSystemMessage()
+    {
         getRequest(Apis.SYSTEM_MESSAGE_COUNT,SystemMessageCountBean.class);
     }
     //读取消息
@@ -111,7 +141,8 @@ public class MySystemMessageActivity extends BaseActivity {
            }
            if (object instanceof SystemMessageCountBean){
               SystemMessageCountBean systemMessageCountBean = (SystemMessageCountBean) object;
-                unread.setText("("+systemMessageCountBean.getCount()+"条未读)");
+                   count = systemMessageCountBean.getCount();
+                   unread.setText("("+ count +"条未读)");
            }
     }
 
