@@ -4,4 +4,9 @@
         <domain includeSubdomains="true">182.254.116.117</domain>
         <domain includeSubdomains="true">pingma.qq.com</domain>
     </domain-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
 </network-security-config>
