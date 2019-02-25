@@ -3,6 +3,7 @@ package com.bw.movie.details.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.OrientationHelper;
@@ -472,7 +473,6 @@ public class DetailsActivity extends BaseActivity {
 
 
     }
-
     private void selectImageeUrl(String imageUrl) {
         //填充对话框的布局
         View inflate = LayoutInflater.from(this).inflate(R.layout.image_dialog, null);
