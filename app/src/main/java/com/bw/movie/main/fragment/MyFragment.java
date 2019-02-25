@@ -110,14 +110,16 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
         initHeadImage();
     }
 
-    private void initHeadImage() {
+    private void initHeadImage()
+    {
         loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
-        if (loginSuccess){
+        if (loginSuccess)
+        {
             head_image.setVisibility(head_image.VISIBLE);
-        }else{
+        }else
+        {
             head_image.setVisibility(head_image.INVISIBLE);
         }
-
     }
 
     private void initSign() {
@@ -161,7 +163,8 @@ public class MyFragment extends BaseFragment implements View.OnClickListener {
     @OnClick(R.id.my_suggestio_image)
     public void onClicksuggrstio(){
         loginSuccess = sharedPreferences.getBoolean("loginSuccess", false);
-        if (loginSuccess){
+        if (loginSuccess)
+        {
             Intent intent = new Intent(getActivity(),MySuggestioActivity.class);
             startActivity(intent);
         }

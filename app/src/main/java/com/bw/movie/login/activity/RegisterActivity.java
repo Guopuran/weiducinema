@@ -190,6 +190,8 @@ public class RegisterActivity extends BaseActivity {
 
               /* Intent intent = new Intent(this,MainActivity.class);
                startActivity(intent);*/
+
+
                // XGPushManager.registerPush(this);
                String token = XGPushConfig.getToken(this);
                Map<String,String> params=new HashMap();
